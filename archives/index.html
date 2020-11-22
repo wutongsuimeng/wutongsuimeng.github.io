@@ -1,517 +1,319 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="https://wutongsuimeng.github.io/media/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
-    <link rel="stylesheet" href="https://wutongsuimeng.github.io/styles/main.css">
-    <link rel="stylesheet" href="https://wutongsuimeng.github.io/media/css/font-awesome.css">
-    <meta name="description" content="好好学习" />
-    <title>梧桐碎梦</title>
-</head>
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>文章归档 | 梧桐碎梦</title>
+<meta name="description" content="好好学习" />
+<link rel="shortcut icon" href="https://wutongsuimeng.github.io/favicon.ico">
+<link rel="stylesheet" href="https://wutongsuimeng.github.io/styles/main.css">
 
-
-<body>
-    <!-- 响应式布局，针对PC端内容显示 -->
-    <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <div class="side"><body>
-    
-
-
-
-    
-</body>
-<script>
-    //-------------------------------------------------搜索
-    // 获取搜索框、搜索按钮、清空搜索、结果输出对应的元素
-    var searchInput = document.querySelector('.search-input');
-    var searchResults = document.querySelector('.search-results');
-
-    // 申明保存文章的标题、链接、内容的数组变量
-    var searchValue = '',
-        arrItems = [],
-        arrLinks = [],
-        arrTitles = [],
-        arrResults = [],
-        indexItem = [],
-        itemLength = 0;
-    var tmpDiv = document.createElement('div');
-    tmpDiv.className = 'result-item';
-
-    // ajax 的兼容写法
-    var xhr = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-            xml = xhr.responseXML;
-            arrItems = xml.getElementsByTagName('entry');
-            itemLength = arrItems.length;
-            // 遍历并保存所有文章对应的标题、链接、内容到对应的数组中
-            // 同时过滤掉 HTML 标签
-            for (i = 0; i < itemLength; i++) {
-                var link = arrItems[i].getElementsByTagName('link')[0];
-                arrLinks[i] = link.getAttribute("href");
-                arrTitles[i] = arrItems[i].getElementsByTagName('title')[0].
-                childNodes[0].nodeValue.replace(/<.*?>/g, '');
-            }
-        }
-    }
-
-    // 开始获取根目录下 feed.xml 文件内的数据
-    xhr.open('get', '/atom.xml', true);
-    xhr.send();
-
-
-
-    // 输入框内容变化后就开始匹配，可以不用点按钮
-    // 经测试，onkeydown, onchange 等方法效果不太理想，
-    // 存在输入延迟等问题，最后发现触发 input 事件最理想，
-    // 并且可以处理中文输入法拼写的变化
-    searchInput.oninput = function () {
-        setTimeout(searchConfirm, 0);
-    }
-    searchInput.onfocus = function () {
-        searchResults.style.display = 'block';
-    }
-
-    function searchConfirm() {
-        if (searchInput.value == '') {
-            searchResults.style.display = 'none';
-        } else if (searchInput.value.search(/^\s+$/) >= 0) {
-            // 检测输入值全是空白的情况
-            searchInit();
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '请输入有效内容...';
-            searchResults.appendChild(itemDiv);
-        } else {
-            // 合法输入值的情况
-            searchInit();
-            searchValue = searchInput.value;
-            // 在标题、内容中查找
-            searchMatching(arrTitles, searchValue);
-        }
-    }
-
-    // 每次搜索完成后的初始化
-    function searchInit() {
-        arrResults = [];
-        indexItem = [];
-        searchResults.innerHTML = '';
-        searchResults.style.display = 'block';
-    }
-
-    function searchMatching(arr1, input) {
-        // 忽略输入大小写
-        input = new RegExp(input, 'i');
-        // 在所有文章标题、内容中匹配查询值
-        for (i = 0; i < itemLength; i++) {
-            if (arr1[i].search(input) !== -1) {
-                var arr = arr1;
-                indexItem.push(i); // 保存匹配值的索引
-                var indexContent = arr[i].search(input);
-                // 此时 input 为 RegExp 格式 /input/i，转换为原 input 字符串长度
-                var l = input.toString().length - 3;
-                var step = 10;
-
-                // 将匹配到内容的地方进行黄色标记，并包括周围一定数量的文本
-                arrResults.push(arr[i].slice(indexContent - step, indexContent));
-            }
-        }
-
-        // 输出总共匹配到的数目
-        var totalDiv = tmpDiv.cloneNode(true);
-        totalDiv.innerHTML = '<b>总匹配：' + indexItem.length + ' 项<hr></b>';
-        searchResults.appendChild(totalDiv);
-
-        // 未匹配到内容的情况
-        if (indexItem.length == 0) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerText = '未匹配到内容...';
-            searchResults.appendChild(itemDiv);
-        }
-
-        // 将所有匹配内容进行组合
-        for (i = 0; i < arrResults.length; i++) {
-            var itemDiv = tmpDiv.cloneNode(true);
-            itemDiv.innerHTML = '<b>[' + arrTitles[indexItem[i]] +
-                ']</b><p>' + arrResults[i] + "</p><hr />";
-            itemDiv.setAttribute('onclick', 'changeHref(arrLinks[indexItem[' + i + ']])');
-            searchResults.appendChild(itemDiv);
-        }
-    }
-
-    function changeHref(href) {
-        location.href = href;
-    }
-
-    function showqq() {
-        var qq = document.getElementById("qq").innerHTML;
-        if (qq != '')
-            window.location.href = "tencent://message/?uin=" + qq + "&Site=&Menu=yes";
-        else
-            alert("博主暂未设置QQ联系方式");
-    }
-</script>
-</div>
-                
-                <div id="main" class="col-xs-12 col-sm-7" style="width:50%;margin-top:50px;left:27%">
-                    <body">
-    <div class="archives-content">
-        
-        
-        <div class="archives-year">2020</div>
-        <ul>
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive/" class="post">
-                    <div class="archives-title">使用RaiDrive在window平台上挂载google drive</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/xiu-fu-grub-yin-dao/" class="post">
-                    <div class="archives-title">修复grub引导</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/qi-dong-vue-ying-yong/" class="post">
-                    <div class="archives-title">启动vue应用</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/shi-yong-javamail-fa-song-you-jian/" class="post">
-                    <div class="archives-title">使用JavaMail发送邮件</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/calendar-lei/" class="post">
-                    <div class="archives-title">Calendar类</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-        </ul>
-        
-    </div>
-</body">
-                    <div style="background:white">
-                        <div class="pagi">
-    <ul>
-        
-        <li><a style="width:100px">&nbsp;</a></li>
-        
-                <li><a id="page1">1</a></li>
-                <li><a id="page2" class="active">2</a></li>
-                <li><a id="page3">3</a></li>
-                
-        <li><a style="width:100px">&nbsp;</a></li>
-        
-            </ul>
-</div>
-
-<div id="pagination-prev" style="display:none"> 
-</div>
-<div id="pagination-next" style="display:none"> </div>
-
-
-<script>
-    var prevstr = document.getElementById("pagination-prev").innerHTML;
-    var nextstr = document.getElementById("pagination-next").innerHTML;
-    var page1 = document.getElementById("page1");
-    var page2 = document.getElementById("page2");
-    var page3 = document.getElementById("page3");
-    page1.innerHTML = '-';
-    page2.innerHTML = '1';
-    page3.innerHTML = '-';
-    if (prevstr.length > 5) {
-        if (prevstr.indexOf("page/") != -1) {
-            var prevnum = parseInt(prevstr.split("page/")[1]);
-            page1.innerHTML = prevnum;
-            page2.innerHTML = prevnum + 1;
-        } else {
-            page1.innerHTML = 1;
-            page2.innerHTML = 2;
-        }
-    }
-    if (nextstr.indexOf("page/") != -1) {
-        var nextnum = parseInt(nextstr.split("page/")[1]);
-        page3.innerHTML = nextnum;
-        page2.innerHTML = nextnum - 1;
-    }
-</script>
-                        <div style="padding-bottom:10%"></div>
-                    </div>
-                </div>
-                
-                <div class="col-xs-6 col-sm-2"></div>
-            </div>
-            
+<script src="https://wutongsuimeng.github.io/media/js/jquery.min.js"></script>
+<script src="https://wutongsuimeng.github.io/media/js/masonry.pkgd.min.js"></script>
+<script src="https://wutongsuimeng.github.io/media/js/aos.js"></script>
+<script src="https://wutongsuimeng.github.io/media/js/pace.min.js"></script>
+<script src="https://wutongsuimeng.github.io/media/js/view-image.min.js"></script>
+<script src="https://wutongsuimeng.github.io/media/js/jquery.magnific-popup.min.js"></script>
+<script src="https://wutongsuimeng.github.io/media/js/functions.js"></script>
+  </head>
+  <body>
+    <!-- start: #wrapper -->
+    <div class="wrapper">
+      
+            <header id="header" class="grid-container">
+        <!-- start: .menu-wrapper -->
+        <div class="menu-mobile"> 
+          <i class="fa fa-reorder"></i>
         </div>
-        <div id="bg">
-        </div>
-        <div id="bgchoice" style="display: none">
+        <div class="menu-wrapper">
+          <div class="">
+            <div class="logo">
+              <a href="https://wutongsuimeng.github.io"><img src="\media\images\custom-headerLogo.gif" alt=""></a>
             </div>
-            
-            <div id="bgurl" style="display:none"></div>
-               
-    </div>
+            <!-- start: .main-nav -->
 
-    <!-- 响应式布局，针对手机端内容显示 -->
-    <div class="nav-small">
-        <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/bootstrap.min.css">
-</head>
-<style>
-  @media screen and (max-width:1200px) and (min-width: 768px) {
-    @media (min-width: 768px) {
-      .navbar-nav {
-        float: right;
-        margin: 0;
-      }
-    }
-  }
-  @media screen and (max-width:768px){
-    .mbapspan{
-      padding: 0;
-    }
-  }
-</style>
-
-<body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-      <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#barmenu"
-          aria-expanded="false" id="barbutton">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="https://wutongsuimeng.github.io">梧桐碎梦&nbsp;&nbsp;|</a>
-        <span class="navbar-brand mbapspan"><i id="mbaplayer" class="fa fa-play-circle-o" aria-hidden="true"
-            style="font-size: 28px;top: 12px;position: absolute;" onclick="aplayerPlay();"></i></span>
+            <nav class="main-nav grid-container grid-parent">
+              <ul id="menu-header" class="menu gradient-effect">
+                <li class=""><a href="https://wutongsuimeng.github.io" class="menu">首页</a></li>
+                
+                  <li class="" >
+                    <a href="/" class="menu">
+                      首页
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/archives" class="menu">
+                      归档
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/tags" class="menu">
+                      标签
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/post/about" class="menu">
+                      关于
+                    </a>
+                  </li>
+                
+                <li class="search-menu-item hide-on-mobile hide-on-tablet"><a href="#search-lightbox" class="lightbox mfp-inline"><i class="fa fa-search-line"></i></a></li>
+              </ul>
+            </nav>
+            <a href="#search-lightbox" class="lightbox epcl-search-button mfp-inline hide-on-tablet hide-on-desktop"><i class="fa fa-search-line"></i></a>
+            <!-- end: .main-nav -->
+            <div class="clear"></div>
+            <div class="border hide-on-tablet hide-on-mobile"></div>
+          </div>    
+          <div class="clear"></div>
+        </div>
+        <!-- end: .menu-wrapper -->
+        <div class="clear"></div>
+      </header>
+      <div class="hide-on-mobile hide-on-tablet hide-on-desktop">
+        <div id="search-lightbox" class="grid-container grid-small grid-parent mfp-hide">
+          <div class="search-wrapper section">
+            <form id="gridea-search-form" data-update="1606041596735" action="/search/index.html" class="search-form" _lpchecked="1">
+              <input type="text" name="q" id="s" value="" class="search-field" placeholder="搜点啥..." aria-label="搜点啥..." required="">
+              <button type="submit" class="submit" aria-label="Submit">
+                <i class="fa fa-search-line"></i>
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
 
-      <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="barmenu">
-        <ul class="nav navbar-nav">
-          
-          
-          <li>
-            <a href="/">
-              首页
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/archives">
-              归档
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/tags">
-              标签
-            </a>
-          </li>
-          
-          
-          
-          <li>
-            <a href="/post/about">
-              关于
-            </a>
-          </li>
-          
-          
-          
-          
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
+      <main id="home" class="main fullcover no-sidebar content">
+        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
+        <div class="epcl-page-wrapper">
+          <div class="left-content grid-70 np-mobile widget_epcl_related_articles">
+                
+            <!-- start: .articles -->
+            
 
 
-  <!-- 引入jQuery核心js文件 -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-  <script>
-  var btstate = false;
-  var bt = $("#barbutton");
-  var bm = $("#barmenu");
-  bt.click(function(){
-    dropdown();
-  })
-  function dropdown(){
-    console.log(btstate);
-    //下拉
-    if(btstate==false){
-      bt.removeClass("collapsed");
-      bt.attr("aria-expanded","true");
-      bm.attr("aria-expanded","true")
-      bm.fadeIn(700);
-      btstate = true;
-    }
-    else{
-      bt.addClass("collapsed");
-      bt.attr("aria-expanded","false");
-      bm.removeClass("in");
-      bm.hide();
-      bm.attr("aria-expanded","false");
-      btstate = false;
-    }
-  }
-  </script> 
-</body>
-            <div style="margin-top:60px"></div>
-            <body">
-    <div class="archives-content">
-        
-        
-        <div class="archives-year">2020</div>
-        <ul>
+<div class="main-article post">
+  <h2 class="year">共 5 篇文章</h2>
+
+    <h2 class="year">2020</h2>
+    
+      
+      <article class="item default grid-33 tablet-grid-50 np-mobile">
+        <a href="https://wutongsuimeng.github.io/post/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive/" class="thumb hover-effect">
+          <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://wutongsuimeng.github.io/post-images/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive.jpg');"></span>
+        </a>
+        <div class="info gradient-effect">
+          <time datetime="2020-11-22">1 小时前</time>
+          <h4 class="title usmall">
+            <a href="https://wutongsuimeng.github.io/post/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive/">使用RaiDrive在window平台上挂载google drive</a>
+          </h4>
+        </div>
+      </article>
+      
+    
+      
+      <article class="item default grid-33 tablet-grid-50 np-mobile">
+        <a href="https://wutongsuimeng.github.io/post/xiu-fu-grub-yin-dao/" class="thumb hover-effect">
+          <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://wutongsuimeng.github.io/post-images/xiu-fu-grub-yin-dao.png');"></span>
+        </a>
+        <div class="info gradient-effect">
+          <time datetime="2020-11-22">1 小时前</time>
+          <h4 class="title usmall">
+            <a href="https://wutongsuimeng.github.io/post/xiu-fu-grub-yin-dao/">修复grub引导</a>
+          </h4>
+        </div>
+      </article>
+      
+    
+      
+      <article class="item default grid-33 tablet-grid-50 np-mobile">
+        <a href="https://wutongsuimeng.github.io/post/qi-dong-vue-ying-yong/" class="thumb hover-effect">
+          <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://wutongsuimeng.github.io/post-images/qi-dong-vue-ying-yong.png');"></span>
+        </a>
+        <div class="info gradient-effect">
+          <time datetime="2020-11-22">1 小时前</time>
+          <h4 class="title usmall">
+            <a href="https://wutongsuimeng.github.io/post/qi-dong-vue-ying-yong/">启动vue应用</a>
+          </h4>
+        </div>
+      </article>
+      
+    
+      
+      <article class="item default grid-33 tablet-grid-50 np-mobile">
+        <a href="https://wutongsuimeng.github.io/post/shi-yong-javamail-fa-song-you-jian/" class="thumb hover-effect">
+          <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://wutongsuimeng.github.io/post-images/shi-yong-javamail-fa-song-you-jian.jpg');"></span>
+        </a>
+        <div class="info gradient-effect">
+          <time datetime="2020-11-22">1 小时前</time>
+          <h4 class="title usmall">
+            <a href="https://wutongsuimeng.github.io/post/shi-yong-javamail-fa-song-you-jian/">使用JavaMail发送邮件</a>
+          </h4>
+        </div>
+      </article>
+      
+    
+      
+      <article class="item default grid-33 tablet-grid-50 np-mobile">
+        <a href="https://wutongsuimeng.github.io/post/calendar-lei/" class="thumb hover-effect">
+          <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://wutongsuimeng.github.io/post-images/calendar-lei.png');"></span>
+        </a>
+        <div class="info gradient-effect">
+          <time datetime="2020-11-22">1 小时前</time>
+          <h4 class="title usmall">
+            <a href="https://wutongsuimeng.github.io/post/calendar-lei/">Calendar类</a>
+          </h4>
+        </div>
+      </article>
+      
+    
+    <div class="clear"></div>
+
+</div>
+            <!-- end: .articles -->
             
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive/" class="post">
-                    <div class="archives-title">使用RaiDrive在window平台上挂载google drive</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/xiu-fu-grub-yin-dao/" class="post">
-                    <div class="archives-title">修复grub引导</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/qi-dong-vue-ying-yong/" class="post">
-                    <div class="archives-title">启动vue应用</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/shi-yong-javamail-fa-song-you-jian/" class="post">
-                    <div class="archives-title">使用JavaMail发送邮件</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-            
-            <li><span></span>
-                <div>
-                  <a href="https://wutongsuimeng.github.io/post/calendar-lei/" class="post">
-                    <div class="archives-title">Calendar类</div>
-                    <div class="archives-time">2020-11-22</div>
-                </a>
-                    
-                </div>
-                <!-- 2020-11-22 -->
-            </li>
-            
-            
-        </ul>
-        
-    </div>
-</body">
-            <div class="pagination-container">
+                        <div class="epcl-pagination section">
+              <div class="nav">
                 
                 
+              </div>
             </div>
-            <div style="margin-bottom:60px">&nbsp;</div>
+            
+          </div>
+          </div>
         </div>
-        <div id="landlord">
-            <div class="message" style="opacity:0"></div>
-            <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-        </div>
-        <div id="domainname" style="display:none">https://wutongsuimeng.github.io</div>
-</body>
+      </main>
 
+        <footer id="footer" class="grid-container">
+        <div class="widgets row gradient-effect">
+            <div class="default-sidebar border-effect">
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="tag_cloud-2" class="widget widget_epcl_posts_thumbs underline-effect">
+                  <h4 class="widget-title title white bordered">最新文章</h4>
+                  
+                  
+                  <article class="item post-0 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://wutongsuimeng.github.io/post/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://wutongsuimeng.github.io/post-images/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-11-22">2020-11-22</time>
+                      <h4 class="title usmall">
+                        <a href="https://wutongsuimeng.github.io/post/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive/">使用RaiDrive在window平台上挂载google drive</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  <article class="item post-1 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://wutongsuimeng.github.io/post/xiu-fu-grub-yin-dao/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://wutongsuimeng.github.io/post-images/xiu-fu-grub-yin-dao.png');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-11-22">2020-11-22</time>
+                      <h4 class="title usmall">
+                        <a href="https://wutongsuimeng.github.io/post/xiu-fu-grub-yin-dao/">修复grub引导</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  <article class="item post-2 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://wutongsuimeng.github.io/post/qi-dong-vue-ying-yong/" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://wutongsuimeng.github.io/post-images/qi-dong-vue-ying-yong.png');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-11-22">2020-11-22</time>
+                      <h4 class="title usmall">
+                        <a href="https://wutongsuimeng.github.io/post/qi-dong-vue-ying-yong/">启动vue应用</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  
+                  
+                  
+                  <div class="clear"></div>
+                </section>
+              </div>
+
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="tag_cloud-2" class="widget widget_tag_cloud underline-effect">
+                  <h4 class="widget-title title white bordered">标签云</h4>
+                  <div class="tagcloud">
+                    
+                      <a href="https://wutongsuimeng.github.io/tag/dZ8LkAxoo/" class="ctag ctag-0 ctag-dZ8LkAxoo" aria-label="">前端</a>
+                    
+                      <a href="https://wutongsuimeng.github.io/tag/WqLhXrnP1/" class="ctag ctag-1 ctag-WqLhXrnP1" aria-label="">spring</a>
+                    
+                      <a href="https://wutongsuimeng.github.io/tag/pDH9JaSVZ/" class="ctag ctag-2 ctag-pDH9JaSVZ" aria-label="">java</a>
+                    
+                  </div>
+                  <div class="clear"></div>
+                </section>
+              </div>
+
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="epcl_about-2" class="widget widget_epcl_about underline-effect">
+                  <h4 class="widget-title title white bordered">关于我</h4>
+                  <div class="avatar">
+                    <a href="" class="translate-effect thumb"><span class="fullimage cover" style="background-image: url(https://wutongsuimeng.github.io/images/avatar.png);"></span></a>
+                  </div>
+                  <div class="info">
+                    <h4 class="title small author-name gradient-effect no-margin"><a href="">梧桐碎梦</a></h4>
+                    <p class="founder">好好学习</p>
+                    <div class="social">
+                      
+                          
+                            <a href="https://github.com/wutongsuimeng" class="translate-effect" target="_blank"><i class="fa fa-github"></i></a>
+                        
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                    </div> 
+                  </div>
+                  <div class="clear"></div>
+                  </section>
+              </div>
+
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="logo">
+          <a href="https://wutongsuimeng.github.io"><img src="\media\images\custom-footerLogo.gif" alt=""></a>
+        </div>
+        <p class="published border-effect">
+          ©2019 共 5 篇文章
+          <br/>
+          Theme <a href="https://gridea.dev/" target="_blank">「breek」</a> Powered by <a href="https://gridea.dev/" target="_blank">「Gridea」</a>
+        </p>
+        
+        <a href="javascript:void(0)" id="back-to-top" class="epcl-button dark" style="display:none">
+          <i class="fa fa-arrow"></i>
+        </a>
+    </footer>
+    
+    <div class="clear"></div>
+
+        
+
+    </div>
+    <!-- end: #wrapper -->
+  </body>
 </html>
-
-
-<script>
-        var bgchoice=$('#bgchoice').html();
-        var bg = $('#bg');
-        var bgurl = document.getElementById("bgurl").innerHTML;
-        if(bgchoice=='default')
-            for (var i = 0; i < 3; i++)
-                bgurl = bgurl.replace("\\", "/");
-        bg.css("background", "url('" + bgurl + "')");
-
-        window.onload = function(){
-            aplayerbtnInit();
-        }
-</script>
