@@ -2,14 +2,35 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://wutongsuimeng.github.io</id>
     <title>梧桐碎梦</title>
-    <updated>2020-11-22T11:02:27.859Z</updated>
+    <updated>2021-01-03T14:53:47.069Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://wutongsuimeng.github.io"/>
     <link rel="self" href="https://wutongsuimeng.github.io/atom.xml"/>
     <subtitle>好好学习</subtitle>
     <logo>https://wutongsuimeng.github.io/images/avatar.png</logo>
     <icon>https://wutongsuimeng.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, 梧桐碎梦</rights>
+    <rights>All rights reserved 2021, 梧桐碎梦</rights>
+    <entry>
+        <title type="html"><![CDATA[电脑同时使用内外网]]></title>
+        <id>https://wutongsuimeng.github.io/post/dian-nao-tong-shi-shi-yong-nei-wai-wang/</id>
+        <link href="https://wutongsuimeng.github.io/post/dian-nao-tong-shi-shi-yong-nei-wai-wang/">
+        </link>
+        <updated>2021-01-03T14:37:51.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>同时连接内外网</li>
+<li>管理员打开cmd<br>
+2.1. 输入命令ipconfig查看外网默认网关和内网网关信息:<br>
+<img src="https://wutongsuimeng.github.io/post-images/1609684894131.png" alt="" loading="lazy"><br>
+2.2. 输入命令route print查看路由信息<br>
+<img src="https://wutongsuimeng.github.io/post-images/1609684918514.png" alt="" loading="lazy"><br>
+能看到永久路由，第一个是默认路由，确保是外网网关。<br>
+第二个是内网的路由。例如内网地址是129.22.77.99，后两位变化，内网网关是129.22.77.1。那么添加路由就是<br>
+<code>route add -p 129.22.77.99 mask 255.255.0.0 129.22.77.1</code><br>
+<code>255.255.0.0</code> 是子网掩码，-p代表是永久路由。</li>
+<li>需要断开有线和无线再连接或者重启电脑才生效。</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[使用RaiDrive在window平台上挂载google drive]]></title>
         <id>https://wutongsuimeng.github.io/post/shi-yong-raidrive-zai-window-ping-tai-shang-gua-zai-google-drive/</id>
