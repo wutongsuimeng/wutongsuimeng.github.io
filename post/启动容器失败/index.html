@@ -50,7 +50,7 @@
 <meta itemprop="description" content="报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &ldquo;/mysql&rdquo; is already in use by container &ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&rdquo;. You have to remove (or rename) that container to be able to reuse that name. 解决： 因为之前强行停止的容器没有完全停止及清理，所以"><meta itemprop="datePublished" content="2021-03-08T13:58:09&#43;08:00" />
 <meta itemprop="dateModified" content="2021-03-08T13:58:09&#43;08:00" />
 <meta itemprop="wordCount" content="111">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="docker," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="启动容器失败"/>
 <meta name="twitter:description" content="报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &ldquo;/mysql&rdquo; is already in use by container &ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&rdquo;. You have to remove (or rename) that container to be able to reuse that name. 解决： 因为之前强行停止的容器没有完全停止及清理，所以"/>
 
@@ -78,13 +78,13 @@
 <nav id="mobile-menu" class="mobile-menu slideout-menu">
   <ul class="mobile-menu-list">
     <a href="/">
-        <li class="mobile-menu-item">Home</li>
+        <li class="mobile-menu-item">首页</li>
       </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
+        <li class="mobile-menu-item">归档</li>
       </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
+        <li class="mobile-menu-item">标签</li>
       </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
+        <li class="mobile-menu-item">分类</li>
       </a>
   </ul>
 
@@ -106,13 +106,13 @@
 <nav class="site-navbar">
   <ul id="menu" class="menu">
     <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
+        <a class="menu-item-link" href="/">首页</a>
       </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
+        <a class="menu-item-link" href="/post/">归档</a>
       </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
+        <a class="menu-item-link" href="/tags/">标签</a>
       </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
+        <a class="menu-item-link" href="/categories/">分类</a>
       </li>
   </ul>
 </nav>
@@ -129,7 +129,9 @@
 
       <div class="post-meta">
         <span class="post-time"> 2021-03-08 13:58:09 </span>
-        
+        <div class="post-category">
+            <a href="/categories/%E5%AE%B9%E5%99%A8/"> 容器 </a>
+            </div>
           <span class="more-meta"> 约 111 字 </span>
           <span class="more-meta"> 预计阅读 1 分钟 </span>
         
@@ -144,7 +146,7 @@
 </div>
     <div class="post-content">
       <p>报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &ldquo;/mysql&rdquo; is already in use by container &ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&rdquo;. You have to remove (or rename) that container to be able to reuse that name.</p>
-<p><img src="/media/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/Snipaste_2021-03-08_10-18-49.png" alt="启动容器失败/Snipaste_2021-03-08_10-18-49.png"></p>
+<p><img src="/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/Snipaste_2021-03-08_10-18-49.png" alt="启动容器失败/Snipaste_2021-03-08_10-18-49.png"></p>
 <p>解决：</p>
 <p>因为之前强行停止的容器没有完全停止及清理，所以要对之前启动的容器进行清理及完全停止：</p>
 <div class="highlight"><div class="chroma">
@@ -152,7 +154,7 @@
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash">docker rm -f <span class="k">$(</span>docker ps -a -q<span class="k">)</span>
+<pre class="chroma"><code class="language-shell" data-lang="shell">docker rm -f <span class="k">$(</span>docker ps -a -q<span class="k">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>重启docker：</p>
@@ -183,7 +185,9 @@
   
 </div>
 <footer class="post-footer">
-      
+      <div class="post-tags">
+          <a href="/tags/docker/">docker</a>
+          </div>
       <nav class="post-nav">
         <a class="prev" href="/post/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/">
             <i class="iconfont icon-left"></i>

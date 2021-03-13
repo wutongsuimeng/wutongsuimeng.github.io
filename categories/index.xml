@@ -5,6 +5,34 @@
     <link>https://wutongsuimeng.github.io/categories/</link>
     <description>Recent content in Categories on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://wutongsuimeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <lastBuildDate>Sat, 13 Mar 2021 20:11:46 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>数据库</title>
+      <link>https://wutongsuimeng.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Sat, 13 Mar 2021 20:11:46 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://wutongsuimeng.github.io/categories/linux/</link>
+      <pubDate>Mon, 08 Mar 2021 19:52:06 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>容器</title>
+      <link>https://wutongsuimeng.github.io/categories/%E5%AE%B9%E5%99%A8/</link>
+      <pubDate>Mon, 08 Mar 2021 13:58:09 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/categories/%E5%AE%B9%E5%99%A8/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

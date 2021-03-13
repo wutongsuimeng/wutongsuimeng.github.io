@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mysql on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/tags/mysql/</link>
+    <description>Recent content in mysql on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 13 Mar 2021 20:11:46 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mysql压缩版的安装</title>
+      <link>https://wutongsuimeng.github.io/post/mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85/</link>
+      <pubDate>Sat, 13 Mar 2021 20:11:46 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85/</guid>
+      <description>下载mysql 下载地址：https://dev.mysql.com/downloads/mysql/ 把下载好的压缩文件解压放到一个不含中文路</description>
+    </item>
+    
+  </channel>
+</rss>
