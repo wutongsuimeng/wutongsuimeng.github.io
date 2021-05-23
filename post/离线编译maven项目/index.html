@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>离线编译maven项目 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="假设项目分布为： D-&amp;gt;Code -&amp;gt;project -&amp;gt;pom.xml：项目位置 |-&amp;gt;Maven -&amp;gt;conf -&amp;gt;settings.xml：maven配置文件的位置 |-&amp;gt;repos" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.81.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.b5a744db6de49a86cadafb3b70f555ab443f83c307a483402259e94726b045ff.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="离线编译maven项目" />
+<meta property="og:description" content="假设项目分布为： D-&gt;Code -&gt;project -&gt;pom.xml：项目位置 |-&gt;Maven -&gt;conf -&gt;settings.xml：maven配置文件的位置 |-&gt;repos" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-05-23T15:08:58&#43;08:00" />
+<meta property="article:modified_time" content="2021-05-23T15:08:58&#43;08:00" />
+
+<meta itemprop="name" content="离线编译maven项目">
+<meta itemprop="description" content="假设项目分布为： D-&gt;Code -&gt;project -&gt;pom.xml：项目位置 |-&gt;Maven -&gt;conf -&gt;settings.xml：maven配置文件的位置 |-&gt;repos"><meta itemprop="datePublished" content="2021-05-23T15:08:58&#43;08:00" />
+<meta itemprop="dateModified" content="2021-05-23T15:08:58&#43;08:00" />
+<meta itemprop="wordCount" content="833">
+<meta itemprop="keywords" content="离线,maven," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="离线编译maven项目"/>
+<meta name="twitter:description" content="假设项目分布为： D-&gt;Code -&gt;project -&gt;pom.xml：项目位置 |-&gt;Maven -&gt;conf -&gt;settings.xml：maven配置文件的位置 |-&gt;repos"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">离线编译maven项目</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-05-23 15:08:58 </span>
+        <div class="post-category">
+            <a href="/categories/maven/"> maven </a>
+            <a href="/categories/java/"> java </a>
+            </div>
+          <span class="more-meta"> 约 833 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#命令行编译">命令行编译</a></li>
+    <li><a href="#eclipse编译">Eclipse编译</a>
+      <ul>
+        <li><a href="#配置eclipse">配置eclipse</a></li>
+        <li><a href="#导入项目并进行编译">导入项目并进行编译</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>假设项目分布为：</p>
+<p>D-&gt;Code        -&gt;project -&gt;pom.xml：项目位置</p>
+<p>|-&gt;Maven      -&gt;conf      -&gt;settings.xml：maven配置文件的位置</p>
+<p>|-&gt;repository：存放依赖的位置</p>
+<h1 id="命令行编译">命令行编译</h1>
+<p>先配置maven的配置文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!--settings.xml--&gt;</span>
+
+<span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+
+<span class="nt">&lt;settings</span> <span class="na">xmlns=</span><span class="s">&#34;http://maven.apache.org/SETTINGS/1.0.0&#34;</span>
+          <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+          <span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&#34;</span><span class="nt">&gt;</span>
+ 
+  <span class="nt">&lt;localRepository&gt;</span>D:\repository<span class="nt">&lt;/localRepository&gt;</span>
+  
+  <span class="nt">&lt;offline&gt;</span>true<span class="nt">&lt;/offline&gt;</span>
+
+<span class="nt">&lt;/settings&gt;</span>
+
+
+</code></pre></td></tr></table>
+</div>
+</div><p><code>localRepository</code>设置本地仓库位置，<code>offline</code>设置离线模式。</p>
+<p>然后在命令行中打开项目的位置，即pom.xml文件所在的位置下，使用命令编译项目：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-shell" data-lang="shell">$ mvn clean package -s <span class="s2">&#34;D:/Maven/conf/settings.xml&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>-s</code>设置maven配置文件的位置。</p>
+<h1 id="eclipse编译">Eclipse编译</h1>
+<p>同样是先配置maven的配置文件，同上。</p>
+<p>打开workspace，选择项目的上一级目录。</p>
+<p>进入eclipse后，先进行eclipse的配置。</p>
+<h2 id="配置eclipse">配置eclipse</h2>
+<p>打开设置，找到Maven。只勾选最前面的两项（Offline和Do not automatically update dependencies from remote repositories），其他的取消勾选。</p>
+<p><img src="/media/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE.assets/image-20210523143822060.png" alt="image-20210523143822060"></p>
+<p>接着设置maven的位置，在Maven-&gt;Installations下，增加并勾选本地的maven，不用eclipse内置的。</p>
+<p><img src="/media/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE.assets/image-20210523145458468.png" alt="image-20210523145458468"></p>
+<p>最后设置settings.xml文件以及本地仓库位置。在位置Maven-&gt;User Settings下，Global Settings和User Settings都选择D:/Maven/conf/settings.xml，Local Repository选择D:/Repository。保存并关闭。</p>
+<h2 id="导入项目并进行编译">导入项目并进行编译</h2>
+<p>打开File-&gt;import-&gt;Maven-&gt;Existing Maven Projects，点击next后选择项目的pom.xml文件，进行导入。</p>
+<p>导入成功后，在根项目右键选择Run As，选择Run build。初次时，会需要设置，在Goals那里输入claen package，勾选Offline，并<strong>点击Apply进行保存</strong>。最后run即可进行编译。</p>
+<p><img src="/media%5C%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE.assets%5Cimage-20210523145611591.png" alt="image-20210523145611591"></p>
+<p><img src="/media/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE.assets/image-20210523145712028.png" alt="image-20210523145712028"></p>
+<p>备注：Update项目依赖时，有可能会卡住。这时候需要先update子项目的依赖，再update根项目的依赖。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-05-23 15:08:58
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E7%A6%BB%E7%BA%BF/">离线</a>
+          <a href="/tags/maven/">maven</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub-rescue%E7%9A%84%E9%97%AE%E9%A2%98/">
+            <span class="next-text nav-default">修复进入grub rescue的问题</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
