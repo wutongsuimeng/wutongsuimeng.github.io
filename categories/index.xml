@@ -6,7 +6,16 @@
     <description>Recent content in Categories on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 13 Jun 2021 15:36:18 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 17 Jul 2021 16:50:04 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Go</title>
+      <link>https://wutongsuimeng.github.io/categories/go/</link>
+      <pubDate>Sat, 17 Jul 2021 16:50:04 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/categories/go/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>spring</title>
       <link>https://wutongsuimeng.github.io/categories/spring/</link>

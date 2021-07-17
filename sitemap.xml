@@ -3,20 +3,62 @@
   
   <url>
     <loc>https://wutongsuimeng.github.io/categories/</loc>
-    <lastmod>2021-06-13T15:36:18+08:00</lastmod>
+    <lastmod>2021-07-17T16:50:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://wutongsuimeng.github.io/tags/grpc/</loc>
-    <lastmod>2021-06-13T15:36:18+08:00</lastmod>
+    <loc>https://wutongsuimeng.github.io/tags/go/</loc>
+    <lastmod>2021-07-17T16:50:04+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/categories/go/</loc>
+    <lastmod>2021-07-17T16:50:04+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/goland/</loc>
+    <lastmod>2021-07-17T16:50:04+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/post/goland%E7%9A%84%E8%AE%BE%E7%BD%AE/</loc>
+    <lastmod>2021-07-17T16:50:04+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://wutongsuimeng.github.io/post/</loc>
+    <lastmod>2021-07-17T16:50:04+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/</loc>
+    <lastmod>2021-07-17T16:50:04+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/</loc>
+    <lastmod>2021-07-17T16:50:04+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/grpc/</loc>
     <lastmod>2021-06-13T15:36:18+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -37,21 +79,7 @@
   </url>
   
   <url>
-    <loc>https://wutongsuimeng.github.io/tags/</loc>
-    <lastmod>2021-06-13T15:36:18+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8grpc%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90/</loc>
-    <lastmod>2021-06-13T15:36:18+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://wutongsuimeng.github.io/</loc>
     <lastmod>2021-06-13T15:36:18+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

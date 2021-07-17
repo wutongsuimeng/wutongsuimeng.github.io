@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Go on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/categories/go/</link>
+    <description>Recent content in Go on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 17 Jul 2021 16:50:04 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/go/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Goland的设置</title>
+      <link>https://wutongsuimeng.github.io/post/goland%E7%9A%84%E8%AE%BE%E7%BD%AE/</link>
+      <pubDate>Sat, 17 Jul 2021 16:50:04 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/goland%E7%9A%84%E8%AE%BE%E7%BD%AE/</guid>
+      <description>&lt;p&gt;Goland是JetBrains家的go编辑器。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
