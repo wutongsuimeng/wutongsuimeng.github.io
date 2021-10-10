@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>使用spring cloud，nacos，dubbo，gateway搭建微服务 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8spring-cloudnacosdubbogateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.a659bb31b17a54f7792e1bc783fc75b31118e6a175b42337b03fae0b1a3ef2b5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="使用spring cloud，nacos，dubbo，gateway搭建微服务" />
+<meta property="og:description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8spring-cloudnacosdubbogateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-10-10T21:16:29+08:00" />
+<meta property="article:modified_time" content="2021-10-10T21:16:29+08:00" />
+
+<meta itemprop="name" content="使用spring cloud，nacos，dubbo，gateway搭建微服务">
+<meta itemprop="description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务"><meta itemprop="datePublished" content="2021-10-10T21:16:29+08:00" />
+<meta itemprop="dateModified" content="2021-10-10T21:16:29+08:00" />
+<meta itemprop="wordCount" content="3557">
+<meta itemprop="keywords" content="微服务,nacos,spring cloud,dubbo,gateway," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用spring cloud，nacos，dubbo，gateway搭建微服务"/>
+<meta name="twitter:description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">使用spring cloud，nacos，dubbo，gateway搭建微服务</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-10 21:16:29 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"> 微服务 </a>
+            </div>
+          <span class="more-meta"> 约 3557 字 </span>
+          <span class="more-meta"> 预计阅读 8 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#启动nacos">启动nacos</a></li>
+    <li><a href="#项目搭建">项目搭建</a></li>
+    <li><a href="#启动服务">启动服务</a></li>
+    <li><a href="#集成dubbo">集成dubbo</a></li>
+    <li><a href="#集成网关">集成网关</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文使用spring cloud，nacos，dubbo，gateway搭建微服务</p>
+<h1 id="启动nacos">启动nacos</h1>
+<p>nacos是阿里开源的一个组件，用于服务发现、注册中心与配置中心。</p>
+<p>首先下载nacos server：<a href="https://github.com/alibaba/nacos">https://github.com/alibaba/nacos</a></p>
+<p>解压压缩包，打开bin目录。因为直接启动的话，会以集群模式启动，单机下会报错。所以有三种方法解决:</p>
+<ol>
+<li>
+<p>使用命令行启动，指定为单机模式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">startup</span><span class="p">.</span><span class="n">cmd</span> <span class="n">-m</span> <span class="n">standalone</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>修改startup.cmd文件，将其修改为单机模式：</p>
+<p>将</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="nb">set </span><span class="n">MODE</span><span class="p">=</span><span class="s2">&#34;cluster&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>修改为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">rem</span> <span class="nb">set </span><span class="n">MODE</span><span class="p">=</span><span class="s2">&#34;cluster&#34;</span>
+<span class="nb">set </span><span class="n">MODE</span><span class="p">=</span><span class="s2">&#34;standalone&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注： <code>rem</code>为注释语句</p>
+</li>
+<li>
+<p>可以去修改数据库配置，感觉太麻烦了</p>
+</li>
+</ol>
+<p>建议第一种。</p>
+<p>然后便能直接启动。</p>
+<p>web页面地址为：<a href="http://localhost:8848/nacos/index.html">http://localhost:8848/nacos/index.html</a></p>
+<p>默认账号密码都是nacos</p>
+<h1 id="项目搭建">项目搭建</h1>
+<p>开始搭建项目</p>
+<p>新建一个父项目，名为cloud-demo</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled.png" alt="Untitled"></p>
+<p>删掉多余的src目录。</p>
+<p>然后再分别新建Module类型的项目，分别命名为provider、consumer、gateway，依赖选择Spring Web。</p>
+<p>在父pom.xml文件中，引入子模块：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;packaging&gt;</span>pom<span class="nt">&lt;/packaging&gt;</span>
+<span class="nt">&lt;modules&gt;</span>
+    <span class="nt">&lt;module&gt;</span>consumer<span class="nt">&lt;/module&gt;</span>
+    <span class="nt">&lt;module&gt;</span>gateway<span class="nt">&lt;/module&gt;</span>
+    <span class="nt">&lt;module&gt;</span>provider<span class="nt">&lt;/module&gt;</span>
+<span class="nt">&lt;/modules&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>再新建一个公共子模块，命名为common。分别在provider、consumer子模块的pom.xml文件中引入common模块的依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.wtsm<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>common<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>因为每个子模块都需要引入配置中心和注册中心，所以在common和gateway模块中引入相应的依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- 配置管理 --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.alibaba.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-alibaba-nacos-config<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2021.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="c">&lt;!-- 服务发现 --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.alibaba.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2021.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在application.yml同目录下，新建一个名为bootstrap.yml的资源文件，并保持application.yml为空。对gateway的bootstrap.yml配置文件进行配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># bootstrap.yml</span><span class="w">
+</span><span class="w"></span><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">consumer</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">nacos</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">config</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">server-addr</span><span class="p">:</span><span class="w"> </span><span class="l">http://localhost:8848</span><span class="w">
+</span><span class="w">        </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">test   </span><span class="w">
+</span><span class="w">        </span><span class="nt">file-extension</span><span class="p">:</span><span class="w"> </span><span class="l">yaml</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>注：<code>spring.application.name</code>为nacos配置中心中dataId的一部分。 <code>group</code>为分组名。 <code>file-extension</code>为配置中心配置文件的扩展名。</p>
+<p>然后在nacos的web管理页面的配置管理，新建一个配置。 <code>Data Id</code>填写上面<code>spring.applicatio.name</code>的值， <code>Group</code>即为上面的 <code>group</code>，配置格式选择YAML，配置内容填写需要放在配置中心的配置，这里填写运行端口与注册中心的地址：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">server</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8082</span><span class="w">
+</span><span class="w"></span><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">	</span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">	    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">consumer</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">nacos</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">discovery</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">server-addr</span><span class="p">:</span><span class="w"> </span><span class="l">http://localhost:8848</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>bootstrap.yml会比application.yml先加载，但是要使用bootstrap.yml配置文件的话，需要添加依赖，这里我们在common和gateway中添加：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-bootstrap<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.4<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>先启动consumer模块，能看到程序以配置中心配置的8082端口运行，并且在服务列表能看到consumer服务</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%201.png" alt="Untitled"></p>
+<p>说明配置中心与注册中心都连接成功。</p>
+<p>同理，对provider配置bootstrap.yml和配置中心配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="c"># bootstrap.yml</span><span class="w">
+</span><span class="w"></span><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">provider</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">nacos</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">config</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">server-addr</span><span class="p">:</span><span class="w"> </span><span class="l">http://localhost:8848</span><span class="w">
+</span><span class="w">        </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
+</span><span class="w">        </span><span class="nt">file-extension</span><span class="p">:</span><span class="w"> </span><span class="l">yaml</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">server</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8083</span><span class="w">
+</span><span class="w"></span><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">provider</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">nacos</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">discovery</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">server-addr</span><span class="p">:</span><span class="w"> </span><span class="l">http://localhost:8848</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>同理，对gateway配置bootstrap.yml和配置中心配置</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">gateway</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">nacos</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">config</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">server-addr</span><span class="p">:</span><span class="w"> </span><span class="l">http://localhost:8848</span><span class="w">
+</span><span class="w">        </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l">test</span><span class="w">
+</span><span class="w">        </span><span class="nt">file-extension</span><span class="p">:</span><span class="w"> </span><span class="l">yaml</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">server</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8081</span><span class="w">
+</span><span class="w"></span><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">gateway</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">nacos</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">discovery</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">server-addr</span><span class="p">:</span><span class="w"> </span><span class="l">http://localhost:8848</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><h1 id="启动服务">启动服务</h1>
+<p>使用idea快捷键alt+8，打开Services界面，添加服务</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%202.png" alt="Untitled"></p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%203.png" alt="Untitled"></p>
+<p>把多余的隐藏，剩这三个：</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%204.png" alt="Untitled"></p>
+<p>启动时发现报错了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="cp">***************************</span><span class="w">
+</span><span class="w"></span><span class="l">APPLICATION FAILED TO START</span><span class="w">
+</span><span class="w"></span><span class="cp">***************************</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">Description</span><span class="p">:</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">Your project setup is incompatible with our requirements due to following reasons</span><span class="p">:</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span>- <span class="l">Spring Boot [2.5.5] is not compatible with this Spring Cloud release train</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">Action</span><span class="p">:</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">Consider applying the following actions</span><span class="p">:</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span>- <span class="l">Change Spring Boot version to one of the following versions [2.3.x, 2.4.x] .</span><span class="w">
+</span><span class="w"></span><span class="l">You can find the latest Spring Boot versions here [https://spring.io/projects/spring-boot#learn]. </span><span class="w">
+</span><span class="w"></span><span class="l">If you want to learn more about the Spring Cloud Release train compatibility, you can visit this page [https://spring.io/projects/spring-cloud#overview] and check the [Release Trains] section.</span><span class="w">
+</span><span class="w"></span><span class="l">If you want to disable this check, just set the property [spring.cloud.compatibility-verifier.enabled=false]</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>这是因为所引入的Spring Cloud Alibaba和spring boot版本不符合，因为我用Spring Cloud Alibaba版本为2021.1，根据<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">Spring Cloud Alibaba官方版本说明</a>，需要将spring boot的版本改为2.4.2。</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%205.png" alt="Untitled"></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;parent&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-parent<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2.4.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;relativePath/&gt;</span> <span class="c">&lt;!-- lookup parent from repository --&gt;</span>
+<span class="nt">&lt;/parent&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>能看到启动成功</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%206.png" alt="Untitled"></p>
+<p>到nacos页面，能看到注册成功的服务</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%207.png" alt="Untitled"></p>
+<p>测试nacos的配置自动刷新：</p>
+<p>新增一个类：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/config&#34;</span><span class="o">)</span>
+<span class="nd">@RefreshScope</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigController</span> <span class="o">{</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${local:false}&#34;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">local</span><span class="o">;</span>
+
+    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">&#34;/get&#34;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">get</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">local</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>访问<a href="http://localhost:8082/config/get">http://localhost:8082/config/get</a>，得到结果为false</p>
+<p>然后在配置中心，添加 <code>local: true</code>，结果为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nl">server:</span>
+  <span class="n">port</span><span class="o">:</span> <span class="n">8082</span>
+<span class="nl">spring:</span>
+  <span class="n">cloud</span><span class="o">:</span>
+    <span class="n">nacos</span><span class="o">:</span>
+      <span class="n">discovery</span><span class="o">:</span>
+        <span class="n">server</span><span class="o">-</span><span class="n">addr</span><span class="o">:</span> <span class="n">http</span><span class="o">:</span><span class="c1">//localhost:8848
+</span><span class="c1"></span><span class="nl">local:</span> <span class="kc">true</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在不重启应用的情况下，再次访问链接，得到的结果为true。说明配置确实动态刷新了。</p>
+<h1 id="集成dubbo">集成dubbo</h1>
+<p>dubbo也是由阿里巴巴开源的一个微服务开发框架，可用于微服务之间的RPC通信。</p>
+<p>需要使用dubbo的话，需要在common中引入依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.alibaba.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-dubbo<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>2021.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.apache.commons<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>commons-lang3<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>3.12.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>注：</p>
+<ol>
+<li>如果不引入commons-lang3的话会报错： <code>java.lang.ClassNotFoundException: org.apache.commons.lang3.StringUtils</code>。但是在2018年的时候就提示已经移除了commons-lang3，详见<a href="https://github.com/apache/dubbo/pull/1921">https://github.com/apache/dubbo/pull/1921</a>，而且spring-cloud-starter-dubbo的2021.1中使用的dubbo时2.7.8的，版本时间是2020年。理应没这个问题才对，很奇怪。</li>
+</ol>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%208.png" alt="Untitled"></p>
+<ol>
+<li>如果引入下面的dubbo的话，</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!-- dubbo --&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.apache.dubbo<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>dubbo<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.3<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>虽然不会报commons-lang3的错，但是在使用consumer调用远程接口时，会提示远程方法为null： <code>java.lang.NullPointerException: null</code>，且查看provider服务的元数据时，只有 <code>preserved.register.source=SPRING_CLOUD</code>，正常来说，应该如下图所示：</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%209.png" alt="Untitled"></p>
+<p>在配置中心为consumer添加dubbo的配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">server</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8082</span><span class="w">
+</span><span class="w"></span><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">consumer</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">nacos</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">discovery</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">server-addr</span><span class="p">:</span><span class="w"> </span><span class="l">http://localhost:8848</span><span class="w">
+</span><span class="w"></span><span class="nt">dubbo</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">consumer</span><span class="w">
+</span><span class="w">    </span><span class="nt">qos-enable</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span><span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">dubbo</span><span class="w">
+</span><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w"> </span><span class="c"># rpc需要一个额外的端口，-1表示端口随机</span><span class="w">
+</span><span class="w">  </span><span class="nt">registry</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l">spring-cloud://localhost</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">subscribed-services</span><span class="p">:</span><span class="w"> </span><span class="l">provider</span><span class="w">
+</span><span class="w">  </span><span class="nt">consumer</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">check</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>在配置中心为provider添加dubbo的配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">server</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">8083</span><span class="w">
+</span><span class="w"></span><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">provider</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">nacos</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">discovery</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span><span class="nt">server-addr</span><span class="p">:</span><span class="w"> </span><span class="l">http://localhost:8848</span><span class="w">
+</span><span class="w">
+</span><span class="w"></span><span class="nt">dubbo</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">provider</span><span class="w">
+</span><span class="w">    </span><span class="nt">qos-enable</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="c">#不启用qos，启用的话会报端口被占用</span><span class="w">
+</span><span class="w">  </span><span class="nt">scan</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">base-packages</span><span class="p">:</span><span class="w"> </span><span class="l">com.wtsm.provider.service </span><span class="w"> </span><span class="c">#Dubbo服务实现类的扫描基准包路径</span><span class="w">
+</span><span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">dubbo</span><span class="w">
+</span><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span>-<span class="m">1</span><span class="w">
+</span><span class="w">  </span><span class="nt">registry</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l">nacos://localhost:8848</span><span class="w">
+</span><span class="w">  
+</span></code></pre></td></tr></table>
+</div>
+</div><p>新增一个子模块，命名为provider-api。在改模块中新建一个接口IProviderService：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">IProviderService</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="nf">getProvider</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>分别在consumer和provider增加provider-api的依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.wtsm<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>provider-api<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在provider中实现IProviderService接口：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.wtsm.providerapi.IProviderService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.dubbo.config.annotation.DubboService</span><span class="o">;</span>
+
+<span class="nd">@DubboService</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ProviderServiceImpl</span> <span class="kd">implements</span> <span class="n">IProviderService</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getProvider</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">&#34;调用服务成功&#34;</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在consumer中调用接口：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">com.wtsm.providerapi.IProviderService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.apache.dubbo.config.annotation.DubboReference</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.context.config.annotation.RefreshScope</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RefreshScope</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConsumerController</span> <span class="o">{</span>
+
+    <span class="nd">@DubboReference</span>
+    <span class="kd">private</span> <span class="n">IProviderService</span> <span class="n">providerService</span><span class="o">;</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;getProvider&#34;</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getProvider</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">providerService</span><span class="o">.</span><span class="na">getProvider</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>运行consumer和provider服务，访问<a href="http://localhost:8082/getProvider">http://localhost:8082/getProvider</a>，能看到调用成功</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Snipaste_2021-09-30_15-56-35.png" alt="Snipaste_2021-09-30_15-56-35.png"></p>
+<h1 id="集成网关">集成网关</h1>
+<p><strong>注释</strong>掉gateway模块的 <code>spring-boot-starter-web</code>依赖，然后在<strong>gateway模块</strong>中引入 <code>spring-cloud-starter-gateway</code>依赖，因为<code>spring-cloud-starter-gateway</code>内部实现的webflux与spring mvc的配置所冲突。</p>
+<p>如果使用 <code>lb</code>，但不添加<code>spring-cloud-starter-loadbalancer</code>依赖的话，会报503的错。详见</p>
+<p><a href="https://blog.csdn.net/wangzibai/article/details/115283755">nacos+spring cloud gateway 出现503 Service Unavailable_wangzibai的博客-CSDN博客</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-gateway<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.4<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-loadbalancer<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>3.0.4<span class="nt">&lt;/version&gt;</span>  <span class="c">&lt;!-- 版本号是必须要加的 --&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>然后在gateway的配置文件中，新增配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">cloud</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">gateway</span><span class="p">:</span><span class="w">
+</span><span class="w">      </span><span class="nt">routes</span><span class="p">:</span><span class="w">
+</span><span class="w">        </span>- <span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l">consumer_route</span><span class="w">
+</span><span class="w">          </span><span class="c"># uri后面指定消费者的服务id，lb代表从注册中心获取服务，lb是Load Balance的缩写</span><span class="w">
+</span><span class="w">          </span><span class="nt">uri</span><span class="p">:</span><span class="w"> </span><span class="l">lb://consumer</span><span class="w">
+</span><span class="w">          </span><span class="nt">predicates</span><span class="p">:</span><span class="w">
+</span><span class="w">             </span><span class="c"># 匹配转发路径</span><span class="w">
+</span><span class="w">            </span>- <span class="l">Path=/**</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>将所有服务启动后，访问 <a href="http://localhost:8081/getProvider">http://localhost:8081/getProvider</a>，会转发到consumer微服务中</p>
+<p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%2010.png" alt="Untitled"></p>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.jianshu.com/u/80b6d267cfbf">蝉鸣又初雪 - 简书</a></p>
+<p><a href="https://nacos.io/zh-cn/docs/quick-start-spring-cloud.html">Nacos Spring Cloud 快速开始</a></p>
+<p><a href="https://www.cnblogs.com/ying-z/p/14781737.html">SpringCloud+Dubbo+Nacos整合实现RPC调用</a></p>
+<p><a href="https://docs.spring.io/spring-cloud-config/docs/current/reference/html/#config-first-bootstrap">Spring Cloud Config</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-10-10 21:16:29
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/">微服务</a>
+          <a href="/tags/nacos/">nacos</a>
+          <a href="/tags/spring-cloud/">spring cloud</a>
+          <a href="/tags/dubbo/">dubbo</a>
+          <a href="/tags/gateway/">gateway</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/goland%E7%9A%84%E8%AE%BE%E7%BD%AE/">
+            <span class="next-text nav-default">Goland的设置</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

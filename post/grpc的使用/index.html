@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>gRPC的使用 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/grpc%E7%9A%84%E4%BD%BF%E7%94%A8/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.a659bb31b17a54f7792e1bc783fc75b31118e6a175b42337b03fae0b1a3ef2b5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="gRPC的使用" />
+<meta property="og:description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/grpc%E7%9A%84%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-06-13T15:36:18+08:00" />
+<meta property="article:modified_time" content="2021-06-13T15:36:18+08:00" />
+
+<meta itemprop="name" content="gRPC的使用">
+<meta itemprop="description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。"><meta itemprop="datePublished" content="2021-06-13T15:36:18+08:00" />
+<meta itemprop="dateModified" content="2021-06-13T15:36:18+08:00" />
+<meta itemprop="wordCount" content="2418">
+<meta itemprop="keywords" content="rpc,grpc," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="gRPC的使用"/>
+<meta name="twitter:description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">gRPC的使用</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-06-13 15:36:18 </span>
+        <div class="post-category">
+            <a href="/categories/spring/"> spring </a>
+            </div>
+          <span class="more-meta"> 约 2418 字 </span>
+          <span class="more-meta"> 预计阅读 5 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#使用">使用</a>
+      <ul>
+        <li><a href="#项目结构">项目结构</a></li>
+        <li><a href="#grpc">grpc</a>
+          <ul>
+            <li><a href="#引入依赖">引入依赖</a></li>
+            <li><a href="#定义proto文件">定义proto文件</a></li>
+            <li><a href="#编译">编译</a></li>
+            <li><a href="#被client和server端依赖">被client和server端依赖</a></li>
+          </ul>
+        </li>
+        <li><a href="#client">client</a></li>
+        <li><a href="#定义一个服务端">定义一个服务端</a></li>
+      </ul>
+    </li>
+    <li><a href="#测试">测试</a></li>
+    <li><a href="#其他">其他</a>
+      <ul>
+        <li><a href="#依赖注入">依赖注入</a></li>
+        <li><a href="#传值">传值</a></li>
+        <li><a href="#部署在服务端">部署在服务端</a></li>
+        <li><a href="#报错">报错</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。</p>
+<p>grpc采用的是http2协议。</p>
+<h1 id="使用">使用</h1>
+<h2 id="项目结构">项目结构</h2>
+<p><img src="/media/grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled.png" alt="grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled.png"></p>
+<p>分别为client（客户端）、grpc（gRPC 服务）、server（服务端）。</p>
+<h2 id="grpc">grpc</h2>
+<p>首先是grpc。</p>
+<h3 id="引入依赖">引入依赖</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>grpc-netty-shaded<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.38.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>grpc-protobuf<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.38.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>grpc-stub<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>1.38.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span> <span class="c">&lt;!-- necessary for Java 9+ --&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.apache.tomcat<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>annotations-api<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>6.0.53<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>因为需要依赖于maven和protobuf进行编译，所以添加maven插件protobuf-maven-plugin，这个插件会将 <code>.proto</code>文件编译成java代码，但是这个插件是在idea的window平台下使用，在linux下需要别的配置<a href="https://github.com/grpc/grpc-java/blob/master/COMPILING.md">https://github.com/grpc/grpc-java/blob/master/COMPILING.md</a>。依旧是在pom.xml文件添加：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;build&gt;</span>
+  <span class="nt">&lt;extensions&gt;</span>
+    <span class="nt">&lt;extension&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>kr.motd.maven<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>os-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>1.6.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/extension&gt;</span>
+  <span class="nt">&lt;/extensions&gt;</span>
+  <span class="nt">&lt;plugins&gt;</span>
+    <span class="nt">&lt;plugin&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>org.xolstice.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>protobuf-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>0.6.1<span class="nt">&lt;/version&gt;</span>
+      <span class="nt">&lt;configuration&gt;</span>
+        <span class="nt">&lt;protocArtifact&gt;</span>com.google.protobuf:protoc:3.12.0:exe:${os.detected.classifier}<span class="nt">&lt;/protocArtifact&gt;</span>
+        <span class="nt">&lt;pluginId&gt;</span>grpc-java<span class="nt">&lt;/pluginId&gt;</span>
+        <span class="nt">&lt;pluginArtifact&gt;</span>io.grpc:protoc-gen-grpc-java:1.38.0:exe:${os.detected.classifier}<span class="nt">&lt;/pluginArtifact&gt;</span>
+      <span class="nt">&lt;/configuration&gt;</span>
+      <span class="nt">&lt;executions&gt;</span>
+        <span class="nt">&lt;execution&gt;</span>
+          <span class="nt">&lt;goals&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
+            <span class="nt">&lt;goal&gt;</span>compile-custom<span class="nt">&lt;/goal&gt;</span>
+          <span class="nt">&lt;/goals&gt;</span>
+        <span class="nt">&lt;/execution&gt;</span>
+      <span class="nt">&lt;/executions&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+  <span class="nt">&lt;/plugins&gt;</span>
+<span class="nt">&lt;/build&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>总的pom.xml文件为:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span class="nt">&lt;project</span> <span class="na">xmlns=</span><span class="s">&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+         <span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd&#34;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>grpc<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;name&gt;</span>grpc<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;description&gt;</span>Demo project for Spring Boot<span class="nt">&lt;/description&gt;</span>
+
+    <span class="nt">&lt;properties&gt;</span>
+        <span class="nt">&lt;java.version&gt;</span>1.8<span class="nt">&lt;/java.version&gt;</span>
+        <span class="nt">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.build.sourceEncoding&gt;</span>
+        <span class="nt">&lt;project.reporting.outputEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.reporting.outputEncoding&gt;</span>
+        <span class="nt">&lt;spring-boot.version&gt;</span>2.3.7.RELEASE<span class="nt">&lt;/spring-boot.version&gt;</span>
+    <span class="nt">&lt;/properties&gt;</span>
+
+    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-test<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+            <span class="nt">&lt;exclusions&gt;</span>
+                <span class="nt">&lt;exclusion&gt;</span>
+                    <span class="nt">&lt;groupId&gt;</span>org.junit.vintage<span class="nt">&lt;/groupId&gt;</span>
+                    <span class="nt">&lt;artifactId&gt;</span>junit-vintage-engine<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;/exclusion&gt;</span>
+            <span class="nt">&lt;/exclusions&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>grpc-netty-shaded<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>1.38.0<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>grpc-protobuf<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>1.38.0<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>grpc-stub<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>1.38.0<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span> <span class="c">&lt;!-- necessary for Java 9+ --&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.apache.tomcat<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>annotations-api<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>6.0.53<span class="nt">&lt;/version&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;/dependencies&gt;</span>
+
+    <span class="nt">&lt;dependencyManagement&gt;</span>
+        <span class="nt">&lt;dependencies&gt;</span>
+            <span class="nt">&lt;dependency&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>spring-boot-dependencies<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>${spring-boot.version}<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;type&gt;</span>pom<span class="nt">&lt;/type&gt;</span>
+                <span class="nt">&lt;scope&gt;</span>import<span class="nt">&lt;/scope&gt;</span>
+            <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;/dependencies&gt;</span>
+    <span class="nt">&lt;/dependencyManagement&gt;</span>
+
+    <span class="nt">&lt;build&gt;</span>
+        <span class="nt">&lt;extensions&gt;</span>
+            <span class="nt">&lt;extension&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>kr.motd.maven<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>os-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>1.6.2<span class="nt">&lt;/version&gt;</span>
+            <span class="nt">&lt;/extension&gt;</span>
+        <span class="nt">&lt;/extensions&gt;</span>
+        <span class="nt">&lt;plugins&gt;</span>
+            <span class="nt">&lt;plugin&gt;</span>
+                <span class="nt">&lt;groupId&gt;</span>org.xolstice.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+                <span class="nt">&lt;artifactId&gt;</span>protobuf-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+                <span class="nt">&lt;version&gt;</span>0.6.1<span class="nt">&lt;/version&gt;</span>
+                <span class="nt">&lt;configuration&gt;</span>
+                    <span class="nt">&lt;protocArtifact&gt;</span>com.google.protobuf:protoc:3.12.0:exe:${os.detected.classifier}<span class="nt">&lt;/protocArtifact&gt;</span>
+                    <span class="nt">&lt;pluginId&gt;</span>grpc-java<span class="nt">&lt;/pluginId&gt;</span>
+                    <span class="nt">&lt;pluginArtifact&gt;</span>io.grpc:protoc-gen-grpc-java:1.38.0:exe:${os.detected.classifier}<span class="nt">&lt;/pluginArtifact&gt;</span>
+                <span class="nt">&lt;/configuration&gt;</span>
+                <span class="nt">&lt;executions&gt;</span>
+                    <span class="nt">&lt;execution&gt;</span>
+                        <span class="nt">&lt;goals&gt;</span>
+                            <span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
+                            <span class="nt">&lt;goal&gt;</span>compile-custom<span class="nt">&lt;/goal&gt;</span>
+                        <span class="nt">&lt;/goals&gt;</span>
+                    <span class="nt">&lt;/execution&gt;</span>
+                <span class="nt">&lt;/executions&gt;</span>
+            <span class="nt">&lt;/plugin&gt;</span>
+        <span class="nt">&lt;/plugins&gt;</span>
+    <span class="nt">&lt;/build&gt;</span>
+
+<span class="nt">&lt;/project&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>在src/mian目录下增加一个proto目录，并新建一个.proto文件类型的文件。</p>
+<p><img src="/media/grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled%201.png" alt="grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled%201.png"></p>
+<h3 id="定义proto文件">定义proto文件</h3>
+<p>todo 数据类型</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-proto" data-lang="proto"><span class="c1">//.proto文件
+</span><span class="c1"></span><span class="err">
+</span><span class="err"></span><span class="c1">//定义proto的语法
+</span><span class="c1"></span><span class="n">syntax</span><span class="o">=</span><span class="s">&#34;proto3&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">option</span> <span class="n">java_multiple_files</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="c1">//定义java文件放置在哪个包中
+</span><span class="c1"></span><span class="k">option</span> <span class="n">java_package</span> <span class="o">=</span> <span class="s">&#34;com.example.grpc.api&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="k">option</span> <span class="n">java_outer_classname</span> <span class="o">=</span> <span class="s">&#34;HelloService&#34;</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="kn">package</span> <span class="nn">com</span><span class="o">.</span><span class="n">example.grpc.api</span><span class="p">;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c1">//定义服务
+</span><span class="c1"></span><span class="kd">service</span> <span class="n">Hello</span><span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="c1">//定义一个rpc方法，客户端请求参数为HelloRequest，服务端返回数据为HelloResponse
+</span><span class="c1"></span>    <span class="k">rpc</span> <span class="n">SayHello</span><span class="p">(</span><span class="n">HelloRequest</span><span class="p">)</span> <span class="k">returns</span><span class="p">(</span><span class="n">HelloResponse</span><span class="p">){}</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c1">//定义HelloRequest请求参数
+</span><span class="c1"></span><span class="kd">message</span> <span class="nc">HelloRequest</span><span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="c1">//string为数据类型；name为变量名字；1为数字标识，用来标识字段，每个结构体中唯一，不然会报错
+</span><span class="c1"></span>    <span class="kt">string</span> <span class="n">name</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="c1">//定义HelloResponse返回参数
+</span><span class="c1"></span><span class="kd">message</span> <span class="nc">HelloResponse</span><span class="p">{</span><span class="err">
+</span><span class="err"></span>    <span class="kt">string</span> <span class="n">name</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="err">
+</span><span class="err"></span>    <span class="kt">int32</span> <span class="n">age</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span><span class="err">
+</span><span class="err"></span><span class="p">}</span><span class="err">
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="编译">编译</h3>
+<p>接下来编译proto文件。在maven的Lifecycle下找到compile，点击进行编译。</p>
+<p><img src="/media/grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled%202.png" alt="grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled%202.png"></p>
+<p>能看到编译出了java文件</p>
+<p><img src="/media/grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled%203.png" alt="grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled%203.png"></p>
+<h3 id="被client和server端依赖">被client和server端依赖</h3>
+<p>都在client和server的pom.xml文件中添加grpc：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>grpc<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>compile<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>grpc-api<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.27.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>compile<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="client">client</h2>
+<p>定义一个客户端。</p>
+<p>添加一个配置文件，rpc需要运行在一个单独的端口：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-yaml" data-lang="yaml"><span class="nt">spring</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">application</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">client</span><span class="w">
+</span><span class="w"></span><span class="nt">rpc</span><span class="p">:</span><span class="w">
+</span><span class="w">  </span><span class="nt">client</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">11111</span><span class="w">
+</span><span class="w">  </span><span class="nt">server</span><span class="p">:</span><span class="w">
+</span><span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l">localhost</span><span class="w">
+</span><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="m">11112</span><span class="w">
+</span></code></pre></td></tr></table>
+</div>
+</div><p>读取配置文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RPCConfig</span> <span class="o">{</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${rpc.client.port}&#34;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">clientPort</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${rpc.server.address}&#34;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">serverAddress</span><span class="o">;</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${rpc.server.port}&#34;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">serverPort</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getClientPort</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">clientPort</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getServerAddress</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">serverAddress</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getServerPort</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">serverPort</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>客户端向服务器发起请求：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Client</span> <span class="o">{</span>
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">RPCConfig</span> <span class="n">rpcConfig</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sayHello</span><span class="o">(){</span>
+        <span class="n">ManagedChannel</span> <span class="n">managedChannel</span><span class="o">=</span> <span class="n">ManagedChannelBuilder</span><span class="o">.</span><span class="na">forAddress</span><span class="o">(</span><span class="n">rpcConfig</span><span class="o">.</span><span class="na">getServerAddress</span><span class="o">(),</span><span class="n">rpcConfig</span><span class="o">.</span><span class="na">getServerPort</span><span class="o">()).</span><span class="na">usePlaintext</span><span class="o">().</span><span class="na">build</span><span class="o">();</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">HelloGrpc</span><span class="o">.</span><span class="na">HelloBlockingStub</span> <span class="n">helloService</span><span class="o">=</span><span class="n">HelloGrpc</span><span class="o">.</span><span class="na">newBlockingStub</span><span class="o">(</span><span class="n">managedChannel</span><span class="o">);</span>
+            <span class="n">HelloRequest</span> <span class="n">helloRequest</span><span class="o">=</span> <span class="n">HelloRequest</span><span class="o">.</span><span class="na">newBuilder</span><span class="o">()</span>
+                    <span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;name&#34;</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+            <span class="n">HelloResponse</span> <span class="n">helloResponse</span><span class="o">=</span><span class="n">helloService</span><span class="o">.</span><span class="na">sayHello</span><span class="o">(</span><span class="n">helloRequest</span><span class="o">);</span>
+        <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
+            <span class="n">managedChannel</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
+        <span class="o">}</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="定义一个服务端">定义一个服务端</h2>
+<p>添加依赖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>io.grpc<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>grpc-api<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.27.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>compile<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>grpc<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>compile<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>定义一个接受信息的service：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SayHelloService</span> <span class="kd">extends</span> <span class="n">HelloGrpc</span><span class="o">.</span><span class="na">HelloImplBase</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sayHello</span><span class="o">(</span><span class="n">HelloRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">StreamObserver</span><span class="o">&lt;</span><span class="n">HelloResponse</span><span class="o">&gt;</span> <span class="n">responseObserver</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;接受到的信息为：&#34;</span><span class="o">+</span><span class="n">request</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="c1">//返回信息
+</span><span class="c1"></span>        <span class="n">HelloResponse</span> <span class="n">helloResponse</span><span class="o">=</span><span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">helloResponse</span><span class="o">=</span><span class="n">HelloResponse</span>
+                    <span class="o">.</span><span class="na">newBuilder</span><span class="o">()</span>
+                    <span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;name2&#34;</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">11</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+            <span class="n">responseObserver</span><span class="o">.</span><span class="na">onError</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
+            <span class="n">responseObserver</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">helloResponse</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">responseObserver</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>定义配置文件，配置grpc运行的端口：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nl">spring:</span>
+  <span class="n">application</span><span class="o">:</span>
+    <span class="n">name</span><span class="o">:</span> <span class="n">server</span>
+<span class="nl">rpc:</span>
+  <span class="n">server</span><span class="o">:</span>
+    <span class="n">port</span><span class="o">:</span> <span class="n">11112</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>读取配置文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RPCConfig</span> <span class="o">{</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">&#34;${rpc.server.port}&#34;</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">serverPort</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getServerPort</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">serverPort</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>启动一个rpc的服务，添加服务时，需要使用 <code>addService()</code>先注入Service：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="kn">import</span> <span class="nn">io.grpc.Server</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">io.grpc.ServerBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.annotation.PostConstruct</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RPCServer</span> <span class="o">{</span>
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">RPCConfig</span> <span class="n">rpcConfig</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">SayHelloService</span> <span class="n">sayHelloService</span><span class="o">;</span>
+
+    <span class="nd">@PostConstruct</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">InterruptedException</span> <span class="o">{</span>
+        <span class="n">Server</span> <span class="n">server</span><span class="o">=</span><span class="n">ServerBuilder</span>
+                <span class="c1">//服务启动端口
+</span><span class="c1"></span>                <span class="o">.</span><span class="na">forPort</span><span class="o">(</span><span class="n">rpcConfig</span><span class="o">.</span><span class="na">getServerPort</span><span class="o">())</span>
+                <span class="c1">//使用依赖注入的方式添加服务,调用方法时能直接使用依赖注入的方式调用其他服务。
+</span><span class="c1"></span>                <span class="o">.</span><span class="na">addService</span><span class="o">(</span><span class="n">sayHelloService</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">()</span>
+                <span class="c1">//启动服务
+</span><span class="c1"></span>                <span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">server</span><span class="o">.</span><span class="na">awaitTermination</span><span class="o">();</span> <span class="c1">//停止其他线程，等待请求，等待服务器被终止
+</span><span class="c1"></span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>server.awaitTermination()</code> 能在没有其他任务或线程的情况下，保持程序继续运行，防止程序运行后结束。如果客户端还有其他线程或者任务，使用会导致其他线程阻塞。</p>
+<h1 id="测试">测试</h1>
+<p>测试客户端与服务器是否能正常通讯。</p>
+<p>在客户端定义一个定时器：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Task</span> <span class="o">{</span>
+    <span class="nd">@Autowired</span>
+    <span class="n">Client</span> <span class="n">client</span><span class="o">;</span>
+
+    <span class="nd">@Scheduled</span><span class="o">(</span><span class="n">initialDelay</span> <span class="o">=</span> <span class="n">1000</span><span class="o">,</span><span class="n">fixedDelay</span> <span class="o">=</span> <span class="n">60</span><span class="o">*</span><span class="n">1000</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">work</span><span class="o">(){</span>
+        <span class="n">client</span><span class="o">.</span><span class="na">sayHello</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>能看到服务端打印出来了信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">接受到的信息为：name
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="其他">其他</h1>
+<h2 id="依赖注入">依赖注入</h2>
+<p>在 <code>SayHelloService</code> 中使用依赖注入方法调用其他方法。</p>
+<p>定义一个测试的Component：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloHandler</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">work</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">){</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>为<code>SayHelloService</code>添加 <code>@Component</code>注解，并注入 <code>HelloHandler</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SayHelloService</span> <span class="kd">extends</span> <span class="n">HelloGrpc</span><span class="o">.</span><span class="na">HelloImplBase</span> <span class="o">{</span>
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">HelloHandler</span> <span class="n">helloHandler</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">sayHello</span><span class="o">(</span><span class="n">HelloRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">StreamObserver</span><span class="o">&lt;</span><span class="n">HelloResponse</span><span class="o">&gt;</span> <span class="n">responseObserver</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;接受到的信息为：&#34;</span><span class="o">+</span><span class="n">request</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="n">helloHandler</span><span class="o">.</span><span class="na">work</span><span class="o">(</span><span class="n">request</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+        <span class="c1">//返回信息
+</span><span class="c1"></span>        <span class="n">HelloResponse</span> <span class="n">helloResponse</span><span class="o">=</span><span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">helloResponse</span><span class="o">=</span><span class="n">HelloResponse</span>
+                    <span class="o">.</span><span class="na">newBuilder</span><span class="o">()</span>
+                    <span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;name2&#34;</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">setAge</span><span class="o">(</span><span class="n">11</span><span class="o">)</span>
+                    <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">){</span>
+            <span class="n">responseObserver</span><span class="o">.</span><span class="na">onError</span><span class="o">(</span><span class="n">e</span><span class="o">);</span>
+        <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
+            <span class="n">responseObserver</span><span class="o">.</span><span class="na">onNext</span><span class="o">(</span><span class="n">helloResponse</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">responseObserver</span><span class="o">.</span><span class="na">onCompleted</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="传值">传值</h2>
+<p>因为null值不能被序列化，所以如果请求或者返回值的参数中存在null值，可能会导致另一端无响应。</p>
+<h2 id="部署在服务端">部署在服务端</h2>
+<p>如果项目需要部署在服务端的话，为了使maven能够编译通过，有两种方式解决：</p>
+<ol>
+<li>
+<p>将编译出来的grpc.jar包以本地依赖的方式依赖到client和server。建议这个。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>grpc<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>0.0.1-SNAPSHOT<span class="nt">&lt;/version&gt;</span>
+	<span class="nt">&lt;scope&gt;</span>system<span class="nt">&lt;/scope&gt;</span>
+	<span class="nt">&lt;systemPath&gt;</span>${project.basedir}/lib/grpc-0.0.1-SNAPSHOT.jar<span class="nt">&lt;/systemPath&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div></li>
+<li>
+<p>使用maven install的方式手动将grpc.jar安装到maven库</p>
+</li>
+</ol>
+<h2 id="报错">报错</h2>
+<ol>
+<li>
+<p>数字标识重复</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-powershell" data-lang="powershell"><span class="n">PROTOC</span> <span class="n">FAILED</span><span class="err">:</span> <span class="n">grpc</span><span class="p">.</span><span class="n">proto</span><span class="err">:</span><span class="n">28</span><span class="err">:</span><span class="n">21</span><span class="err">:</span> <span class="n">Field</span> <span class="n">number</span> <span class="n">1</span> <span class="n">has</span> <span class="n">already</span> <span class="n">been</span> <span class="n">used</span> <span class="k">in</span> <span class="s2">&#34;XXX&#34;</span> <span class="n">by</span> <span class="n">field</span> <span class="s2">&#34;nodeId&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>原因是数字标识重复使用，每个结构体的数字标识需要唯一：</p>
+</li>
+<li>
+<p>新增服务前需要注册</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">io.grpc.StatusRuntimeException: UNIMPLEMENTED: Method not found: com.example.grpc.api.HelloService/sayHello
+</code></pre></td></tr></table>
+</div>
+</div><p>原因是需要在 <code>RPCServer</code> 中使用 <code>addService()</code> 注册服务 <code>HelloService</code></p>
+</li>
+</ol>
+<h1 id="参考">参考</h1>
+<p><a href="https://www.jianshu.com/p/7d6853140e13">https://www.jianshu.com/p/7d6853140e13</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-06-13 15:36:18
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/rpc/">rpc</a>
+          <a href="/tags/grpc/">grpc</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/goland%E7%9A%84%E8%AE%BE%E7%BD%AE/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Goland的设置</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE/">
+            <span class="next-text nav-default">离线编译maven项目</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

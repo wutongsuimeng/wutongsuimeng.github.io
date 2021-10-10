@@ -16,7 +16,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="梧桐碎梦" /><meta name="description" content="假设项目分布为： D-&amp;gt;Code -&amp;gt;project -&amp;gt;pom.xml：项目位置 |-&amp;gt;Maven -&amp;gt;conf -&amp;gt;settings.xml：maven配置文件的位置 |-&amp;gt;repos" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="本文介绍如何在离线状况下编译maven项目。
+" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,19 +41,19 @@
 
 
 <meta property="og:title" content="离线编译maven项目" />
-<meta property="og:description" content="假设项目分布为： D-&gt;Code -&gt;project -&gt;pom.xml：项目位置 |-&gt;Maven -&gt;conf -&gt;settings.xml：maven配置文件的位置 |-&gt;repos" />
+<meta property="og:description" content="本文介绍如何在离线状况下编译maven项目。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-05-23T15:08:58+08:00" />
 <meta property="article:modified_time" content="2021-05-23T15:08:58+08:00" />
 
 <meta itemprop="name" content="离线编译maven项目">
-<meta itemprop="description" content="假设项目分布为： D-&gt;Code -&gt;project -&gt;pom.xml：项目位置 |-&gt;Maven -&gt;conf -&gt;settings.xml：maven配置文件的位置 |-&gt;repos"><meta itemprop="datePublished" content="2021-05-23T15:08:58+08:00" />
+<meta itemprop="description" content="本文介绍如何在离线状况下编译maven项目。"><meta itemprop="datePublished" content="2021-05-23T15:08:58+08:00" />
 <meta itemprop="dateModified" content="2021-05-23T15:08:58+08:00" />
-<meta itemprop="wordCount" content="833">
+<meta itemprop="wordCount" content="855">
 <meta itemprop="keywords" content="离线,maven," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="离线编译maven项目"/>
-<meta name="twitter:description" content="假设项目分布为： D-&gt;Code -&gt;project -&gt;pom.xml：项目位置 |-&gt;Maven -&gt;conf -&gt;settings.xml：maven配置文件的位置 |-&gt;repos"/>
+<meta name="twitter:description" content="本文介绍如何在离线状况下编译maven项目。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -133,7 +134,7 @@
             <a href="/categories/maven/"> maven </a>
             <a href="/categories/java/"> java </a>
             </div>
-          <span class="more-meta"> 约 833 字 </span>
+          <span class="more-meta"> 约 855 字 </span>
           <span class="more-meta"> 预计阅读 2 分钟 </span>
         
       </div>
@@ -156,7 +157,8 @@
   </div>
 </div>
     <div class="post-content">
-      <p>假设项目分布为：</p>
+      <p>本文介绍如何在离线状况下编译maven项目。</p>
+<p>假设项目分布为：</p>
 <p>D-&gt;Code        -&gt;project -&gt;pom.xml：项目位置</p>
 <p>|-&gt;Maven      -&gt;conf      -&gt;settings.xml：maven配置文件的位置</p>
 <p>|-&gt;repository：存放依赖的位置</p>
@@ -225,7 +227,6 @@
 <p><img src="/media/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE.assets/image-20210523145611591.png" alt="image-20210523145611591"></p>
 <p><img src="/media/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE.assets/image-20210523145712028.png" alt="image-20210523145712028"></p>
 <p>备注：Update项目依赖时，有可能会卡住。这时候需要先update子项目的依赖，再update根项目的依赖。</p>
-
     </div>
 
     <div class="post-copyright">
@@ -249,9 +250,9 @@
           <a href="/tags/maven/">maven</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/%E4%BD%BF%E7%94%A8grpc%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90/">
+        <a class="prev" href="/post/grpc%E7%9A%84%E4%BD%BF%E7%94%A8/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">使用grpc的一个例子</span>
+            <span class="prev-text nav-default">gRPC的使用</span>
             <span class="prev-text nav-mobile">上一篇</span>
           </a>
         <a class="next" href="/post/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub-rescue%E7%9A%84%E9%97%AE%E9%A2%98/">

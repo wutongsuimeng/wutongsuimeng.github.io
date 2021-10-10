@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gateway on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/tags/gateway/</link>
+    <description>Recent content in gateway on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 10 Oct 2021 21:16:29 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/gateway/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用spring cloud，nacos，dubbo，gateway搭建微服务</title>
+      <link>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8spring-cloudnacosdubbogateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/</link>
+      <pubDate>Sun, 10 Oct 2021 21:16:29 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8spring-cloudnacosdubbogateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/</guid>
+      <description>&lt;p&gt;本文使用spring cloud，nacos，dubbo，gateway搭建微服务&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
