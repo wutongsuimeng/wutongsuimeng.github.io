@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>自动化构建一个Go项目 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAgo%E9%A1%B9%E7%9B%AE/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.a659bb31b17a54f7792e1bc783fc75b31118e6a175b42337b03fae0b1a3ef2b5.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="自动化构建一个Go项目" />
+<meta property="og:description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAgo%E9%A1%B9%E7%9B%AE/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2021-10-11T23:58:53+08:00" />
+<meta property="article:modified_time" content="2021-10-11T23:58:53+08:00" />
+
+<meta itemprop="name" content="自动化构建一个Go项目">
+<meta itemprop="description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。"><meta itemprop="datePublished" content="2021-10-11T23:58:53+08:00" />
+<meta itemprop="dateModified" content="2021-10-11T23:58:53+08:00" />
+<meta itemprop="wordCount" content="1009">
+<meta itemprop="keywords" content="gitlab,nacos,jenkins,自动化,运维,Go," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="自动化构建一个Go项目"/>
+<meta name="twitter:description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">自动化构建一个Go项目</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-11 23:58:53 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%BF%90%E7%BB%B4/"> 运维 </a>
+            </div>
+          <span class="more-meta"> 约 1009 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装go">安装Go</a></li>
+    <li><a href="#项目配置">项目配置</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。</p>
+<h1 id="安装go">安装Go</h1>
+<p>因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。</p>
+<p>首先在jenkins安装go插件 <code>Go Plugin</code>。</p>
+<p>然后去全局工具配置，配置go。选择</p>
+<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled.png" alt="Untitled"></p>
+<p>别名这里选择填go，也可以别的。</p>
+<p>标签可以不填。</p>
+<p>压缩包(二进制)的下载URL填了：<a href="https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz">https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz</a>，这是go国内的下载方式。</p>
+<p>解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation</p>
+<p>最后go会安装在 <code>解压目录/go/别名/</code> 下。</p>
+<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%201.png" alt="Untitled"></p>
+<h1 id="项目配置">项目配置</h1>
+<p>配置好之后，新建一个构建一个自由风格的软件项目</p>
+<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%202.png" alt="Untitled"></p>
+<p>然后在源码管理配置git</p>
+<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%203.png" alt="Untitled"></p>
+<p>设置构建触发器，当push事件发生时，gitlab通过webhook触发jenkins进行构建</p>
+<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%204.png" alt="Untitled"></p>
+<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%205.png" alt="Untitled"></p>
+<p>在构建环境中设置go</p>
+<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%206.png" alt="Untitled"></p>
+<p>在构建中，新建执行shell，用户编译go</p>
+<p>执行命令为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="nb">export</span> <span class="nv">GOROOT</span><span class="o">=</span><span class="nv">$JENKINS_HOME</span>/tools/org.jenkinsci.plugins.golang.GolangInstallation/go/go
+<span class="nb">export</span> <span class="nv">GOPATH</span><span class="o">=</span><span class="nv">$WORKSPACE</span>
+<span class="nb">export</span> <span class="nv">GOBIN</span><span class="o">=</span><span class="nv">$GOPATH</span>/bin
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$GOROOT</span>/bin
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span>:<span class="nv">$GOPATH</span>/bin
+<span class="nb">export</span> <span class="nv">GOPROXY</span><span class="o">=</span>https://goproxy.cn,direct
+<span class="nb">cd</span> <span class="nv">$WORKSPACE</span>/go_test
+go build -o ./go_test main.go
+</code></pre></td></tr></table>
+</div>
+</div><p><code>export</code>设置go的环境变量，不然找不到go命令。 <code>GOROOT=$JENKINS_HOME/tools/org.jenkinsci.plugins.golang.GolangInstallation/go/go</code>为go的安装目录，这里使用了jenkins插件安装go的默认路径，<code>$JENKINS_HOME</code>为jenkins存储数据的绝对路径，docker中为 <code>/var/jenkins_home</code>。 <code>$WORKSPACE</code>为当前的工作目录的绝对路径 <code>/var/jenkins_home/workspace/任务名</code></p>
+<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%207.png" alt="Untitled"></p>
+<p>在构建中新增一个Send files or execute commands over SSH。将编译好的包发送到部署服务器，并执行命令。</p>
+<p>Remote directory填入/root/，表示把编译好的go程序发送到该目录。</p>
+<p>在Exec command处填入：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">systemctl stop go_test <span class="o">&amp;&amp;</span> <span class="nb">cd</span>  /home/go_test  <span class="o">&amp;&amp;</span> cp /root/go_test ./  <span class="o">&amp;&amp;</span> systemctl start go_test
+</code></pre></td></tr></table>
+</div>
+</div><p>但是需要注意的是，go编译好的可执行文件需要有可执行的权限，但是从jenkins发送过去的可执行文件是没有可执行的权限，所以如果直接用mv移动覆盖的话，新包会保留自己的权限，所以可以用cp复制的方式，新包就会保留原包的权限。</p>
+<p>到此步就配置好了。</p>
+<h1 id="参考">参考</h1>
+<p><a href="https://juejin.cn/post/6844904152829542413">掘金</a></p>
+<p><a href="https://www.cnblogs.com/you-men/p/14199542.html">Gitlab + Jenkins 构建,发布一个基于Go的Gin测试项目</a></p>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2021-10-11 23:58:53
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/gitlab/">gitlab</a>
+          <a href="/tags/nacos/">nacos</a>
+          <a href="/tags/jenkins/">jenkins</a>
+          <a href="/tags/%E8%87%AA%E5%8A%A8%E5%8C%96/">自动化</a>
+          <a href="/tags/%E8%BF%90%E7%BB%B4/">运维</a>
+          <a href="/tags/go/">Go</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/elk-stackelasticsearchkibanabeats-%E5%92%8C-logstash%E6%90%AD%E5%BB%BA/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">ELK Stack(Elasticsearch、Kibana、Beats 和 Logstash)搭建日志收集系统</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/gitlabjenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4/">
+            <span class="next-text nav-default">gitlab、jenkins搭建自动化运维</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
