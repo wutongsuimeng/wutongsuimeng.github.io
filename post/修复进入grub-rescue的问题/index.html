@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="梧桐碎梦" /><meta name="description" content="重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: 1 2 3 4 5 6 7 8 9 10 11 # 列出所有磁盘 &amp;gt; ls &amp;gt; (hd0,gpt1) (hd0,gpt2) # 一个" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: # 列出所有磁盘 &amp;gt; ls &amp;gt; (hd0,gpt1) (hd0,gpt2) # 一个一个查看磁盘里面的内容" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -35,24 +35,24 @@
 
 
 
-<link href="/sass/main.min.a659bb31b17a54f7792e1bc783fc75b31118e6a175b42337b03fae0b1a3ef2b5.css" rel="stylesheet">
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
 <meta property="og:title" content="修复进入grub rescue的问题" />
-<meta property="og:description" content="重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: 1 2 3 4 5 6 7 8 9 10 11 # 列出所有磁盘 &gt; ls &gt; (hd0,gpt1) (hd0,gpt2) # 一个" />
+<meta property="og:description" content="重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: # 列出所有磁盘 &gt; ls &gt; (hd0,gpt1) (hd0,gpt2) # 一个一个查看磁盘里面的内容" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub-rescue%E7%9A%84%E9%97%AE%E9%A2%98/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-03-21T17:37:56+08:00" />
 <meta property="article:modified_time" content="2021-03-21T17:37:56+08:00" />
 
 <meta itemprop="name" content="修复进入grub rescue的问题">
-<meta itemprop="description" content="重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: 1 2 3 4 5 6 7 8 9 10 11 # 列出所有磁盘 &gt; ls &gt; (hd0,gpt1) (hd0,gpt2) # 一个"><meta itemprop="datePublished" content="2021-03-21T17:37:56+08:00" />
+<meta itemprop="description" content="重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: # 列出所有磁盘 &gt; ls &gt; (hd0,gpt1) (hd0,gpt2) # 一个一个查看磁盘里面的内容"><meta itemprop="datePublished" content="2021-03-21T17:37:56+08:00" />
 <meta itemprop="dateModified" content="2021-03-21T17:37:56+08:00" />
-<meta itemprop="wordCount" content="208">
+<meta itemprop="wordCount" content="193">
 <meta itemprop="keywords" content="linux," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="修复进入grub rescue的问题"/>
-<meta name="twitter:description" content="重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: 1 2 3 4 5 6 7 8 9 10 11 # 列出所有磁盘 &gt; ls &gt; (hd0,gpt1) (hd0,gpt2) # 一个"/>
+<meta name="twitter:description" content="重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: # 列出所有磁盘 &gt; ls &gt; (hd0,gpt1) (hd0,gpt2) # 一个一个查看磁盘里面的内容"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -132,7 +132,7 @@
         <div class="post-category">
             <a href="/categories/linux/"> linux </a>
             </div>
-          <span class="more-meta"> 约 208 字 </span>
+          <span class="more-meta"> 约 193 字 </span>
           <span class="more-meta"> 预计阅读 1 分钟 </span>
         
       </div>
@@ -149,51 +149,26 @@
 <p><code>error :file '/boot/grub/x86_64-efi/normal.mod' not found</code></p>
 <p><img src="/media/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg" alt="%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg"></p>
 <p>解决办法:</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 列出所有磁盘</span>
+<pre><code class="language-bash"># 列出所有磁盘
 &gt; ls
-&gt; <span class="o">(</span>hd0,gpt1<span class="o">)</span> <span class="o">(</span>hd0,gpt2<span class="o">)</span>
-<span class="c1"># 一个一个查看磁盘里面的内容,找到grub所在位置,如果有提示/boot,/grub,即很有可能便是grub的位置</span>
-&gt; ls <span class="o">(</span>hd0,gpt2<span class="o">)</span>/
+&gt; (hd0,gpt1) (hd0,gpt2)
+# 一个一个查看磁盘里面的内容,找到grub所在位置,如果有提示/boot,/grub,即很有可能便是grub的位置
+&gt; ls (hd0,gpt2)/
 &gt; ./ ../ boot/ dev/ 
-<span class="c1"># 设置为启动分区</span>
-&gt; <span class="nb">set</span> <span class="nv">prefix</span><span class="o">=(</span>hd0,gpt2<span class="o">)</span>/boot/grub
-&gt; <span class="nb">set</span> <span class="nv">root</span><span class="o">=</span>hd0,gpt5
+# 设置为启动分区
+&gt; set prefix=(hd0,gpt2)/boot/grub
+&gt; set root=hd0,gpt5
 &gt; insmod normal
 &gt; normal
-</code></pre></td></tr></table>
-</div>
-</div><p>之后便会重启系统</p>
+</code></pre>
+<p>之后便会重启系统</p>
 <p>进入到系统之后,重新安装grub</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-bash" data-lang="bash"><span class="c1"># 查看/boot/efi的挂载点</span>
+<pre><code class="language-bash"># 查看/boot/efi的挂载点
 &gt; df
-<span class="c1"># 安装grub</span>
+# 安装grub
 &gt; sudo grub-install /dev/sda1
-</code></pre></td></tr></table>
-</div>
-</div>
+</code></pre>
+
     </div>
 
     <div class="post-copyright">
@@ -268,14 +243,14 @@
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
 
 
 

@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.a659bb31b17a54f7792e1bc783fc75b31118e6a175b42337b03fae0b1a3ef2b5.css" rel="stylesheet">
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="Mysql压缩版的安装">
 <meta itemprop="description" content="下载mysql 下载地址：https://dev.mysql.com/downloads/mysql/ 把下载好的压缩文件解压放到一个不含中文路"><meta itemprop="datePublished" content="2021-03-13T20:11:46+08:00" />
 <meta itemprop="dateModified" content="2021-03-13T20:11:46+08:00" />
-<meta itemprop="wordCount" content="303">
+<meta itemprop="wordCount" content="294">
 <meta itemprop="keywords" content="mysql," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Mysql压缩版的安装"/>
 <meta name="twitter:description" content="下载mysql 下载地址：https://dev.mysql.com/downloads/mysql/ 把下载好的压缩文件解压放到一个不含中文路"/>
@@ -132,7 +132,7 @@
         <div class="post-category">
             <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"> 数据库 </a>
             </div>
-          <span class="more-meta"> 约 303 字 </span>
+          <span class="more-meta"> 约 294 字 </span>
           <span class="more-meta"> 预计阅读 1 分钟 </span>
         
       </div>
@@ -157,71 +157,37 @@
 <ol start="2">
 <li>安装mysql服务：</li>
 </ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">mysqld</span> <span class="o">--</span><span class="n">install</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%203.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%203.png"></p>
+<pre><code class="language-java">mysqld --install
+</code></pre>
+<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%203.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%203.png"></p>
 <p>这便是成功安装。</p>
 <ol start="3">
 <li>初始化mysql，注意要等几分钟，不要把窗口关了，这里会初始化一个密码，需要记住：</li>
 </ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">mysqld</span> <span class="o">--</span><span class="n">initialize</span> <span class="o">--</span><span class="n">console</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%204.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%204.png"></p>
+<pre><code class="language-java">mysqld --initialize --console
+</code></pre>
+<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%204.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%204.png"></p>
 <ol start="4">
 <li>然后启动mysql服务：</li>
 </ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">net</span> <span class="n">start</span> <span class="n">Mysql</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%205.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%205.png"></p>
+<pre><code class="language-java">net start Mysql
+</code></pre>
+<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%205.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%205.png"></p>
 <p>说明服务已经启动成功。</p>
 <ol start="5">
 <li>修改mysql初始密码：</li>
 </ol>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="c1">//登录mysql
-</span><span class="c1"></span><span class="n">mysql</span> <span class="o">-</span><span class="n">u</span> <span class="n">root</span> <span class="o">-</span><span class="n">p</span>
-<span class="c1">//输入那个初始化的密码
-</span><span class="c1">//修改root用户的密码为root
-</span><span class="c1"></span><span class="n">alter</span> <span class="n">user</span> <span class="err">&#39;</span><span class="n">root</span><span class="sc">&#39;@&#39;</span><span class="n">localhost</span><span class="err">&#39;</span> <span class="n">identified</span> <span class="n">by</span> <span class="err">&#39;</span><span class="n">root</span><span class="err">&#39;</span><span class="o">;</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%206.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%206.png"></p>
+<pre><code class="language-java">//登录mysql
+mysql -u root -p
+//输入那个初始化的密码
+//修改root用户的密码为root
+alter user 'root'@'localhost' identified by 'root';
+</code></pre>
+<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%206.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%206.png"></p>
 <p>离开mysql</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-java" data-lang="java"><span class="n">exit</span>
-</code></pre></td></tr></table>
-</div>
-</div><ol start="6">
+<pre><code class="language-java">exit
+</code></pre>
+<ol start="6">
 <li>验证密码已经修改成功，用新的密码登录mysql：</li>
 </ol>
 <p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%207.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%207.png"></p>
@@ -301,14 +267,14 @@
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
 
 
 

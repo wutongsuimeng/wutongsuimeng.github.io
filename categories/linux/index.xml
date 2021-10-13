@@ -13,7 +13,7 @@
       <pubDate>Sun, 21 Mar 2021 17:37:56 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub-rescue%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
-      <description>重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: 1 2 3 4 5 6 7 8 9 10 11 # 列出所有磁盘 &amp;gt; ls &amp;gt; (hd0,gpt1) (hd0,gpt2) # 一个</description>
+      <description>重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: # 列出所有磁盘 &amp;gt; ls &amp;gt; (hd0,gpt1) (hd0,gpt2) # 一个一个查看磁盘里面的内容</description>
     </item>
     
     <item>
@@ -22,7 +22,7 @@
       <pubDate>Mon, 08 Mar 2021 19:52:06 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
-      <description>更改虚拟机的网络模式为桥接模式 关闭防火墙 1 service iptables stop 重启虚拟机，使用命令查看当前ip 1 ifconfig 使用该ip在物理机访问即可访问到虚拟机的web服务。</description>
+      <description>更改虚拟机的网络模式为桥接模式 关闭防火墙 service iptables stop 重启虚拟机，使用命令查看当前ip ifconfig 使用该ip在物理机访问即可访问到虚拟机的web服务。</description>
     </item>
     
   </channel>

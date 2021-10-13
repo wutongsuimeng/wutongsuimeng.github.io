@@ -36,7 +36,7 @@
 
 
 
-<link href="/sass/main.min.a659bb31b17a54f7792e1bc783fc75b31118e6a175b42337b03fae0b1a3ef2b5.css" rel="stylesheet">
+<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -50,7 +50,7 @@
 <meta itemprop="name" content="离线编译maven项目">
 <meta itemprop="description" content="本文介绍如何在离线状况下编译maven项目。"><meta itemprop="datePublished" content="2021-05-23T15:08:58+08:00" />
 <meta itemprop="dateModified" content="2021-05-23T15:08:58+08:00" />
-<meta itemprop="wordCount" content="855">
+<meta itemprop="wordCount" content="839">
 <meta itemprop="keywords" content="离线,maven," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="离线编译maven项目"/>
 <meta name="twitter:description" content="本文介绍如何在离线状况下编译maven项目。"/>
@@ -134,7 +134,7 @@
             <a href="/categories/maven/"> maven </a>
             <a href="/categories/java/"> java </a>
             </div>
-          <span class="more-meta"> 约 855 字 </span>
+          <span class="more-meta"> 约 839 字 </span>
           <span class="more-meta"> 预计阅读 2 分钟 </span>
         
       </div>
@@ -164,53 +164,27 @@
 <p>|-&gt;repository：存放依赖的位置</p>
 <h1 id="命令行编译">命令行编译</h1>
 <p>先配置maven的配置文件：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-xml" data-lang="xml"><span class="c">&lt;!--settings.xml--&gt;</span>
+<pre><code class="language-xml">&lt;!--settings.xml--&gt;
 
-<span class="cp">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 
-<span class="nt">&lt;settings</span> <span class="na">xmlns=</span><span class="s">&#34;http://maven.apache.org/SETTINGS/1.0.0&#34;</span>
-          <span class="na">xmlns:xsi=</span><span class="s">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
-          <span class="na">xsi:schemaLocation=</span><span class="s">&#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&#34;</span><span class="nt">&gt;</span>
+&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;
+          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
  
-  <span class="nt">&lt;localRepository&gt;</span>D:\repository<span class="nt">&lt;/localRepository&gt;</span>
+  &lt;localRepository&gt;D:\repository&lt;/localRepository&gt;
   
-  <span class="nt">&lt;offline&gt;</span>true<span class="nt">&lt;/offline&gt;</span>
+  &lt;offline&gt;true&lt;/offline&gt;
 
-<span class="nt">&lt;/settings&gt;</span>
+&lt;/settings&gt;
 
 
-</code></pre></td></tr></table>
-</div>
-</div><p><code>localRepository</code>设置本地仓库位置，<code>offline</code>设置离线模式。</p>
+</code></pre>
+<p><code>localRepository</code>设置本地仓库位置，<code>offline</code>设置离线模式。</p>
 <p>然后在命令行中打开项目的位置，即pom.xml文件所在的位置下，使用命令编译项目：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-shell" data-lang="shell">$ mvn clean package -s <span class="s2">&#34;D:/Maven/conf/settings.xml&#34;</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><code>-s</code>设置maven配置文件的位置。</p>
+<pre><code class="language-shell">$ mvn clean package -s &quot;D:/Maven/conf/settings.xml&quot;
+</code></pre>
+<p><code>-s</code>设置maven配置文件的位置。</p>
 <h1 id="eclipse编译">Eclipse编译</h1>
 <p>同样是先配置maven的配置文件，同上。</p>
 <p>打开workspace，选择项目的上一级目录。</p>
@@ -302,14 +276,14 @@
       <i class="iconfont icon-up"></i>
     </div>
   </div>
-  
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
 
 
-<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
 
 
 
