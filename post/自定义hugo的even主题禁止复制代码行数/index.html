@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -49,7 +49,7 @@
 <meta itemprop="name" content="自定义hugo的even主题，禁止复制代码行数">
 <meta itemprop="description" content="hugo是一个静态网站生成框架，基于go实现。 hugo-theme-even是一个hugo的主题。 因为even默认生成的代码存在代码行数，但"><meta itemprop="datePublished" content="2021-10-13T23:18:11+08:00" />
 <meta itemprop="dateModified" content="2021-10-13T23:18:11+08:00" />
-<meta itemprop="wordCount" content="487">
+<meta itemprop="wordCount" content="485">
 <meta itemprop="keywords" content="Hugo,even," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="自定义hugo的even主题，禁止复制代码行数"/>
 <meta name="twitter:description" content="hugo是一个静态网站生成框架，基于go实现。 hugo-theme-even是一个hugo的主题。 因为even默认生成的代码存在代码行数，但"/>
@@ -132,7 +132,7 @@
         <div class="post-category">
             <a href="/categories/hugo/"> Hugo </a>
             </div>
-          <span class="more-meta"> 约 487 字 </span>
+          <span class="more-meta"> 约 485 字 </span>
           <span class="more-meta"> 预计阅读 1 分钟 </span>
         
       </div>
@@ -151,45 +151,43 @@
 <p>因为需要修改assets目录里面的文件，所以需要hugo extended版，可使用命令 <code>hugo</code>查看版本。</p>
 <p>even默认代码高亮为chroma，所以我们先禁用chroma，并启用highlight作为代码高亮。</p>
 <p>修改config.toml配置文件:</p>
-<pre><code class="language-toml"># 将下面配置设置为false
-pygmentsCodefences = false
-pygmentsUseClasses = false
-pygmentsCodefencesGuessSyntax = false
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml"><span style="color:#75715e"># 将下面配置设置为false</span>
+<span style="color:#a6e22e">pygmentsCodefences</span> = <span style="color:#66d9ef">false</span>
+<span style="color:#a6e22e">pygmentsUseClasses</span> = <span style="color:#66d9ef">false</span>
+<span style="color:#a6e22e">pygmentsCodefencesGuessSyntax</span> = <span style="color:#66d9ef">false</span>
 
-#将下面配置设置为true
-highlightInClient = true
-</code></pre>
-<p>然后修改assets\js目录下面的even.js文件，使得代码行数禁止复制：</p>
-<pre><code class="language-javascript">Even.highlight = function() {
-  const blocks = document.querySelectorAll('pre code');
-  for (let i = 0; i &lt; blocks.length; i++) {
-    const block = blocks[i];
-    const rootElement = block.parentElement;
-    const lineCodes = block.innerHTML.split(/\\n/);
-    if (lineCodes[lineCodes.length - 1] === '') lineCodes.pop();
-    const lineLength = lineCodes.length;
+<span style="color:#75715e">#将下面配置设置为true</span>
+<span style="color:#a6e22e">highlightInClient</span> = <span style="color:#66d9ef">true</span>
+</code></pre></div><p>然后修改assets\js目录下面的even.js文件，使得代码行数禁止复制：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">Even</span>.<span style="color:#a6e22e">highlight</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
+  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">blocks</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelectorAll</span>(<span style="color:#e6db74">&#39;pre code&#39;</span>);
+  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">blocks</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">block</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">blocks</span>[<span style="color:#a6e22e">i</span>];
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">rootElement</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">parentElement</span>;
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lineCodes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">innerHTML</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">/\\n/</span>);
+    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">lineCodes</span>[<span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;&#39;</span>) <span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">pop</span>();
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lineLength</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">length</span>;
 
-    let codeLineHtml = '';
-    for (let i = 0; i &lt; lineLength; i++) {
-      codeLineHtml += `&lt;div class=&quot;line&quot;&gt;${i + 1}&lt;/div&gt;`;
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">codeLineHtml</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lineLength</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+      <span style="color:#a6e22e">codeLineHtml</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&lt;div class=&#34;line&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/div&gt;`</span>;
     }
 
-    let codeHtml = '';
-    for (let i = 0; i &lt; lineLength; i++) {
-      codeHtml += `&lt;div class=&quot;line&quot;&gt;${lineCodes[i]}&lt;/div&gt;`;
+    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">codeHtml</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lineLength</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
+      <span style="color:#a6e22e">codeHtml</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&lt;div class=&#34;line&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">lineCodes</span>[<span style="color:#a6e22e">i</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/div&gt;`</span>;
     }
 
-    block.className += ' highlight';
-    const figure = document.createElement('figure');
-    figure.className = block.className;
-		//修改该行代码，添加style=&quot;user-select:none&quot;
-    figure.innerHTML = `&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre style=&quot;user-select:none&quot;&gt;${codeLineHtml}&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;${codeHtml}&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;`;
+    <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39; highlight&#39;</span>;
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">figure</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;figure&#39;</span>);
+    <span style="color:#a6e22e">figure</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">className</span>;
+		<span style="color:#75715e">//修改该行代码，添加style=&#34;user-select:none&#34;
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">figure</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre style=&#34;user-select:none&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">codeLineHtml</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">codeHtml</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;`</span>;
 
-    rootElement.parentElement.replaceChild(figure, rootElement);
+    <span style="color:#a6e22e">rootElement</span>.<span style="color:#a6e22e">parentElement</span>.<span style="color:#a6e22e">replaceChild</span>(<span style="color:#a6e22e">figure</span>, <span style="color:#a6e22e">rootElement</span>);
   }
 };
-</code></pre>
-<p>重新编译，能看到复制代码时不再复制代码行数。</p>
+</code></pre></div><p>重新编译，能看到复制代码时不再复制代码行数。</p>
 
     </div>
 
@@ -214,7 +212,11 @@ highlightInClient = true
           <a href="/tags/even/">even</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">判断ip是否在某ip范围内</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         <a class="next" href="/post/elk-stackelasticsearchkibanabeats-%E5%92%8C-logstash%E6%90%AD%E5%BB%BA/">
             <span class="next-text nav-default">ELK Stack(Elasticsearch、Kibana、Beats 和 Logstash)搭建日志收集系统</span>
             <span class="next-text nav-mobile">下一篇</span>
@@ -269,7 +271,7 @@ highlightInClient = true
 
 
 
-<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
 
 
 

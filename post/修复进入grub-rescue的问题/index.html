@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -149,26 +149,24 @@
 <p><code>error :file '/boot/grub/x86_64-efi/normal.mod' not found</code></p>
 <p><img src="/media/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg" alt="%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg"></p>
 <p>解决办法:</p>
-<pre><code class="language-bash"># 列出所有磁盘
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 列出所有磁盘</span>
 &gt; ls
-&gt; (hd0,gpt1) (hd0,gpt2)
-# 一个一个查看磁盘里面的内容,找到grub所在位置,如果有提示/boot,/grub,即很有可能便是grub的位置
-&gt; ls (hd0,gpt2)/
+&gt; <span style="color:#f92672">(</span>hd0,gpt1<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>hd0,gpt2<span style="color:#f92672">)</span>
+<span style="color:#75715e"># 一个一个查看磁盘里面的内容,找到grub所在位置,如果有提示/boot,/grub,即很有可能便是grub的位置</span>
+&gt; ls <span style="color:#f92672">(</span>hd0,gpt2<span style="color:#f92672">)</span>/
 &gt; ./ ../ boot/ dev/ 
-# 设置为启动分区
-&gt; set prefix=(hd0,gpt2)/boot/grub
-&gt; set root=hd0,gpt5
+<span style="color:#75715e"># 设置为启动分区</span>
+&gt; set prefix<span style="color:#f92672">=(</span>hd0,gpt2<span style="color:#f92672">)</span>/boot/grub
+&gt; set root<span style="color:#f92672">=</span>hd0,gpt5
 &gt; insmod normal
 &gt; normal
-</code></pre>
-<p>之后便会重启系统</p>
+</code></pre></div><p>之后便会重启系统</p>
 <p>进入到系统之后,重新安装grub</p>
-<pre><code class="language-bash"># 查看/boot/efi的挂载点
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 查看/boot/efi的挂载点</span>
 &gt; df
-# 安装grub
+<span style="color:#75715e"># 安装grub</span>
 &gt; sudo grub-install /dev/sda1
-</code></pre>
-
+</code></pre></div>
     </div>
 
     <div class="post-copyright">
@@ -250,7 +248,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
 
 
 

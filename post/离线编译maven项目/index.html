@@ -36,7 +36,7 @@
 
 
 
-<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -164,27 +164,25 @@
 <p>|-&gt;repository：存放依赖的位置</p>
 <h1 id="命令行编译">命令行编译</h1>
 <p>先配置maven的配置文件：</p>
-<pre><code class="language-xml">&lt;!--settings.xml--&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!--settings.xml--&gt;</span>
 
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 
-&lt;settings xmlns=&quot;http://maven.apache.org/SETTINGS/1.0.0&quot;
-          xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-          xsi:schemaLocation=&quot;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&quot;&gt;
+<span style="color:#f92672">&lt;settings</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://maven.apache.org/SETTINGS/1.0.0&#34;</span>
+          <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+          <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&#34;</span><span style="color:#f92672">&gt;</span>
  
-  &lt;localRepository&gt;D:\repository&lt;/localRepository&gt;
+  <span style="color:#f92672">&lt;localRepository&gt;</span>D:\repository<span style="color:#f92672">&lt;/localRepository&gt;</span>
   
-  &lt;offline&gt;true&lt;/offline&gt;
+  <span style="color:#f92672">&lt;offline&gt;</span>true<span style="color:#f92672">&lt;/offline&gt;</span>
 
-&lt;/settings&gt;
+<span style="color:#f92672">&lt;/settings&gt;</span>
 
 
-</code></pre>
-<p><code>localRepository</code>设置本地仓库位置，<code>offline</code>设置离线模式。</p>
+</code></pre></div><p><code>localRepository</code>设置本地仓库位置，<code>offline</code>设置离线模式。</p>
 <p>然后在命令行中打开项目的位置，即pom.xml文件所在的位置下，使用命令编译项目：</p>
-<pre><code class="language-shell">$ mvn clean package -s &quot;D:/Maven/conf/settings.xml&quot;
-</code></pre>
-<p><code>-s</code>设置maven配置文件的位置。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ mvn clean package -s <span style="color:#e6db74">&#34;D:/Maven/conf/settings.xml&#34;</span>
+</code></pre></div><p><code>-s</code>设置maven配置文件的位置。</p>
 <h1 id="eclipse编译">Eclipse编译</h1>
 <p>同样是先配置maven的配置文件，同上。</p>
 <p>打开workspace，选择项目的上一级目录。</p>
@@ -283,7 +281,7 @@
 
 
 
-<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
 
 
 

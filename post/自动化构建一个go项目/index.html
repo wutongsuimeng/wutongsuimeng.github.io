@@ -36,7 +36,7 @@
 
 
 
-<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -176,23 +176,21 @@
 <p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%206.png" alt="Untitled"></p>
 <p>在构建中，新建执行shell，用户编译go</p>
 <p>执行命令为：</p>
-<pre><code class="language-bash">export GOROOT=$JENKINS_HOME/tools/org.jenkinsci.plugins.golang.GolangInstallation/go/go
-export GOPATH=$WORKSPACE
-export GOBIN=$GOPATH/bin
-export PATH=$PATH:$GOROOT/bin
-export PATH=$PATH:$GOPATH/bin
-export GOPROXY=https://goproxy.cn,direct
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export GOROOT<span style="color:#f92672">=</span>$JENKINS_HOME/tools/org.jenkinsci.plugins.golang.GolangInstallation/go/go
+export GOPATH<span style="color:#f92672">=</span>$WORKSPACE
+export GOBIN<span style="color:#f92672">=</span>$GOPATH/bin
+export PATH<span style="color:#f92672">=</span>$PATH:$GOROOT/bin
+export PATH<span style="color:#f92672">=</span>$PATH:$GOPATH/bin
+export GOPROXY<span style="color:#f92672">=</span>https://goproxy.cn,direct
 cd $WORKSPACE/go_test
 go build -o ./go_test main.go
-</code></pre>
-<p><code>export</code>设置go的环境变量，不然找不到go命令。 <code>GOROOT=$JENKINS_HOME/tools/org.jenkinsci.plugins.golang.GolangInstallation/go/go</code>为go的安装目录，这里使用了jenkins插件安装go的默认路径，<code>$JENKINS_HOME</code>为jenkins存储数据的绝对路径，docker中为 <code>/var/jenkins_home</code>。 <code>$WORKSPACE</code>为当前的工作目录的绝对路径 <code>/var/jenkins_home/workspace/任务名</code></p>
+</code></pre></div><p><code>export</code>设置go的环境变量，不然找不到go命令。 <code>GOROOT=$JENKINS_HOME/tools/org.jenkinsci.plugins.golang.GolangInstallation/go/go</code>为go的安装目录，这里使用了jenkins插件安装go的默认路径，<code>$JENKINS_HOME</code>为jenkins存储数据的绝对路径，docker中为 <code>/var/jenkins_home</code>。 <code>$WORKSPACE</code>为当前的工作目录的绝对路径 <code>/var/jenkins_home/workspace/任务名</code></p>
 <p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%207.png" alt="Untitled"></p>
 <p>在构建中新增一个Send files or execute commands over SSH。将编译好的包发送到部署服务器，并执行命令。</p>
 <p>Remote directory填入/root/，表示把编译好的go程序发送到该目录。</p>
 <p>在Exec command处填入：</p>
-<pre><code class="language-bash">systemctl stop go_test &amp;&amp; cd  /home/go_test  &amp;&amp; cp /root/go_test ./  &amp;&amp; systemctl start go_test
-</code></pre>
-<p>但是需要注意的是，go编译好的可执行文件需要有可执行的权限，但是从jenkins发送过去的可执行文件是没有可执行的权限，所以如果直接用mv移动覆盖的话，新包会保留自己的权限，所以可以用cp复制的方式，新包就会保留原包的权限。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">systemctl stop go_test <span style="color:#f92672">&amp;&amp;</span> cd  /home/go_test  <span style="color:#f92672">&amp;&amp;</span> cp /root/go_test ./  <span style="color:#f92672">&amp;&amp;</span> systemctl start go_test
+</code></pre></div><p>但是需要注意的是，go编译好的可执行文件需要有可执行的权限，但是从jenkins发送过去的可执行文件是没有可执行的权限，所以如果直接用mv移动覆盖的话，新包会保留自己的权限，所以可以用cp复制的方式，新包就会保留原包的权限。</p>
 <p>到此步就配置好了。</p>
 <h1 id="参考">参考</h1>
 <p><a href="https://juejin.cn/post/6844904152829542413">掘金</a></p>
@@ -283,7 +281,7 @@ go build -o ./go_test main.go
 
 
 
-<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
 
 
 

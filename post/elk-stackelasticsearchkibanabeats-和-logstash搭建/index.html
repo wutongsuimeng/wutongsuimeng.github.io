@@ -39,7 +39,7 @@ Logstash用于集中、转换和存储数据。
 
 
 
-<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -59,7 +59,7 @@ Kibana用于展示数据。
 Beats用于收集数据。
 Logstash用于集中、转换和存储数据。"><meta itemprop="datePublished" content="2021-10-11T23:59:00+08:00" />
 <meta itemprop="dateModified" content="2021-10-11T23:59:00+08:00" />
-<meta itemprop="wordCount" content="5814">
+<meta itemprop="wordCount" content="5809">
 <meta itemprop="keywords" content="Elasticsearch,Kibana,Beats,Logstash,日志系统," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ELK Stack(Elasticsearch、Kibana、Beats 和 Logstash)搭建日志收集系统"/>
 <meta name="twitter:description" content="Elasticsearch用于搜索、分析数据。
@@ -145,7 +145,7 @@ Logstash用于集中、转换和存储数据。"/>
         <div class="post-category">
             <a href="/categories/%E8%BF%90%E7%BB%B4/"> 运维 </a>
             </div>
-          <span class="more-meta"> 约 5814 字 </span>
+          <span class="more-meta"> 约 5809 字 </span>
           <span class="more-meta"> 预计阅读 12 分钟 </span>
         
       </div>
@@ -213,39 +213,35 @@ Logstash用于集中、转换和存储数据。"/>
 <h1 id="使用docker搭建elk">使用Docker搭建ELK</h1>
 <h2 id="新建配置文件">新建配置文件</h2>
 <p>在elastic/config目录下，创建ElasticSearch的配置文件：</p>
-<pre><code class="language-yaml"># es01.yml
-cluster.name: &quot;docker-cluster&quot;
-network.host: 0.0.0.0
-</code></pre>
-<p>同目录下创建kibnana的配置文件：</p>
-<pre><code class="language-yaml"># kib01.yml
-server.host: &quot;0&quot;
-elasticsearch.hosts: [ &quot;http://elasticsearch:9200&quot; ]
-monitoring.ui.container.elasticsearch.enabled: true
-xpack.encryptedSavedObjects.encryptionKey: b014b39f62fd1d9a0b1dac766c0e51f5
-xpack.reporting.encryptionKey: 9e069cbc6b68796799f96f057ce6c5f5
-xpack.security.encryptionKey: 1e0cf9eb23cbfd00d8ba113cb5327bb5
-</code></pre>
-<p>在elastic/config/logstash目录下，创建logstash的配置文件：</p>
-<pre><code class="language-yaml"># logstash.yml
-http.host: &quot;0.0.0.0&quot;
-xpack.monitoring.elasticsearch.hosts: [ &quot;https://es01:9200&quot; ]
-xpack.monitoring.enabled: true
-xpack.monitoring.elasticsearch.username: elastic
-xpack.monitoring.elasticsearch.password: TsfYfefVTuDfwDg3IITK
-xpack.monitoring.elasticsearch.ssl.certificate_authority: /usr/share/elasticsearch/config/certificates/ca/ca.crt
-</code></pre>
-<p>在同目录下，创建logstash管理pipeline的配置文件：</p>
-<pre><code class="language-yaml"># pipelines.yml
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># es01.yml</span>
+<span style="color:#f92672">cluster.name</span>: <span style="color:#e6db74">&#34;docker-cluster&#34;</span>
+<span style="color:#f92672">network.host</span>: <span style="color:#ae81ff">0.0.0.0</span>
+</code></pre></div><p>同目录下创建kibnana的配置文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># kib01.yml</span>
+<span style="color:#f92672">server.host</span>: <span style="color:#e6db74">&#34;0&#34;</span>
+<span style="color:#f92672">elasticsearch.hosts</span>: [ <span style="color:#e6db74">&#34;http://elasticsearch:9200&#34;</span> ]
+<span style="color:#f92672">monitoring.ui.container.elasticsearch.enabled</span>: <span style="color:#66d9ef">true</span>
+<span style="color:#f92672">xpack.encryptedSavedObjects.encryptionKey</span>: <span style="color:#ae81ff">b014b39f62fd1d9a0b1dac766c0e51f5</span>
+<span style="color:#f92672">xpack.reporting.encryptionKey</span>: <span style="color:#ae81ff">9e069cbc6b68796799f96f057ce6c5f5</span>
+<span style="color:#f92672">xpack.security.encryptionKey</span>: <span style="color:#ae81ff">1e0cf9eb23cbfd00d8ba113cb5327bb5</span>
+</code></pre></div><p>在elastic/config/logstash目录下，创建logstash的配置文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># logstash.yml</span>
+<span style="color:#f92672">http.host</span>: <span style="color:#e6db74">&#34;0.0.0.0&#34;</span>
+<span style="color:#f92672">xpack.monitoring.elasticsearch.hosts</span>: [ <span style="color:#e6db74">&#34;https://es01:9200&#34;</span> ]
+<span style="color:#f92672">xpack.monitoring.enabled</span>: <span style="color:#66d9ef">true</span>
+<span style="color:#f92672">xpack.monitoring.elasticsearch.username</span>: <span style="color:#ae81ff">elastic</span>
+<span style="color:#f92672">xpack.monitoring.elasticsearch.password</span>: <span style="color:#ae81ff">TsfYfefVTuDfwDg3IITK</span>
+<span style="color:#f92672">xpack.monitoring.elasticsearch.ssl.certificate_authority</span>: <span style="color:#ae81ff">/usr/share/elasticsearch/config/certificates/ca/ca.crt</span>
+</code></pre></div><p>在同目录下，创建logstash管理pipeline的配置文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># pipelines.yml</span>
 
-# This file is where you define your pipelines. You can define multiple.
-# # For more information on multiple pipelines, see the documentation:
-# #   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html
-#
-- pipeline.id: main
-  path.config: &quot;/usr/share/logstash/pipeline&quot;
-</code></pre>
-<p>在elastic/config/logstash/pipeline目录下，创建logstash收集器配置文件：</p>
+<span style="color:#75715e"># This file is where you define your pipelines. You can define multiple.</span>
+<span style="color:#75715e"># # For more information on multiple pipelines, see the documentation:</span>
+<span style="color:#75715e"># #   https://www.elastic.co/guide/en/logstash/current/multiple-pipelines.html</span>
+<span style="color:#75715e">#</span>
+- <span style="color:#f92672">pipeline.id</span>: <span style="color:#ae81ff">main</span>
+  <span style="color:#f92672">path.config</span>: <span style="color:#e6db74">&#34;/usr/share/logstash/pipeline&#34;</span>
+</code></pre></div><p>在elastic/config/logstash/pipeline目录下，创建logstash收集器配置文件：</p>
 <pre><code># logstash.conf
 input {
     tcp {
@@ -265,189 +261,180 @@ output {
     }
     stdout{codec =&gt; rubydebug}
 }
-</code></pre>
-<h2 id="准备创建docker-compose文件">准备创建docker-compose文件</h2>
+</code></pre><h2 id="准备创建docker-compose文件">准备创建docker-compose文件</h2>
 <p>在elastic/config/elasticsearch/certificaes目录下创建instances.yml文件：</p>
-<pre><code class="language-yaml"># instances.yml
-instances:
-  - name: es01
-    dns:
-      - es01
-      - localhost
-    ip:
-      - 127.0.0.1
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># instances.yml</span>
+<span style="color:#f92672">instances</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">es01</span>
+    <span style="color:#f92672">dns</span>:
+      - <span style="color:#ae81ff">es01</span>
+      - <span style="color:#ae81ff">localhost</span>
+    <span style="color:#f92672">ip</span>:
+      - <span style="color:#ae81ff">127.0.0.1</span>
 
-  - name: 'kib01'
-    dns:
-      - kib01
-      - localhost
+  - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#39;kib01&#39;</span>
+    <span style="color:#f92672">dns</span>:
+      - <span style="color:#ae81ff">kib01</span>
+      - <span style="color:#ae81ff">localhost</span>
 
-  - name: 'logstash'
-    dns:
-      - logstash
-      - localhost
-    ip:
-      - 127.0.0.1
-</code></pre>
-<p>在elastic目录下，创建认证的文件：</p>
-<pre><code class="language-yaml"># create-certs.yml
-version: '2.2'
+  - <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#39;logstash&#39;</span>
+    <span style="color:#f92672">dns</span>:
+      - <span style="color:#ae81ff">logstash</span>
+      - <span style="color:#ae81ff">localhost</span>
+    <span style="color:#f92672">ip</span>:
+      - <span style="color:#ae81ff">127.0.0.1</span>
+</code></pre></div><p>在elastic目录下，创建认证的文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># create-certs.yml</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.2&#39;</span>
 
-services:
-  create_certs:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${VERSION}
-    container_name: create_certs
-    command: &gt;
-      bash -c '
-        yum install -y -q -e 0 unzip;
-        if [[ ! -f /certs/bundle.zip ]]; then
-          bin/elasticsearch-certutil cert --silent --pem --in config/certificates/instances.yml -out /certs/bundle.zip;
-          unzip /certs/bundle.zip -d /certs;
-        fi;
-        chown -R 1000:0 /certs
-      '
-    working_dir: /usr/share/elasticsearch
-    volumes:
-      - ./certs:/certs
-      - ./config/elasticsearch/certificates:/usr/share/elasticsearch/config/certificates
-    networks:
-      - elastic
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">create_certs</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.elastic.co/elasticsearch/elasticsearch:${VERSION}</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">create_certs</span>
+    <span style="color:#f92672">command</span>: &gt;<span style="color:#e6db74">
+</span><span style="color:#e6db74">      bash -c &#39;
+</span><span style="color:#e6db74">        yum install -y -q -e 0 unzip;
+</span><span style="color:#e6db74">        if [[ ! -f /certs/bundle.zip ]]; then
+</span><span style="color:#e6db74">          bin/elasticsearch-certutil cert --silent --pem --in config/certificates/instances.yml -out /certs/bundle.zip;
+</span><span style="color:#e6db74">          unzip /certs/bundle.zip -d /certs;
+</span><span style="color:#e6db74">        fi;
+</span><span style="color:#e6db74">        chown -R 1000:0 /certs
+</span><span style="color:#e6db74">      &#39;</span>      
+    <span style="color:#f92672">working_dir</span>: <span style="color:#ae81ff">/usr/share/elasticsearch</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./certs:/certs</span>
+      - <span style="color:#ae81ff">./config/elasticsearch/certificates:/usr/share/elasticsearch/config/certificates</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">elastic</span>
 
-volumes:
-  certs:
-    driver: local
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">certs</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">local</span>
 
-networks:
-  elastic:
-    driver: bridge
-</code></pre>
-<p>在同目录下，创建环境文件，方便统一管理docker版本：</p>
+<span style="color:#f92672">networks</span>:
+  <span style="color:#f92672">elastic</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
+</code></pre></div><p>在同目录下，创建环境文件，方便统一管理docker版本：</p>
 <pre><code># .env
 COMPOSE_PROJECT_NAME=es
 CERTS_DIR=/usr/share/elasticsearch/config/certificates   # 这个为docker容器里面的位置
 VERSION=7.13.4
-</code></pre>
-<p>同目录下，创建docker-compose文件：</p>
-<pre><code class="language-yaml"># elastic-docker-tls.yml
-version: '2.2'
+</code></pre><p>同目录下，创建docker-compose文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># elastic-docker-tls.yml</span>
+<span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2.2&#39;</span>
 
-services:
-  es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${VERSION}
-    container_name: es01
-    environment:
-      - cluster.name=es-docker
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      - &quot;ES_JAVA_OPTS=-Xms512m -Xmx512m&quot;
-      - xpack.license.self_generated.type=trial 
-      - xpack.security.enabled=true
-      - xpack.security.http.ssl.enabled=true 
-      - xpack.security.http.ssl.key=$CERTS_DIR/es01/es01.key
-      - xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
-      - xpack.security.http.ssl.certificate=$CERTS_DIR/es01/es01.crt
-      - xpack.security.transport.ssl.enabled=true 
-      - xpack.security.transport.ssl.verification_mode=certificate 
-      - xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt
-      - xpack.security.transport.ssl.certificate=$CERTS_DIR/es01/es01.crt
-      - xpack.security.transport.ssl.key=$CERTS_DIR/es01/es01.key
-      - TZ=Asia/Shanghai
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - data01:/usr/share/elasticsearch/data
-      - ./certs:$CERTS_DIR
-      - ./config/es01.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-    ports:
-      - 9200:9200
-    networks:
-      - elastic
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">es01</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.elastic.co/elasticsearch/elasticsearch:${VERSION}</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">es01</span>
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">cluster.name=es-docker</span>
+      - <span style="color:#ae81ff">discovery.type=single-node</span>
+      - <span style="color:#ae81ff">bootstrap.memory_lock=true</span>
+      - <span style="color:#e6db74">&#34;ES_JAVA_OPTS=-Xms512m -Xmx512m&#34;</span>
+      - <span style="color:#ae81ff">xpack.license.self_generated.type=trial </span>
+      - <span style="color:#ae81ff">xpack.security.enabled=true</span>
+      - <span style="color:#ae81ff">xpack.security.http.ssl.enabled=true </span>
+      - <span style="color:#ae81ff">xpack.security.http.ssl.key=$CERTS_DIR/es01/es01.key</span>
+      - <span style="color:#ae81ff">xpack.security.http.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt</span>
+      - <span style="color:#ae81ff">xpack.security.http.ssl.certificate=$CERTS_DIR/es01/es01.crt</span>
+      - <span style="color:#ae81ff">xpack.security.transport.ssl.enabled=true </span>
+      - <span style="color:#ae81ff">xpack.security.transport.ssl.verification_mode=certificate </span>
+      - <span style="color:#ae81ff">xpack.security.transport.ssl.certificate_authorities=$CERTS_DIR/ca/ca.crt</span>
+      - <span style="color:#ae81ff">xpack.security.transport.ssl.certificate=$CERTS_DIR/es01/es01.crt</span>
+      - <span style="color:#ae81ff">xpack.security.transport.ssl.key=$CERTS_DIR/es01/es01.key</span>
+      - <span style="color:#ae81ff">TZ=Asia/Shanghai</span>
+    <span style="color:#f92672">ulimits</span>:
+      <span style="color:#f92672">memlock</span>:
+        <span style="color:#f92672">soft</span>: -<span style="color:#ae81ff">1</span>
+        <span style="color:#f92672">hard</span>: -<span style="color:#ae81ff">1</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">data01:/usr/share/elasticsearch/data</span>
+      - <span style="color:#ae81ff">./certs:$CERTS_DIR</span>
+      - <span style="color:#ae81ff">./config/es01.yml:/usr/share/elasticsearch/config/elasticsearch.yml</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">9200</span>:<span style="color:#ae81ff">9200</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">elastic</span>
 
-    healthcheck:
-      test: curl --cacert $CERTS_DIR/ca/ca.crt -s https://localhost:9200 &gt;/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-      interval: 30s
-      timeout: 10s
-      retries: 5
+    <span style="color:#f92672">healthcheck</span>:
+      <span style="color:#f92672">test</span>: <span style="color:#ae81ff">curl --cacert $CERTS_DIR/ca/ca.crt -s https://localhost:9200 &gt;/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi</span>
+      <span style="color:#f92672">interval</span>: <span style="color:#ae81ff">30s</span>
+      <span style="color:#f92672">timeout</span>: <span style="color:#ae81ff">10s</span>
+      <span style="color:#f92672">retries</span>: <span style="color:#ae81ff">5</span>
 
-  kib01:
-    image: docker.elastic.co/kibana/kibana:${VERSION}
-    container_name: kib01
-    depends_on: {&quot;es01&quot;: {&quot;condition&quot;: &quot;service_healthy&quot;}}
-    ports:
-      - 5601:5601
-    environment:
-      SERVERNAME: localhost
-      ELASTICSEARCH_URL: https://es01:9200
-      ELASTICSEARCH_HOSTS: https://es01:9200
-      ELASTICSEARCH_USERNAME: kibana_system
-      ELASTICSEARCH_PASSWORD: 1Y51Fvgcq9Tv5oG1MWSr
-      ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES: $CERTS_DIR/ca/ca.crt
-      SERVER_SSL_ENABLED: &quot;true&quot;
-      SERVER_SSL_KEY: $CERTS_DIR/kib01/kib01.key
-      SERVER_SSL_CERTIFICATE: $CERTS_DIR/kib01/kib01.crt
-      I18N_LOCALE: zh-CN
-      TZ: Asia/Shanghai
-    volumes:
-      - ./certs:$CERTS_DIR
-      - ./config/kib01.yml:/usr/share/kibana/config/kibana.yml
-    networks:
-      - elastic
-  logstash:
-    image: docker.elastic.co/logstash/logstash:${VERSION}
-    container_name: logstash
-    depends_on: {&quot;es01&quot;: {&quot;condition&quot;: &quot;service_healthy&quot;}}
-    volumes:
-      - ./config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
-      - ./config/logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml
-      - ./config/logstash/pipeline:/usr/share/logstash/pipeline
-      - ./certs:$CERTS_DIR
-    ports:
-      - 4560:4560
-      - 4561:4561
-    environment:
-      SERVERNAME: localhost
-      ELASTICSEARCH_URL: https://es01:9200
-      ELASTICSEARCH_HOSTS: https://es01:9200
-      ELASTICSEARCH_USERNAME: logstash_system
-      ELASTICSEARCH_PASSWORD: psvTdxGicq3R0evjCLHv
-      ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES: $CERTS_DIR/ca/ca.crt
-      SERVER_SSL_ENABLED: &quot;true&quot;
-      SERVER_SSL_KEY: $CERTS_DIR/logstash/logstash.key
-      SERVER_SSL_CERTIFICATE: $CERTS_DIR/logstash/logstash.crt
-      I18N_LOCALE: zh-CN
-      TZ: Asia/Shanghai
-    networks:
-      - elastic
+  <span style="color:#f92672">kib01</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.elastic.co/kibana/kibana:${VERSION}</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">kib01</span>
+    <span style="color:#f92672">depends_on</span>: {<span style="color:#f92672">&#34;es01&#34;: {&#34;condition&#34;: </span><span style="color:#e6db74">&#34;service_healthy&#34;</span>}}
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">5601</span>:<span style="color:#ae81ff">5601</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">SERVERNAME</span>: <span style="color:#ae81ff">localhost</span>
+      <span style="color:#f92672">ELASTICSEARCH_URL</span>: <span style="color:#ae81ff">https://es01:9200</span>
+      <span style="color:#f92672">ELASTICSEARCH_HOSTS</span>: <span style="color:#ae81ff">https://es01:9200</span>
+      <span style="color:#f92672">ELASTICSEARCH_USERNAME</span>: <span style="color:#ae81ff">kibana_system</span>
+      <span style="color:#f92672">ELASTICSEARCH_PASSWORD</span>: <span style="color:#ae81ff">1Y51Fvgcq9Tv5oG1MWSr</span>
+      <span style="color:#f92672">ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES</span>: <span style="color:#ae81ff">$CERTS_DIR/ca/ca.crt</span>
+      <span style="color:#f92672">SERVER_SSL_ENABLED</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#f92672">SERVER_SSL_KEY</span>: <span style="color:#ae81ff">$CERTS_DIR/kib01/kib01.key</span>
+      <span style="color:#f92672">SERVER_SSL_CERTIFICATE</span>: <span style="color:#ae81ff">$CERTS_DIR/kib01/kib01.crt</span>
+      <span style="color:#f92672">I18N_LOCALE</span>: <span style="color:#ae81ff">zh-CN</span>
+      <span style="color:#f92672">TZ</span>: <span style="color:#ae81ff">Asia/Shanghai</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./certs:$CERTS_DIR</span>
+      - <span style="color:#ae81ff">./config/kib01.yml:/usr/share/kibana/config/kibana.yml</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">elastic</span>
+  <span style="color:#f92672">logstash</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">docker.elastic.co/logstash/logstash:${VERSION}</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">logstash</span>
+    <span style="color:#f92672">depends_on</span>: {<span style="color:#f92672">&#34;es01&#34;: {&#34;condition&#34;: </span><span style="color:#e6db74">&#34;service_healthy&#34;</span>}}
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./config/logstash/logstash.yml:/usr/share/logstash/config/logstash.yml</span>
+      - <span style="color:#ae81ff">./config/logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml</span>
+      - <span style="color:#ae81ff">./config/logstash/pipeline:/usr/share/logstash/pipeline</span>
+      - <span style="color:#ae81ff">./certs:$CERTS_DIR</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#ae81ff">4560</span>:<span style="color:#ae81ff">4560</span>
+      - <span style="color:#ae81ff">4561</span>:<span style="color:#ae81ff">4561</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">SERVERNAME</span>: <span style="color:#ae81ff">localhost</span>
+      <span style="color:#f92672">ELASTICSEARCH_URL</span>: <span style="color:#ae81ff">https://es01:9200</span>
+      <span style="color:#f92672">ELASTICSEARCH_HOSTS</span>: <span style="color:#ae81ff">https://es01:9200</span>
+      <span style="color:#f92672">ELASTICSEARCH_USERNAME</span>: <span style="color:#ae81ff">logstash_system</span>
+      <span style="color:#f92672">ELASTICSEARCH_PASSWORD</span>: <span style="color:#ae81ff">psvTdxGicq3R0evjCLHv</span>
+      <span style="color:#f92672">ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES</span>: <span style="color:#ae81ff">$CERTS_DIR/ca/ca.crt</span>
+      <span style="color:#f92672">SERVER_SSL_ENABLED</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+      <span style="color:#f92672">SERVER_SSL_KEY</span>: <span style="color:#ae81ff">$CERTS_DIR/logstash/logstash.key</span>
+      <span style="color:#f92672">SERVER_SSL_CERTIFICATE</span>: <span style="color:#ae81ff">$CERTS_DIR/logstash/logstash.crt</span>
+      <span style="color:#f92672">I18N_LOCALE</span>: <span style="color:#ae81ff">zh-CN</span>
+      <span style="color:#f92672">TZ</span>: <span style="color:#ae81ff">Asia/Shanghai</span>
+    <span style="color:#f92672">networks</span>:
+      - <span style="color:#ae81ff">elastic</span>
 
-volumes:
-  data01:
-    driver: local
-  certs:
-    driver: local
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">data01</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">local</span>
+  <span style="color:#f92672">certs</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">local</span>
 
-networks:
-  elastic:
-    driver: bridge
-</code></pre>
-<p>建议从官方拉取docker文件，但是官方网址比较慢，也可以改为从其他镜像仓库下载，例如把 <code>[docker.elastic.co/kibana/kibana:${VERSION}](http://docker.elastic.co/kibana/kibana:${VERSION})</code> 官方地址前缀去掉，变成 <code>kibana:${VERSION}</code>，其他images也类似。</p>
+<span style="color:#f92672">networks</span>:
+  <span style="color:#f92672">elastic</span>:
+    <span style="color:#f92672">driver</span>: <span style="color:#ae81ff">bridge</span>
+</code></pre></div><p>建议从官方拉取docker文件，但是官方网址比较慢，也可以改为从其他镜像仓库下载，例如把 <code>[docker.elastic.co/kibana/kibana:${VERSION}](http://docker.elastic.co/kibana/kibana:${VERSION})</code> 官方地址前缀去掉，变成 <code>kibana:${VERSION}</code>，其他images也类似。</p>
 <h2 id="配置认证并启动elk">配置认证并启动ELK</h2>
 <p>首先创建认证：</p>
-<pre><code class="language-bash">$ docker-compose -f create-certs.yml run --rm create_certs
-</code></pre>
-<p>启动所有服务：</p>
-<pre><code class="language-bash">$ docker-compose -f elastic-docker-tls.yml up -d
-</code></pre>
-<p>生成用户密码：</p>
-<pre><code class="language-bash">$ docker exec es01 /bin/bash -c &quot;bin/elasticsearch-setup-passwords \
-auto --batch --url https://es01:9200&quot;
-</code></pre>
-<p>将生成的密码记录下来，将kibana_system的密码复制到elastic-docker-tls.yml文件中的kib01的ELASTICSEARCH_PASSWORD，将logstash_system的密码复制到elastic-docker-tls.yml文件中的logstash的ELASTICSEARCH_PASSWORD。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker-compose -f create-certs.yml run --rm create_certs
+</code></pre></div><p>启动所有服务：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker-compose -f elastic-docker-tls.yml up -d
+</code></pre></div><p>生成用户密码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker exec es01 /bin/bash -c <span style="color:#e6db74">&#34;bin/elasticsearch-setup-passwords \
+</span><span style="color:#e6db74">auto --batch --url https://es01:9200&#34;</span>
+</code></pre></div><p>将生成的密码记录下来，将kibana_system的密码复制到elastic-docker-tls.yml文件中的kib01的ELASTICSEARCH_PASSWORD，将logstash_system的密码复制到elastic-docker-tls.yml文件中的logstash的ELASTICSEARCH_PASSWORD。</p>
 <p>停止docker-compose：</p>
-<pre><code class="language-bash">$ docker-compose -f elastic-docker-tls.yml stop
-</code></pre>
-<p>再启动docker-compose即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker-compose -f elastic-docker-tls.yml stop
+</code></pre></div><p>再启动docker-compose即可。</p>
 <p>启动成功后，用命令 <code>docker network inspect es_elastic</code>能看到应用都连接到了同一个网络。</p>
 <p>检查logstash是否正常启动，通过命令 <code>docker logs logstash</code>查看日志是否有error。</p>
 <h1 id="spring集成elk">Spring集成ELK</h1>
@@ -455,80 +442,76 @@ auto --batch --url https://es01:9200&quot;
 <h2 id="添加依赖">添加依赖</h2>
 <p>Spring使用的是logback，原本是想使用log4j，但没能集成成功。</p>
 <p>添加logstash依赖（核心），lombok和spring-boot-starter-web：</p>
-<pre><code class="language-xml">&lt;!-- pom.xml --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;
-    &lt;artifactId&gt;lombok&lt;/artifactId&gt;
-    &lt;optional&gt;true&lt;/optional&gt;
-    &lt;version&gt;1.18.20&lt;/version&gt;
-&lt;/dependency&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- pom.xml --&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.projectlombok<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>lombok<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;optional&gt;</span>true<span style="color:#f92672">&lt;/optional&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.18.20<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
 
-&lt;dependency&gt;
-    &lt;groupId&gt;net.logstash.logback&lt;/groupId&gt;
-    &lt;artifactId&gt;logstash-logback-encoder&lt;/artifactId&gt;
-    &lt;version&gt;6.6&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>集成logstash的详细使用可以参考：</p>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>net.logstash.logback<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>logstash-logback-encoder<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>6.6<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>集成logstash的详细使用可以参考：</p>
 <p><a href="https://github.com/logstash/logstash-logback-encoder">GitHub - logstash/logstash-logback-encoder: Logback JSON encoder and appenders</a></p>
 <h2 id="项目配置">项目配置</h2>
 <p>配置日志配置文件logback.xml，配置文件放在src/main/resource下：</p>
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;configuration  scan=&quot;true&quot; scanPeriod=&quot;60 seconds&quot; debug=&quot;false&quot;&gt;
-    &lt;include resource=&quot;org/springframework/boot/logging/logback/base.xml&quot; /&gt;
-    &lt;contextName&gt;logback&lt;/contextName&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;configuration</span>  <span style="color:#a6e22e">scan=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">scanPeriod=</span><span style="color:#e6db74">&#34;60 seconds&#34;</span> <span style="color:#a6e22e">debug=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;include</span> <span style="color:#a6e22e">resource=</span><span style="color:#e6db74">&#34;org/springframework/boot/logging/logback/base.xml&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;contextName&gt;</span>logback<span style="color:#f92672">&lt;/contextName&gt;</span>
 
-    &lt;appender name=&quot;logstash&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;
-        &lt;destination&gt;127.0.0.1:4560&lt;/destination&gt;
-        &lt;encoder class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot; /&gt;
-    &lt;/appender&gt;
+    <span style="color:#f92672">&lt;appender</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;logstash&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;net.logstash.logback.appender.LogstashTcpSocketAppender&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;destination&gt;</span>127.0.0.1:4560<span style="color:#f92672">&lt;/destination&gt;</span>
+        <span style="color:#f92672">&lt;encoder</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;net.logstash.logback.encoder.LogstashEncoder&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/appender&gt;</span>
 
-    &lt;!--输出到控制台--&gt;
-    &lt;appender name=&quot;console&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
-        &lt;encoder&gt;
-            &lt;pattern&gt;%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
-        &lt;/encoder&gt;
-    &lt;/appender&gt;
+    <span style="color:#75715e">&lt;!--输出到控制台--&gt;</span>
+    <span style="color:#f92672">&lt;appender</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;console&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;ch.qos.logback.core.ConsoleAppender&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;encoder&gt;</span>
+            <span style="color:#f92672">&lt;pattern&gt;</span>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n<span style="color:#f92672">&lt;/pattern&gt;</span>
+        <span style="color:#f92672">&lt;/encoder&gt;</span>
+    <span style="color:#f92672">&lt;/appender&gt;</span>
 
-    &lt;root level=&quot;info&quot;&gt;
-        &lt;appender-ref ref=&quot;logstash&quot;/&gt;
-        &lt;appender-ref ref=&quot;console&quot; /&gt;
-    &lt;/root&gt;
-&lt;/configuration&gt;
-</code></pre>
-<p><code>&lt;destination&gt;127.0.0.1:4560&lt;/destination&gt;</code>logstash ip和暴露的端口，logback就是通过这个地址把日志发送给logstash。</p>
+    <span style="color:#f92672">&lt;root</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;info&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;appender-ref</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;logstash&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;appender-ref</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;console&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/root&gt;</span>
+<span style="color:#f92672">&lt;/configuration&gt;</span>
+</code></pre></div><p><code>&lt;destination&gt;127.0.0.1:4560&lt;/destination&gt;</code>logstash ip和暴露的端口，logback就是通过这个地址把日志发送给logstash。</p>
 <p>并在application.properties文件配置日志输出级别和日志配置文件位置：</p>
 <pre><code># application.properties
 logging.level.root=info
 logging.config=classpath:logback.xml
-</code></pre>
-<p>打印日志的代码：</p>
-<pre><code class="language-java">// TestController.java
-@RestController
-@Slf4j
-public class TestController {
+</code></pre><p>打印日志的代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// TestController.java
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@RestController</span>
+<span style="color:#a6e22e">@Slf4j</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestController</span> <span style="color:#f92672">{</span>
 
-    @GetMapping(value = &quot;/log4j2&quot;)
-    public String testLog(){
-        try {
-            log.info(&quot;Hello 这是 info message. 信息&quot;);
-            log.error(&quot;Hello 这是 error message. 报警&quot;);
-            log.warn(&quot;Hello 这是 warn message. 警告&quot;);
-            log.debug(&quot;Hello 这是 debug message. 调试&quot;);
-            List&lt;String&gt; list = new ArrayList&lt;&gt;();
-            System.out.println(list.get(2));
-        } catch (Exception e) {
-            log.error(&quot;testLog&quot;, e);
-        }
-        return &quot;&quot;;
-    }
-}
-</code></pre>
-<h2 id="logstash配置">logstash配置</h2>
+    <span style="color:#a6e22e">@GetMapping</span><span style="color:#f92672">(</span>value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;/log4j2&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">testLog</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            log<span style="color:#f92672">.</span><span style="color:#a6e22e">info</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello 这是 info message. 信息&#34;</span><span style="color:#f92672">);</span>
+            log<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello 这是 error message. 报警&#34;</span><span style="color:#f92672">);</span>
+            log<span style="color:#f92672">.</span><span style="color:#a6e22e">warn</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello 这是 warn message. 警告&#34;</span><span style="color:#f92672">);</span>
+            log<span style="color:#f92672">.</span><span style="color:#a6e22e">debug</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Hello 这是 debug message. 调试&#34;</span><span style="color:#f92672">);</span>
+            List<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> list <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>
+            System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>list<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>2<span style="color:#f92672">));</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            log<span style="color:#f92672">.</span><span style="color:#a6e22e">error</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testLog&#34;</span><span style="color:#f92672">,</span> e<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="logstash配置">logstash配置</h2>
 <p>在logstash.conf配置收集器，其实前面已经配置过了。更改了配置之后需要重启logstash：</p>
 <pre><code># logstash.conf
 input {
@@ -549,8 +532,7 @@ output {
     }
     stdout{codec =&gt; rubydebug}
 }
-</code></pre>
-<h2 id="查看日志">查看日志</h2>
+</code></pre><h2 id="查看日志">查看日志</h2>
 <p>可以在logstash中看到接收到的日志。</p>
 <p>接下来，使用账号elastic登陆kibana，页面地址为http://ip:5601</p>
 <p>在索引管理能看到传入的数据。</p>
@@ -566,35 +548,34 @@ output {
 <h2 id="从项目传入自定义索引">从项目传入自定义索引</h2>
 <p>上面的配置只能用于一个项目，但是不可能一个ELK只有一个项目，所以为了让ELK接入多个项目，项目传入自定义的索引。</p>
 <p>修改logback.xml文件，增加了<customFields>标签：</p>
-<pre><code class="language-xml">&lt;!-- logback.xml --&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- logback.xml --&gt;</span>
 
-&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;configuration  scan=&quot;true&quot; scanPeriod=&quot;60 seconds&quot; debug=&quot;false&quot;&gt;
-    &lt;include resource=&quot;org/springframework/boot/logging/logback/base.xml&quot; /&gt;
-    &lt;contextName&gt;logback&lt;/contextName&gt;
+<span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<span style="color:#f92672">&lt;configuration</span>  <span style="color:#a6e22e">scan=</span><span style="color:#e6db74">&#34;true&#34;</span> <span style="color:#a6e22e">scanPeriod=</span><span style="color:#e6db74">&#34;60 seconds&#34;</span> <span style="color:#a6e22e">debug=</span><span style="color:#e6db74">&#34;false&#34;</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#f92672">&lt;include</span> <span style="color:#a6e22e">resource=</span><span style="color:#e6db74">&#34;org/springframework/boot/logging/logback/base.xml&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;contextName&gt;</span>logback<span style="color:#f92672">&lt;/contextName&gt;</span>
 
-    &lt;appender name=&quot;logstash&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;
-        &lt;destination&gt;127.0.0.1:4560&lt;/destination&gt;
-        &lt;encoder class=&quot;net.logstash.logback.encoder.LogstashEncoder&quot; &gt;
-        &lt;customFields&gt;{&quot;appName&quot;: &quot;spring-test2&quot;}&lt;/customFields&gt;
-        &lt;/encoder&gt;
-    &lt;/appender&gt;
+    <span style="color:#f92672">&lt;appender</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;logstash&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;net.logstash.logback.appender.LogstashTcpSocketAppender&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;destination&gt;</span>127.0.0.1:4560<span style="color:#f92672">&lt;/destination&gt;</span>
+        <span style="color:#f92672">&lt;encoder</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;net.logstash.logback.encoder.LogstashEncoder&#34;</span> <span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;customFields&gt;</span>{&#34;appName&#34;: &#34;spring-test2&#34;}<span style="color:#f92672">&lt;/customFields&gt;</span>
+        <span style="color:#f92672">&lt;/encoder&gt;</span>
+    <span style="color:#f92672">&lt;/appender&gt;</span>
 
-    &lt;!--输出到控制台--&gt;
-    &lt;appender name=&quot;console&quot; class=&quot;ch.qos.logback.core.ConsoleAppender&quot;&gt;
-        &lt;encoder&gt;
-            &lt;pattern&gt;%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n&lt;/pattern&gt;
-        &lt;/encoder&gt;
-    &lt;/appender&gt;
+    <span style="color:#75715e">&lt;!--输出到控制台--&gt;</span>
+    <span style="color:#f92672">&lt;appender</span> <span style="color:#a6e22e">name=</span><span style="color:#e6db74">&#34;console&#34;</span> <span style="color:#a6e22e">class=</span><span style="color:#e6db74">&#34;ch.qos.logback.core.ConsoleAppender&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;encoder&gt;</span>
+            <span style="color:#f92672">&lt;pattern&gt;</span>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n<span style="color:#f92672">&lt;/pattern&gt;</span>
+        <span style="color:#f92672">&lt;/encoder&gt;</span>
+    <span style="color:#f92672">&lt;/appender&gt;</span>
 
-    &lt;root level=&quot;info&quot;&gt;
-        &lt;appender-ref ref=&quot;logstash&quot;/&gt;
-        &lt;appender-ref ref=&quot;console&quot; /&gt;
-    &lt;/root&gt;
-&lt;/configuration&gt;
+    <span style="color:#f92672">&lt;root</span> <span style="color:#a6e22e">level=</span><span style="color:#e6db74">&#34;info&#34;</span><span style="color:#f92672">&gt;</span>
+        <span style="color:#f92672">&lt;appender-ref</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;logstash&#34;</span><span style="color:#f92672">/&gt;</span>
+        <span style="color:#f92672">&lt;appender-ref</span> <span style="color:#a6e22e">ref=</span><span style="color:#e6db74">&#34;console&#34;</span> <span style="color:#f92672">/&gt;</span>
+    <span style="color:#f92672">&lt;/root&gt;</span>
+<span style="color:#f92672">&lt;/configuration&gt;</span>
 
-</code></pre>
-<p>修改logstash.conf</p>
+</code></pre></div><p>修改logstash.conf</p>
 <pre><code># logstash.conf
 input {
     tcp {
@@ -614,38 +595,35 @@ output {
     }
     stdout{codec =&gt; rubydebug}
 }
-</code></pre>
-<p>重启logstash便能看到传入的索引。</p>
+</code></pre><p>重启logstash便能看到传入的索引。</p>
 <h1 id="使用filebeats收集日志">使用Filebeats收集日志</h1>
 <p>使用filebeats收集应用的日志文件 <code>*.log</code>，并把日志发送到logstash。</p>
 <h2 id="filebeats的docker安装">Filebeats的docker安装</h2>
-<pre><code class="language-bash">$ docker run -d \
-  --name=filebeat \
-  --user=root \
-  --volume=&quot;$(pwd)/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro&quot; \
-  --volume=&quot;/var/lib/docker/containers:/var/lib/docker/containers:ro&quot; \
-  --volume=&quot;/var/run/docker.sock:/var/run/docker.sock:ro&quot; \
-  --volume=&quot;/var/log:/logs:ro&quot; \
-  docker.elastic.co/beats/filebeat:7.14.0 filebeat 
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker run -d <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --name<span style="color:#f92672">=</span>filebeat <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --user<span style="color:#f92672">=</span>root <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --volume<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span><span style="color:#e6db74">/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --volume<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/var/lib/docker/containers:/var/lib/docker/containers:ro&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --volume<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/var/run/docker.sock:/var/run/docker.sock:ro&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  --volume<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/var/log:/logs:ro&#34;</span> <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>  docker.elastic.co/beats/filebeat:7.14.0 filebeat 
  
-</code></pre>
-<p>filebeat.docker.yml文件的配置：</p>
-<pre><code class="language-yaml"># filebeat.docker.yml
-filebeat.inputs:
-- type: log  #日志类型
-  enable: true
-  paths: # 日志位置，所以在创建docker时需要挂载日志目录
-    - /logs/info.log
-  fields:                     # 使用 fields 模块添加字段
-    address: 192.168.1.3     # address 为字段名称，意义为当前服务器的地址
-  fields_under_root: true     # 将新增的字段放在顶级，收集后字段名称显示 host_ip。如果设置为 false，则放在子集，收集后显示为 fields.address
-  encoding: UTF-8 #日志编码，如果中文乱码，可以试试GB2312
+</code></pre></div><p>filebeat.docker.yml文件的配置：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># filebeat.docker.yml</span>
+<span style="color:#f92672">filebeat.inputs</span>:
+- <span style="color:#f92672">type</span>: <span style="color:#ae81ff">log </span> <span style="color:#75715e">#日志类型</span>
+  <span style="color:#f92672">enable</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">paths</span>: <span style="color:#75715e"># 日志位置，所以在创建docker时需要挂载日志目录</span>
+    - <span style="color:#ae81ff">/logs/info.log</span>
+  <span style="color:#f92672">fields</span>:                     <span style="color:#75715e"># 使用 fields 模块添加字段</span>
+    <span style="color:#f92672">address</span>: <span style="color:#ae81ff">192.168.1.3</span>     <span style="color:#75715e"># address 为字段名称，意义为当前服务器的地址</span>
+  <span style="color:#f92672">fields_under_root</span>: <span style="color:#66d9ef">true</span>     <span style="color:#75715e"># 将新增的字段放在顶级，收集后字段名称显示 host_ip。如果设置为 false，则放在子集，收集后显示为 fields.address</span>
+  <span style="color:#f92672">encoding</span>: <span style="color:#ae81ff">UTF-8</span> <span style="color:#75715e">#日志编码，如果中文乱码，可以试试GB2312</span>
 
-output.logstash:  # 指定输出插件
-  hosts: [&quot;192.168.1.0:4561&quot;]   # logstash的位置
-  index: 'test' # 索引名字
-</code></pre>
-<p>关于 <code>output.logstash</code>的 <code>index</code>，该值会分配给 <code>metadata.beat</code>键，所以可以在logstash收集器的配置文件使用 <code>%{[@metadata][beat]}</code>获取该值。</p>
+<span style="color:#f92672">output.logstash</span>:  <span style="color:#75715e"># 指定输出插件</span>
+  <span style="color:#f92672">hosts</span>: [<span style="color:#e6db74">&#34;192.168.1.0:4561&#34;</span>]   <span style="color:#75715e"># logstash的位置</span>
+  <span style="color:#f92672">index</span>: <span style="color:#e6db74">&#39;test&#39;</span> <span style="color:#75715e"># 索引名字</span>
+</code></pre></div><p>关于 <code>output.logstash</code>的 <code>index</code>，该值会分配给 <code>metadata.beat</code>键，所以可以在logstash收集器的配置文件使用 <code>%{[@metadata][beat]}</code>获取该值。</p>
 <p>配置logstash收集器的配置文件：</p>
 <pre><code># logstash-filebeats.conf
 input {
@@ -663,20 +641,18 @@ output {
     }
     stdout{codec =&gt; rubydebug}
 }
-</code></pre>
-<p>filebeats配置文件的详细使用可以参考：</p>
+</code></pre><p>filebeats配置文件的详细使用可以参考：</p>
 <p><a href="https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-reference-yml.html">filebeat.reference.yml | Filebeat Reference [7.15] | Elastic</a></p>
 <p>logstash配置文件的使用可以参考：</p>
 <p><a href="https://www.elastic.co/guide/en/beats/filebeat/current/logstash-output.html#_ssl_5">Configure the Logstash output | Filebeat Reference [7.15] | Elastic</a></p>
 <p>因为使用了两份配置文件，所以需要重新配置pipelines.yml：</p>
-<pre><code class="language-yaml"># pipelines.yml
-- pipeline.id: main
-  path.config: &quot;/usr/share/logstash/pipeline/logstash.conf&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># pipelines.yml</span>
+- <span style="color:#f92672">pipeline.id</span>: <span style="color:#ae81ff">main</span>
+  <span style="color:#f92672">path.config</span>: <span style="color:#e6db74">&#34;/usr/share/logstash/pipeline/logstash.conf&#34;</span>
 
-- pipeline.id: beats
-  path.config: &quot;/usr/share/logstash/pipeline/logstash-filebeats.conf&quot;
-</code></pre>
-<h1 id="自定义收集的日志内容">自定义收集的日志内容</h1>
+- <span style="color:#f92672">pipeline.id</span>: <span style="color:#ae81ff">beats</span>
+  <span style="color:#f92672">path.config</span>: <span style="color:#e6db74">&#34;/usr/share/logstash/pipeline/logstash-filebeats.conf&#34;</span>
+</code></pre></div><h1 id="自定义收集的日志内容">自定义收集的日志内容</h1>
 <p>因为默认收集到日志内容包括了时间、日志类型等众多信息，但我们往往只需要看到程序真正输出的内容，这时候可以使用logstash的grok插件对日志内容进行过滤。</p>
 <h2 id="grok插件">grok插件</h2>
 <p>grok插件用于过滤切分文本。</p>
@@ -684,46 +660,38 @@ output {
 <p><code>SYNTAX</code>为配置配置类型，可以用内置类型（可以在<a href="https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns">https://github.com/logstash-plugins/logstash-patterns-core/tree/master/patterns</a>找到），也可以自定义类型；</p>
 <p><code>SEMANTIC</code>为匹配文本所赋予的变量名，能在kibana所看到。</p>
 <p>例子：</p>
-<pre><code class="language-java">%{NUMBER:phone}
-</code></pre>
-<p>例如要匹配：</p>
-<pre><code class="language-java">112.123.1.10 [info] - success
-</code></pre>
-<p>匹配方式为</p>
-<pre><code class="language-java">%{IP:ip} \[%{LOGLEVEL:level}\] - %{WORD:text}
-</code></pre>
-<p><code>[</code>和 <code>]</code>分别需要进行转义 <code>\[</code>和 <code>\]</code>。其实语法跟正则表达式差不多。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">%{</span>NUMBER<span style="color:#f92672">:</span>phone<span style="color:#f92672">}</span>
+</code></pre></div><p>例如要匹配：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">112<span style="color:#f92672">.</span><span style="color:#a6e22e">123</span><span style="color:#f92672">.</span><span style="color:#a6e22e">1</span><span style="color:#f92672">.</span><span style="color:#a6e22e">10</span> <span style="color:#f92672">[</span>info<span style="color:#f92672">]</span> <span style="color:#f92672">-</span> success
+</code></pre></div><p>匹配方式为</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">%{</span>IP<span style="color:#f92672">:</span>ip<span style="color:#f92672">}</span> <span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">[%{</span>LOGLEVEL<span style="color:#f92672">:</span>level<span style="color:#f92672">}</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">]</span> <span style="color:#f92672">-</span> <span style="color:#f92672">%{</span>WORD<span style="color:#f92672">:</span>text<span style="color:#f92672">}</span>
+</code></pre></div><p><code>[</code>和 <code>]</code>分别需要进行转义 <code>\[</code>和 <code>\]</code>。其实语法跟正则表达式差不多。</p>
 <p>推荐使用<a href="https://grokdebug.herokuapp.com/">https://grokdebug.herokuapp.com/</a>进行调试。</p>
 <p>所以此时pipeline配置为：</p>
-<pre><code class="language-java">filter {
-    grok {
-        match =&gt; {&quot;message&quot;=&gt;&quot;%{IP:ip} \[%{LOGLEVEL:level}\] - %{WORD:text}&quot;}
-    }
-}
-</code></pre>
-<p>grok插件也支持自定义类型</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">filter <span style="color:#f92672">{</span>
+    grok <span style="color:#f92672">{</span>
+        match <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">=&gt;</span><span style="color:#e6db74">&#34;%{IP:ip} \[%{LOGLEVEL:level}\] - %{WORD:text}&#34;</span><span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>grok插件也支持自定义类型</p>
 <p>单独把自定义类型放在一个文件（文件名随便）进行管理，可以用正则表达式，也可以用内置类型</p>
-<pre><code class="language-java">USERNAME [a-zA-Z0-9._-]+
-TIMESTAMP %{YEAR}-%{MONTHNUM}-%{MONTHDAY} %{TIME}
-</code></pre>
-<p>在patterns_dir参数下指明自定义类型存放文件所在的目录</p>
-<pre><code class="language-java">filter {
-    grok {
-				patterns_dir =&gt; &quot;/usr/share/logstash/pipeline/patterns&quot;
-        match =&gt; {&quot;message&quot;=&gt;&quot;%{IP:ip} \[%{LOGLEVEL:level}\] - %{WORD:text}&quot;}
-				overwrite =&gt; [&quot;message&quot;]
-    }
-}
-</code></pre>
-<p>用 overwrite 参数来重写默认的 message 字段</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">USERNAME <span style="color:#f92672">[</span>a<span style="color:#f92672">-</span>zA<span style="color:#f92672">-</span>Z0<span style="color:#f92672">-</span>9<span style="color:#f92672">.</span><span style="color:#a6e22e">_</span><span style="color:#f92672">-]+</span>
+TIMESTAMP <span style="color:#f92672">%{</span>YEAR<span style="color:#f92672">}-%{</span>MONTHNUM<span style="color:#f92672">}-%{</span>MONTHDAY<span style="color:#f92672">}</span> <span style="color:#f92672">%{</span>TIME<span style="color:#f92672">}</span>
+</code></pre></div><p>在patterns_dir参数下指明自定义类型存放文件所在的目录</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">filter <span style="color:#f92672">{</span>
+    grok <span style="color:#f92672">{</span>
+				patterns_dir <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#34;/usr/share/logstash/pipeline/patterns&#34;</span>
+        match <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">=&gt;</span><span style="color:#e6db74">&#34;%{IP:ip} \[%{LOGLEVEL:level}\] - %{WORD:text}&#34;</span><span style="color:#f92672">}</span>
+				overwrite <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">]</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>用 overwrite 参数来重写默认的 message 字段</p>
 <h2 id="匹配单行日志">匹配单行日志</h2>
 <p>知道了基本的grok语法后，应用了我们的项目中。例如项目正常的info日志为：</p>
-<pre><code class="language-xml">2021-08-11 10:58:10 - [INFO] [org.springframework.amqp.rabbit.connection.CachingConnectionFactory:] Attempting to connect to: [xxx]
-</code></pre>
-<p>所以对应的匹配方式为：</p>
-<pre><code class="language-java">%{TIMESTAMP_ISO8601:timestamp} - \[%{LOGLEVEL:level}\] \[%{JAVACLASS:position}\:\] %{WORD:message}
-</code></pre>
-<p>如果字符过长，过多使用 <code>*</code>，或者匹配类型 <code>GREEDYDATA</code>和 <code>DATA</code>，可能会导致logstash超时。暂时没有解决办法，只能是尽量具体化匹配。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml">2021-08-11 10:58:10 - [INFO] [org.springframework.amqp.rabbit.connection.CachingConnectionFactory:] Attempting to connect to: [xxx]
+</code></pre></div><p>所以对应的匹配方式为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">%{</span>TIMESTAMP_ISO8601<span style="color:#f92672">:</span>timestamp<span style="color:#f92672">}</span> <span style="color:#f92672">-</span> <span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">[%{</span>LOGLEVEL<span style="color:#f92672">:</span>level<span style="color:#f92672">}</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">]</span> <span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">[%{</span>JAVACLASS<span style="color:#f92672">:</span>position<span style="color:#f92672">}</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">:</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#f92672">]</span> <span style="color:#f92672">%{</span>WORD<span style="color:#f92672">:</span>message<span style="color:#f92672">}</span>
+</code></pre></div><p>如果字符过长，过多使用 <code>*</code>，或者匹配类型 <code>GREEDYDATA</code>和 <code>DATA</code>，可能会导致logstash超时。暂时没有解决办法，只能是尽量具体化匹配。</p>
 <h2 id="匹配多行日志">匹配多行日志</h2>
 <p>例如java堆栈。</p>
 <p>例子：</p>
@@ -732,99 +700,92 @@ org.springframework.http.converter.HttpMessageNotReadableException: Required req
         at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.readWithMessageConverters(RequestResponseBodyMethodProcessor.java:161) ~[spring-webmvc-5.2.3.RELEASE.jar!/:5.2.3.RELEASE]
         at org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor.resolveArgument(RequestResponseBodyMethodProcessor.java:131) ~[spring-webmvc-5.2.3.RELEASE.jar!/:5.2.3.RELEASE]
         at java.lang.Thread.run(Thread.java:748) [?:1.8.0_191]
-</code></pre>
-<p>多行日志应该在filebeat中进行预处理，再发送到logstash。因为在logstash中处理多行会造成流混乱和数据损坏。</p>
+</code></pre><p>多行日志应该在filebeat中进行预处理，再发送到logstash。因为在logstash中处理多行会造成流混乱和数据损坏。</p>
 <p>先在filebeat的配置文件中配置多行：</p>
-<pre><code class="language-yaml">multiline.type: pattern
-multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'   # 匹配以日期开头
-multiline.negate: true
-multiline.match: after
-</code></pre>
-<p>这个配置的意思是将不符合 <code>pattern</code>条件的行追加到前面符合 <code>pattern</code>条件的行的后面去。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">multiline.type</span>: <span style="color:#ae81ff">pattern</span>
+<span style="color:#f92672">multiline.pattern</span>: <span style="color:#e6db74">&#39;^[0-9]{4}-[0-9]{2}-[0-9]{2}&#39;</span>   <span style="color:#75715e"># 匹配以日期开头</span>
+<span style="color:#f92672">multiline.negate</span>: <span style="color:#66d9ef">true</span>
+<span style="color:#f92672">multiline.match</span>: <span style="color:#ae81ff">after</span>
+</code></pre></div><p>这个配置的意思是将不符合 <code>pattern</code>条件的行追加到前面符合 <code>pattern</code>条件的行的后面去。</p>
 <p><code>pattern</code>为是匹配模式； <code>negate</code>为是否否认匹配模式； <code>match</code>为组合匹配的行的方式，取决于 <code>negate</code>。详细使用可见于：</p>
 <p><a href="https://www.elastic.co/guide/en/beats/filebeat/7.14/multiline-examples.html#multiline">Manage multiline messages | Filebeat Reference [7.14] | Elastic</a></p>
 <p>接着配置logstash。由于从filebeat传入的日志中存在多行，所以需要添加 <code>(?m)</code>，而且存在换行符，但是普通的 <code>DATA</code>和 <code>GREEDYDATA</code>分别为 <code>.*?</code>和 <code>.*</code>，不能匹配换行符，所以需要使用 <code>(?&lt;message&gt;(.|\r|\n)*)</code>来匹配换行符。</p>
 <p>总的logstash配置为：</p>
-<pre><code class="language-json">//logstash-filebeats.conf
-input {
-    beats {
-        port =&gt; 4561
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#960050;background-color:#1e0010">//logstash-filebeats.conf</span>
+<span style="color:#960050;background-color:#1e0010">input</span> {
+    <span style="color:#960050;background-color:#1e0010">beats</span> <span style="color:#960050;background-color:#1e0010">{</span>
+        <span style="color:#960050;background-color:#1e0010">port</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> <span style="color:#960050;background-color:#1e0010">4561</span>
     }
-}
-filter {
-    grok {
-        match =&gt; {&quot;message&quot;=&gt;&quot;(?m)%{TIMESTAMP_ISO8601:timestamp} - \[%{LOGLEVEL:level}\] \[%{JAVACLASS:position}\:\] (?&lt;message&gt;(.|\r|\n)*)&quot;}
-        overwrite =&gt; [&quot;message&quot;]
-    }
+<span style="color:#960050;background-color:#1e0010">}</span>
+<span style="color:#960050;background-color:#1e0010">filter</span> {
+    <span style="color:#960050;background-color:#1e0010">grok</span> <span style="color:#960050;background-color:#1e0010">{</span>
+        <span style="color:#960050;background-color:#1e0010">match</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> <span style="color:#960050;background-color:#1e0010">{</span><span style="color:#f92672">&#34;message&#34;</span><span style="color:#960050;background-color:#1e0010">=&gt;</span><span style="color:#e6db74">&#34;(?m)%{TIMESTAMP_ISO8601:timestamp} - \[%{LOGLEVEL:level}\] \[%{JAVACLASS:position}\:\] (?&lt;message&gt;(.|\r|\n)*)&#34;</span>}
+        <span style="color:#960050;background-color:#1e0010">overwrite</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> [<span style="color:#e6db74">&#34;message&#34;</span>]
+    <span style="color:#960050;background-color:#1e0010">}</span>
 
-}
-output {
-    elasticsearch { 
-        hosts =&gt; [&quot;https://es01:9200&quot;]
-        index =&gt; &quot;%{[@metadata][beat]}&quot;
-        user =&gt; elastic
-        password =&gt; WjVINkg1zt2DJXAqjWdu
-        ssl_certificate_verification =&gt; false
+<span style="color:#960050;background-color:#1e0010">}</span>
+<span style="color:#960050;background-color:#1e0010">output</span> {
+    <span style="color:#960050;background-color:#1e0010">elasticsearch</span> <span style="color:#960050;background-color:#1e0010">{</span> 
+        <span style="color:#960050;background-color:#1e0010">hosts</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> <span style="color:#960050;background-color:#1e0010">[</span><span style="color:#f92672">&#34;https://es01:9200&#34;</span><span style="color:#960050;background-color:#1e0010">]</span>
+        <span style="color:#960050;background-color:#1e0010">index</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> <span style="color:#e6db74">&#34;%{[@metadata][beat]}&#34;</span>
+        <span style="color:#960050;background-color:#1e0010">user</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> <span style="color:#960050;background-color:#1e0010">elastic</span>
+        <span style="color:#960050;background-color:#1e0010">password</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> <span style="color:#960050;background-color:#1e0010">WjVINkg</span><span style="color:#ae81ff">1</span><span style="color:#960050;background-color:#1e0010">zt</span><span style="color:#ae81ff">2</span><span style="color:#960050;background-color:#1e0010">DJXAqjWdu</span>
+        <span style="color:#960050;background-color:#1e0010">ssl_certificate_verification</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> <span style="color:#66d9ef">false</span>
     }
-    stdout{codec =&gt; rubydebug}
-}
-</code></pre>
-<h2 id="filebeat日志重复">filebeat日志重复</h2>
+    <span style="color:#960050;background-color:#1e0010">stdout</span>{<span style="color:#960050;background-color:#1e0010">codec</span> <span style="color:#960050;background-color:#1e0010">=&gt;</span> <span style="color:#960050;background-color:#1e0010">rubydebug</span>}
+<span style="color:#960050;background-color:#1e0010">}</span>
+</code></pre></div><h2 id="filebeat日志重复">filebeat日志重复</h2>
 <p>因为filebeat传输保证的是”at least once”，而不是”exactly once”。因为filebeat只有收到logstash的ack了才会认为数据发送成功，否则就会重传。</p>
 <p>为了避免重复，有三种办法在filebeat中定义document的唯一id。具体办法可以看官方文档：</p>
 <p><a href="https://www.elastic.co/guide/en/beats/filebeat/current/filebeat-deduplication.html#_how_can_i_avoid_duplicates">Deduplicate data | Filebeat Reference [7.15] | Elastic</a></p>
 <p>翻译版：</p>
 <p><a href="https://juejin.cn/post/6934987274119544840">掘金</a></p>
 <p>这里选择在filebeats配置文件中添加add_id处理器,为每个字段生成唯一的id。</p>
-<pre><code class="language-yaml">processors:
-  - add_id: ~
-</code></pre>
-<p>注：如果程序写日志时把同一段日志写进了两个日志文件（例如把error日志同时写到了error文件和info文件），filebeat会为其分别添加不同的id，这也会造成重复数据。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">processors</span>:
+  - <span style="color:#f92672">add_id</span>: <span style="color:#ae81ff">~</span>
+</code></pre></div><p>注：如果程序写日志时把同一段日志写进了两个日志文件（例如把error日志同时写到了error文件和info文件），filebeat会为其分别添加不同的id，这也会造成重复数据。</p>
 <h1 id="filebeat收集多个日志文件并添加到不同的索引">filebeat收集多个日志文件并添加到不同的索引</h1>
 <p>在filebeat.yml中配置两个日志文件的地址，并在 <code>fields</code>字段下添加字段 <code>address</code>和 <code>category</code>标识不同的日志文件， <code>fields</code>下的字段可以在logstash.conf中直接使用，例如： <code>if [category]{}</code>和 <code>&quot;%{[category]}-%{[address]}&quot;</code>。不在filebeat配置index，而是在logstash进行处理。</p>
-<pre><code class="language-yaml"># filebeat.yml
-fields:                     
-    address: 192.168.1.0    
-    category: test
-</code></pre>
-<p>在logstash接受这两个字段，并将其配置为index：</p>
-<pre><code class="language-yaml"># logstash.conf
-output {
-  elasticsearch { 
-      hosts =&gt; [&quot;https://es01:9200&quot;]
-      index =&gt; &quot;%{[category]}-%{[address]}&quot;
-      user =&gt; elastic
-      password =&gt; WjVINkg1zt2DJXAqjWdu
-      ssl_certificate_verification =&gt; false
-      document_id =&gt; &quot;%{[@metadata][_id]}&quot;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># filebeat.yml</span>
+<span style="color:#f92672">fields</span>:                     
+    <span style="color:#f92672">address</span>: <span style="color:#ae81ff">192.168.1.0</span>    
+    <span style="color:#f92672">category</span>: <span style="color:#ae81ff">test</span>
+</code></pre></div><p>在logstash接受这两个字段，并将其配置为index：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># logstash.conf</span>
+<span style="color:#ae81ff">output {</span>
+  <span style="color:#ae81ff">elasticsearch { </span>
+      <span style="color:#ae81ff">hosts =&gt; [&#34;https://es01:9200&#34;]</span>
+      <span style="color:#ae81ff">index =&gt; &#34;%{[category]}-%{[address]}&#34;</span>
+      <span style="color:#ae81ff">user =&gt; elastic</span>
+      <span style="color:#ae81ff">password =&gt; WjVINkg1zt2DJXAqjWdu</span>
+      <span style="color:#ae81ff">ssl_certificate_verification =&gt; false</span>
+      <span style="color:#ae81ff">document_id =&gt; &#34;%{[@metadata][_id]}&#34;</span>
   }
-</code></pre>
-<p>所以在kibana能看到index</p>
+</code></pre></div><p>所以在kibana能看到index</p>
 <h2 id="将日志产生的时间替换timestamp">将日志产生的时间替换@timestamp</h2>
 <p>在logstash.conf中将从日志中匹配的timestamp字段代替@timestamp字段</p>
-<pre><code class="language-yaml"># logstash.conf
-filter {
-    grok {
-        match =&gt; {&quot;message&quot;=&gt;&quot;(?m)%{TIMESTAMP_ISO8601:timestamp} - \[%{LOGLEVEL:level}\] \[%{JAVACLASS:position}\:\] (?&lt;message&gt;(.|\r|\n)*)&quot;}
-        overwrite =&gt; [&quot;message&quot;]
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># logstash.conf</span>
+<span style="color:#ae81ff">filter {</span>
+    <span style="color:#ae81ff">grok {</span>
+        <span style="color:#ae81ff">match =&gt; {&#34;message&#34;=&gt;&#34;(?m)%{TIMESTAMP_ISO8601:timestamp} - \[%{LOGLEVEL:level}\] \[%{JAVACLASS:position}\:\] (?&lt;message&gt;(.|\r|\n)*)&#34;}</span>
+        <span style="color:#ae81ff">overwrite =&gt; [&#34;message&#34;]</span>
     }
-    date {
-				# 匹配上文过滤出来的timestamp字段，timestamp格式为yyyy-MM-dd HH:mm:ss，这里指的是日志文件中的日志格式
-        match =&gt; [&quot;timestamp&quot;, &quot;yyyy-MM-dd HH:mm:ss&quot;]
-				# 将上面匹配的timestamp的值存储到@timestamp
-        target =&gt; &quot;@timestamp&quot;
-				# 设置时间格式化的时区
-        timezone =&gt; &quot;Asia/Shanghai&quot;
+    <span style="color:#ae81ff">date {</span>
+				<span style="color:#75715e"># 匹配上文过滤出来的timestamp字段，timestamp格式为yyyy-MM-dd HH:mm:ss，这里指的是日志文件中的日志格式</span>
+        <span style="color:#ae81ff">match =&gt; [&#34;timestamp&#34;, &#34;yyyy-MM-dd HH:mm:ss&#34;]</span>
+				<span style="color:#75715e"># 将上面匹配的timestamp的值存储到@timestamp</span>
+        <span style="color:#ae81ff">target =&gt; &#34;@timestamp&#34;</span>
+				<span style="color:#75715e"># 设置时间格式化的时区</span>
+        <span style="color:#ae81ff">timezone =&gt; &#34;Asia/Shanghai&#34;</span>
     }
 
-    mutate {
-			# 去除timestamp键
-      remove_field =&gt; [ &quot;timestamp&quot; ]
+    <span style="color:#ae81ff">mutate {</span>
+			<span style="color:#75715e"># 去除timestamp键</span>
+      <span style="color:#ae81ff">remove_field =&gt; [ &#34;timestamp&#34; ]</span>
     }
 
 }
-</code></pre>
-<p>但是这个方法有问题，会导致logstash和elasticsearch中的看到的日志时间不对，暂时没找到解决的办法。</p>
+</code></pre></div><p>但是这个方法有问题，会导致logstash和elasticsearch中的看到的日志时间不对，暂时没找到解决的办法。</p>
 <h2 id="参考">参考</h2>
 <p>第四和第五问：</p>
 <p><a href="https://www.jianshu.com/p/f0b245ffa147">Elasticsearch 100问(1-30)</a></p>
@@ -840,74 +801,72 @@ filter {
 <h1 id="配置文件">配置文件</h1>
 <p>所以目前最终的配置文件如下;</p>
 <p>filebeat.yml</p>
-<pre><code class="language-yaml">filebeat.inputs:
-- type: log
-  enable: true
-  paths: 
-    - /logs/test.log
-  fields:                     # 使用 fields 模块添加字段
-    address: 192.168.1.3     # address 为字段名称
-    category: test
-  fields_under_root: true     # 将新增的字段放在顶级，收集后字段名称显示 address。如果设置为 false，则放在子集，收集后显示为 fields.address
-  encoding: UTF-8 
-  multiline.type: pattern
-  multiline.pattern: '^[0-9]{4}-[0-9]{2}-[0-9]{2}'
-  multiline.negate: true
-  multiline.match: after
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">filebeat.inputs</span>:
+- <span style="color:#f92672">type</span>: <span style="color:#ae81ff">log</span>
+  <span style="color:#f92672">enable</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">paths</span>: 
+    - <span style="color:#ae81ff">/logs/test.log</span>
+  <span style="color:#f92672">fields</span>:                     <span style="color:#75715e"># 使用 fields 模块添加字段</span>
+    <span style="color:#f92672">address</span>: <span style="color:#ae81ff">192.168.1.3</span>     <span style="color:#75715e"># address 为字段名称</span>
+    <span style="color:#f92672">category</span>: <span style="color:#ae81ff">test</span>
+  <span style="color:#f92672">fields_under_root</span>: <span style="color:#66d9ef">true</span>     <span style="color:#75715e"># 将新增的字段放在顶级，收集后字段名称显示 address。如果设置为 false，则放在子集，收集后显示为 fields.address</span>
+  <span style="color:#f92672">encoding</span>: <span style="color:#ae81ff">UTF-8 </span>
+  <span style="color:#f92672">multiline.type</span>: <span style="color:#ae81ff">pattern</span>
+  <span style="color:#f92672">multiline.pattern</span>: <span style="color:#e6db74">&#39;^[0-9]{4}-[0-9]{2}-[0-9]{2}&#39;</span>
+  <span style="color:#f92672">multiline.negate</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">multiline.match</span>: <span style="color:#ae81ff">after</span>
 
-processors:
-  - add_id: ~
+<span style="color:#f92672">processors</span>:
+  - <span style="color:#f92672">add_id</span>: <span style="color:#ae81ff">~</span>
 
-output.logstash:
-  enable: true
-  hosts: [&quot;192.168.1.0:4561&quot;]
-</code></pre>
-<p>logstash.conf</p>
-<pre><code class="language-bash">input {
-    beats {
-        port =&gt; 4561
-    }
-}
-filter {
-    grok {
-        match =&gt; {&quot;message&quot;=&gt;&quot;(?m)%{TIMESTAMP_ISO8601:timestamp} - \[%{LOGLEVEL:level}\] \[%{JAVACLASS:position}\:\] (?&lt;message&gt;(.|\r|\n)*)&quot;}
-        overwrite =&gt; [&quot;message&quot;]
-    }
-    date {
-        match =&gt; [&quot;timestamp&quot;, &quot;yyyy-MM-dd HH:mm:ss&quot;]
-        target =&gt; &quot;@timestamp&quot;
-        timezone =&gt; &quot;Asia/Shanghai&quot;
-    }
+<span style="color:#f92672">output.logstash</span>:
+  <span style="color:#f92672">enable</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">hosts</span>: [<span style="color:#e6db74">&#34;192.168.1.0:4561&#34;</span>]
+</code></pre></div><p>logstash.conf</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">input <span style="color:#f92672">{</span>
+    beats <span style="color:#f92672">{</span>
+        port <span style="color:#f92672">=</span>&gt; <span style="color:#ae81ff">4561</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+filter <span style="color:#f92672">{</span>
+    grok <span style="color:#f92672">{</span>
+        match <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">=</span>&gt;<span style="color:#e6db74">&#34;(?m)%{TIMESTAMP_ISO8601:timestamp} - \[%{LOGLEVEL:level}\] \[%{JAVACLASS:position}\:\] (?&lt;message&gt;(.|\r|\n)*)&#34;</span><span style="color:#f92672">}</span>
+        overwrite <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;message&#34;</span><span style="color:#f92672">]</span>
+    <span style="color:#f92672">}</span>
+    date <span style="color:#f92672">{</span>
+        match <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;timestamp&#34;</span>, <span style="color:#e6db74">&#34;yyyy-MM-dd HH:mm:ss&#34;</span><span style="color:#f92672">]</span>
+        target <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#34;@timestamp&#34;</span>
+        timezone <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span>
+    <span style="color:#f92672">}</span>
 
-    mutate {
-      remove_field =&gt; [ &quot;timestamp&quot; ]
-    }
+    mutate <span style="color:#f92672">{</span>
+      remove_field <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;timestamp&#34;</span> <span style="color:#f92672">]</span>
+    <span style="color:#f92672">}</span>
 
-}
-output {
-  if [@metadata][_id] {
-    elasticsearch { 
-        hosts =&gt; [&quot;https://es01:9200&quot;]
-        index =&gt; &quot;%{[category]}-%{[address]}&quot;
-        user =&gt; elastic
-        password =&gt; WjVINkg1zt2DJXAqjWdu
-        ssl_certificate_verification =&gt; false
-        document_id =&gt; &quot;%{[@metadata][_id]}&quot;
-    }
-  }else {
-    elasticsearch { 
-        hosts =&gt; [&quot;https://es01:9200&quot;]
-        index =&gt; &quot;%{[@metadata][beat]}&quot;
-        user =&gt; elastic
-        password =&gt; WjVINkg1zt2DJXAqjWdu
-        ssl_certificate_verification =&gt; false
-    }
+<span style="color:#f92672">}</span>
+output <span style="color:#f92672">{</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span>@metadata<span style="color:#f92672">][</span>_id<span style="color:#f92672">]</span> <span style="color:#f92672">{</span>
+    elasticsearch <span style="color:#f92672">{</span> 
+        hosts <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://es01:9200&#34;</span><span style="color:#f92672">]</span>
+        index <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#34;%{[category]}-%{[address]}&#34;</span>
+        user <span style="color:#f92672">=</span>&gt; elastic
+        password <span style="color:#f92672">=</span>&gt; WjVINkg1zt2DJXAqjWdu
+        ssl_certificate_verification <span style="color:#f92672">=</span>&gt; false
+        document_id <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#34;%{[@metadata][_id]}&#34;</span>
+    <span style="color:#f92672">}</span>
+  <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+    elasticsearch <span style="color:#f92672">{</span> 
+        hosts <span style="color:#f92672">=</span>&gt; <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;https://es01:9200&#34;</span><span style="color:#f92672">]</span>
+        index <span style="color:#f92672">=</span>&gt; <span style="color:#e6db74">&#34;%{[@metadata][beat]}&#34;</span>
+        user <span style="color:#f92672">=</span>&gt; elastic
+        password <span style="color:#f92672">=</span>&gt; WjVINkg1zt2DJXAqjWdu
+        ssl_certificate_verification <span style="color:#f92672">=</span>&gt; false
+    <span style="color:#f92672">}</span>
 
-  }
-    stdout{codec =&gt; rubydebug}
-}
-</code></pre>
-<h1 id="发送告警日志到钉">发送告警日志到钉</h1>
+  <span style="color:#f92672">}</span>
+    stdout<span style="color:#f92672">{</span>codec <span style="color:#f92672">=</span>&gt; rubydebug<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h1 id="发送告警日志到钉">发送告警日志到钉</h1>
 <p><img src="/media/ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled%204.png" alt="Untitled"></p>
 <h2 id="创建一个连接器">创建一个连接器</h2>
 <p>方法选择POST，URL填入钉钉的webhook地址，添加标头Content-Type:application/json。</p>
@@ -920,8 +879,7 @@ output {
 <h2 id="测试">测试</h2>
 <p>在正文填入：</p>
 <pre><code>{&quot;msgtype&quot;: &quot;text&quot;,&quot;text&quot;: {&quot;content&quot;:&quot;elastic发来信息&quot;}}
-</code></pre>
-<p><img src="/media/ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled%207.png" alt="Untitled"></p>
+</code></pre><p><img src="/media/ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled%207.png" alt="Untitled"></p>
 <p>点击测试</p>
 <p>钉钉便能收到信息。</p>
 <p><img src="/media/ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled%208.png" alt="Untitled"></p>
@@ -1021,7 +979,7 @@ output {
 
 
 
-<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
 
 
 

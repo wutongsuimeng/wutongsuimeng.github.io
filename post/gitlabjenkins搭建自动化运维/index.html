@@ -37,7 +37,7 @@ jenkins是一个支持自动化构建、部署和测试的软件，并且提供�
 
 
 
-<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -180,37 +180,36 @@ jenkins是一个支持自动化构建、部署和测试的软件，并且提供�
 <p>部署机器: 192.168.1.1</p>
 <h1 id="安装jenkins和gitlab">安装Jenkins和Gitlab</h1>
 <p>docker-compose.yml文件为：</p>
-<pre><code class="language-yaml">version: '2'
-services:
-  gitlab:
-    image: gitlab/gitlab-ce:13.12.10-ce.0
-    container_name: gitlab
-    ports:
-      - &quot;9022:9022&quot;
-      - &quot;9080:80&quot;
-      - &quot;9023:22&quot;
-      - &quot;9443:443&quot;
-    volumes:
-      - &quot;./gitlab/cfg:/etc/gitlab&quot;
-      - &quot;./gitlab/logs:/var/log/gitlab&quot;
-      - &quot;./gitlab/data:/var/opt/gitlab&quot;
-  jenkins:
-    image: jenkins/jenkins
-    user: root
-    container_name: jenkins
-    ports:
-      - &quot;9081:8080&quot;
-      - &quot;50000:50000&quot;
-    volumes:
-      - &quot;/var/run/docker.sock:/var/run/docker.sock&quot;
-      - &quot;./jenkins_home:/var/jenkins_home&quot;
-      - &quot;/usr/bin/docker:/usr/bin/docker&quot;
-      - &quot;/etc/localtime:/etc/localtime&quot;
-      - &quot;/root/.ssh:/root/.ssh&quot;   
-    environment:
-      - JAVA_OPTS=-Duser.timezone=Asia/Shanghai
-</code></pre>
-<p>注：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;2&#39;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">gitlab</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">gitlab/gitlab-ce:13.12.10-ce.0</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">gitlab</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;9022:9022&#34;</span>
+      - <span style="color:#e6db74">&#34;9080:80&#34;</span>
+      - <span style="color:#e6db74">&#34;9023:22&#34;</span>
+      - <span style="color:#e6db74">&#34;9443:443&#34;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#e6db74">&#34;./gitlab/cfg:/etc/gitlab&#34;</span>
+      - <span style="color:#e6db74">&#34;./gitlab/logs:/var/log/gitlab&#34;</span>
+      - <span style="color:#e6db74">&#34;./gitlab/data:/var/opt/gitlab&#34;</span>
+  <span style="color:#f92672">jenkins</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">jenkins/jenkins</span>
+    <span style="color:#f92672">user</span>: <span style="color:#ae81ff">root</span>
+    <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">jenkins</span>
+    <span style="color:#f92672">ports</span>:
+      - <span style="color:#e6db74">&#34;9081:8080&#34;</span>
+      - <span style="color:#e6db74">&#34;50000:50000&#34;</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#e6db74">&#34;/var/run/docker.sock:/var/run/docker.sock&#34;</span>
+      - <span style="color:#e6db74">&#34;./jenkins_home:/var/jenkins_home&#34;</span>
+      - <span style="color:#e6db74">&#34;/usr/bin/docker:/usr/bin/docker&#34;</span>
+      - <span style="color:#e6db74">&#34;/etc/localtime:/etc/localtime&#34;</span>
+      - <span style="color:#e6db74">&#34;/root/.ssh:/root/.ssh&#34;</span>   
+    <span style="color:#f92672">environment</span>:
+      - <span style="color:#ae81ff">JAVA_OPTS=-Duser.timezone=Asia/Shanghai</span>
+</code></pre></div><p>注：</p>
 <ol>
 <li>因为jenkins的官方docker已经不再维护，所以这里使用的是jenkins的社区版</li>
 <li><code>user: root</code>指定容器以root用户执行指令的权限</li>
@@ -218,64 +217,58 @@ services:
 <li>因为编译java需要用到maven，可以选择把主机的maven映射进来（ <code>- &quot;/usr/maven:/usr/local/maven&quot;</code>），这里选择在主机里面装一个。</li>
 </ol>
 <p>启动创建并启动服务：</p>
-<pre><code class="language-bash">$ docker-compose up -d
-</code></pre>
-<p>启动完成后的目录结构为：</p>
-<pre><code class="language-yaml">├── docker-compose.yml
-├── gitlab
-│   ├── cfg
-│   ├── data
-│   └── logs
-└── jenkins_home
-    ├── config.xml
-    ├── copy_reference_file.log
-    ├── hudson.model.UpdateCenter.xml
-    ├── hudson.plugins.git.GitTool.xml
-    ├── identity.key.enc
-    ├── jenkins.telemetry.Correlator.xml
-    ├── jobs
-    ├── logs
-    ├── nodeMonitors.xml
-    ├── nodes
-    ├── plugins
-    ├── queue.xml.bak
-    ├── secret.key
-    ├── secret.key.not-so-secret
-    ├── secrets
-    ├── updates
-    ├── userContent
-    ├── users
-    ├── war
-    └── workflow-libs
-</code></pre>
-<h1 id="配置gitlab">配置gitlab</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker-compose up -d
+</code></pre></div><p>启动完成后的目录结构为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ae81ff">├── docker-compose.yml</span>
+<span style="color:#ae81ff">├── gitlab</span>
+<span style="color:#ae81ff">│   ├── cfg</span>
+<span style="color:#ae81ff">│   ├── data</span>
+<span style="color:#ae81ff">│   └── logs</span>
+<span style="color:#ae81ff">└── jenkins_home</span>
+    <span style="color:#ae81ff">├── config.xml</span>
+    <span style="color:#ae81ff">├── copy_reference_file.log</span>
+    <span style="color:#ae81ff">├── hudson.model.UpdateCenter.xml</span>
+    <span style="color:#ae81ff">├── hudson.plugins.git.GitTool.xml</span>
+    <span style="color:#ae81ff">├── identity.key.enc</span>
+    <span style="color:#ae81ff">├── jenkins.telemetry.Correlator.xml</span>
+    <span style="color:#ae81ff">├── jobs</span>
+    <span style="color:#ae81ff">├── logs</span>
+    <span style="color:#ae81ff">├── nodeMonitors.xml</span>
+    <span style="color:#ae81ff">├── nodes</span>
+    <span style="color:#ae81ff">├── plugins</span>
+    <span style="color:#ae81ff">├── queue.xml.bak</span>
+    <span style="color:#ae81ff">├── secret.key</span>
+    <span style="color:#ae81ff">├── secret.key.not-so-secret</span>
+    <span style="color:#ae81ff">├── secrets</span>
+    <span style="color:#ae81ff">├── updates</span>
+    <span style="color:#ae81ff">├── userContent</span>
+    <span style="color:#ae81ff">├── users</span>
+    <span style="color:#ae81ff">├── war</span>
+    <span style="color:#ae81ff">└── workflow-libs</span>
+</code></pre></div><h1 id="配置gitlab">配置gitlab</h1>
 <p>打开gitlab地址，端口为9080，创建新密码并登录进去（用户名为root）</p>
 <p>新建一个名为test的项目，并拷贝项目的git地址，例如：git@192.168.1.0:root/test.git</p>
 <p>在本地源码目录下，进行git操作，并设置ssh免密推送。</p>
-<pre><code class="language-bash">#初始化git仓库
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#初始化git仓库</span>
 $ git init
-# 设置本地邮件与名字，admin@example.com为gitlab中设置的用户的电子邮箱
-$ git config --local user.email &quot;admin@example.com&quot;
-$ git config --local user.name &quot;root&quot;
-# 添加远程仓库地址
+<span style="color:#75715e"># 设置本地邮件与名字，admin@example.com为gitlab中设置的用户的电子邮箱</span>
+$ git config --local user.email <span style="color:#e6db74">&#34;admin@example.com&#34;</span>
+$ git config --local user.name <span style="color:#e6db74">&#34;root&#34;</span>
+<span style="color:#75715e"># 添加远程仓库地址</span>
 $ git remote add origin git@192.168.1.0:root/test.git
-</code></pre>
-<p>因为gitlab的ssh端口不是默认的22，而是我们设置的9023，所以要设置ssh非22端口推送到远程仓库。操作如下：</p>
+</code></pre></div><p>因为gitlab的ssh端口不是默认的22，而是我们设置的9023，所以要设置ssh非22端口推送到远程仓库。操作如下：</p>
 <p>配置ssh,生成公钥和私钥：</p>
-<pre><code class="language-bash">$ ssh-keygen -t rsa -C 'admin@example.com'
-</code></pre>
-<p>window是在 <code>C:\Users\Administrator\.ssh</code>目录下linux是在 <code>~/.ssh</code> 下。将id_rsa.pub文件的公钥粘贴到gitlab的SSH密钥</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ssh-keygen -t rsa -C <span style="color:#e6db74">&#39;admin@example.com&#39;</span>
+</code></pre></div><p>window是在 <code>C:\Users\Administrator\.ssh</code>目录下linux是在 <code>~/.ssh</code> 下。将id_rsa.pub文件的公钥粘贴到gitlab的SSH密钥</p>
 <p><img src="/media/gitlab%E3%80%81jenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%2006af973b788c4bfdb6a5e5e17a48e6f6/Untitled.png" alt="Untitled"></p>
 <p>然后在config文件中，配置地址、用户名跟ssh端口：</p>
 <pre><code>Host 192.168.1.0
     HostName 192.168.1.0
     User root
     Port 9023
-</code></pre>
-<p>配置好后，进行推送测试：</p>
-<pre><code class="language-bash">$ git push origin master
-</code></pre>
-<h1 id="配置jenkins">配置jenkins</h1>
+</code></pre><p>配置好后，进行推送测试：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ git push origin master
+</code></pre></div><h1 id="配置jenkins">配置jenkins</h1>
 <h2 id="网络">网络</h2>
 <p>因为jenkins的默认网络比较慢，所以在使用之前需要配置网络。编辑jenkins_home/updates下的default.json文件，将 <code>http://www.google.com</code>都替换成 <code>http://www.baidu.com</code>，将 <code>updates.jenkins.io/download</code>替换成 <code>mirrors.tuna.tsinghua.edu.cn/jenkins</code>。然后重启容器。</p>
 <h2 id="使用与安装插件">使用与安装插件</h2>
@@ -309,17 +302,16 @@ $ git remote add origin git@192.168.1.0:root/test.git
 <p><img src="/media/gitlab%E3%80%81jenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%2006af973b788c4bfdb6a5e5e17a48e6f6/Untitled%209.png" alt="Untitled"></p>
 <h2 id="配置ssh">配置ssh</h2>
 <p>jenkins需要通过ssh方式连接部署机器</p>
-<pre><code class="language-bash">#在jenkins主机上执行
-#生成公私匙，需要注意的是新版本的格式 Jenkins 插件不支持，请使用 PEM 这种格式。提示输入密码的话，可以直接直接回车表示为空。
-ssh-keygen -t rsa -b 4096 -m PEM
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#在jenkins主机上执行</span>
+<span style="color:#75715e">#生成公私匙，需要注意的是新版本的格式 Jenkins 插件不支持，请使用 PEM 这种格式。提示输入密码的话，可以直接直接回车表示为空。</span>
+ssh-keygen -t rsa -b <span style="color:#ae81ff">4096</span> -m PEM
 
-# 将公匙拷贝至部署服务器192.168.1.1 
+<span style="color:#75715e"># 将公匙拷贝至部署服务器192.168.1.1 </span>
 ssh-copy-id -i /root/.ssh/id_rsa.pub root@192.168.1.1
 
-#测试
+<span style="color:#75715e">#测试</span>
 ssh 192.168.1.1
-</code></pre>
-<p>然后再在全局配置的Publish over SSh配置ssh。</p>
+</code></pre></div><p>然后再在全局配置的Publish over SSh配置ssh。</p>
 <p>Passphrase为上面生成公私钥时输入的密码，因为上面没有输入密码，所以直接为空就行。</p>
 <p>Path to key为私钥存放的绝对路径，上面选择了是/root/.ssh/id_rsa.pub，填了这个就不用填下面的Key了。</p>
 <p>Key为私钥。</p>
@@ -356,14 +348,13 @@ ssh 192.168.1.1
 <p>Remote directory为jar发送到的服务器位置，为系统配置下ssh配置的Remote Directory的相对路径。例如这里填写/tmp/</p>
 <p>Exec command为执行的命令，位置为远程服务器上脚本的绝对位置。</p>
 <p>例如脚本test.sh为：</p>
-<pre><code class="language-sql">#!/bin/bash
-JAR_NAME=test-0.0.1.jar
-PROJECT_PATH=/home/test
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#f92672">#!/</span>bin<span style="color:#f92672">/</span>bash
+JAR_NAME<span style="color:#f92672">=</span>test<span style="color:#f92672">-</span><span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">0</span>.<span style="color:#ae81ff">1</span>.jar
+PROJECT_PATH<span style="color:#f92672">=/</span>home<span style="color:#f92672">/</span>test
 
-mv /tmp/$JAR_NAME $PROJECT_PATH/$JAR_NAME
-systemctl restart test
-</code></pre>
-<p><img src="/media/gitlab%E3%80%81jenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%2006af973b788c4bfdb6a5e5e17a48e6f6/Untitled%2016.png" alt="Untitled"></p>
+mv <span style="color:#f92672">/</span>tmp<span style="color:#f92672">/</span><span style="color:#960050;background-color:#1e0010">$</span>JAR_NAME <span style="color:#960050;background-color:#1e0010">$</span>PROJECT_PATH<span style="color:#f92672">/</span><span style="color:#960050;background-color:#1e0010">$</span>JAR_NAME
+systemctl <span style="color:#66d9ef">restart</span> test
+</code></pre></div><p><img src="/media/gitlab%E3%80%81jenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4%2006af973b788c4bfdb6a5e5e17a48e6f6/Untitled%2016.png" alt="Untitled"></p>
 <p>配置好后，点击保存。</p>
 <p>最后，一个自动化构建的流程就已经搭建好了。</p>
 <h1 id="参考">参考</h1>
@@ -454,7 +445,7 @@ systemctl restart test
 
 
 
-<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
 
 
 

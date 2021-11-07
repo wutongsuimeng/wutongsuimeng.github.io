@@ -35,7 +35,7 @@
 
 
 
-<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -157,37 +157,32 @@
 <ol start="2">
 <li>安装mysql服务：</li>
 </ol>
-<pre><code class="language-java">mysqld --install
-</code></pre>
-<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%203.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%203.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mysqld <span style="color:#f92672">--</span>install
+</code></pre></div><p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%203.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%203.png"></p>
 <p>这便是成功安装。</p>
 <ol start="3">
 <li>初始化mysql，注意要等几分钟，不要把窗口关了，这里会初始化一个密码，需要记住：</li>
 </ol>
-<pre><code class="language-java">mysqld --initialize --console
-</code></pre>
-<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%204.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%204.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">mysqld <span style="color:#f92672">--</span>initialize <span style="color:#f92672">--</span>console
+</code></pre></div><p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%204.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%204.png"></p>
 <ol start="4">
 <li>然后启动mysql服务：</li>
 </ol>
-<pre><code class="language-java">net start Mysql
-</code></pre>
-<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%205.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%205.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">net start Mysql
+</code></pre></div><p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%205.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%205.png"></p>
 <p>说明服务已经启动成功。</p>
 <ol start="5">
 <li>修改mysql初始密码：</li>
 </ol>
-<pre><code class="language-java">//登录mysql
-mysql -u root -p
-//输入那个初始化的密码
-//修改root用户的密码为root
-alter user 'root'@'localhost' identified by 'root';
-</code></pre>
-<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%206.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%206.png"></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//登录mysql
+</span><span style="color:#75715e"></span>mysql <span style="color:#f92672">-</span>u root <span style="color:#f92672">-</span>p
+<span style="color:#75715e">//输入那个初始化的密码
+</span><span style="color:#75715e">//修改root用户的密码为root
+</span><span style="color:#75715e"></span>alter user <span style="color:#960050;background-color:#1e0010">&#39;</span>root<span style="color:#e6db74">&#39;@&#39;</span>localhost<span style="color:#960050;background-color:#1e0010">&#39;</span> identified by <span style="color:#960050;background-color:#1e0010">&#39;</span>root<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#f92672">;</span>
+</code></pre></div><p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%206.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%206.png"></p>
 <p>离开mysql</p>
-<pre><code class="language-java">exit
-</code></pre>
-<ol start="6">
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">exit
+</code></pre></div><ol start="6">
 <li>验证密码已经修改成功，用新的密码登录mysql：</li>
 </ol>
 <p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%207.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%207.png"></p>
@@ -274,7 +269,7 @@ alter user 'root'@'localhost' identified by 'root';
 
 
 
-<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
 
 
 

@@ -36,7 +36,7 @@
 
 
 
-<link href="/sass/main.min.cb68f97bc9cece255d217346d970e3c62623408634e500c330a62fadabbbe77c.css" rel="stylesheet">
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
@@ -50,7 +50,7 @@
 <meta itemprop="name" content="使用spring cloud，nacos，dubbo，gateway搭建微服务">
 <meta itemprop="description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务"><meta itemprop="datePublished" content="2021-10-10T21:16:29+08:00" />
 <meta itemprop="dateModified" content="2021-10-10T21:16:29+08:00" />
-<meta itemprop="wordCount" content="3077">
+<meta itemprop="wordCount" content="3075">
 <meta itemprop="keywords" content="微服务,nacos,spring cloud,dubbo,gateway," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用spring cloud，nacos，dubbo，gateway搭建微服务"/>
 <meta name="twitter:description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务"/>
@@ -133,7 +133,7 @@
         <div class="post-category">
             <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/"> 微服务 </a>
             </div>
-          <span class="more-meta"> 约 3077 字 </span>
+          <span class="more-meta"> 约 3075 字 </span>
           <span class="more-meta"> 预计阅读 7 分钟 </span>
         
       </div>
@@ -163,19 +163,16 @@
 <ol>
 <li>
 <p>使用命令行启动，指定为单机模式：</p>
-<pre><code class="language-powershell">startup.cmd -m standalone
-</code></pre>
-</li>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">startup.cmd -m standalone
+</code></pre></div></li>
 <li>
 <p>修改startup.cmd文件，将其修改为单机模式：</p>
 <p>将</p>
-<pre><code class="language-powershell">set MODE=&quot;cluster&quot;
-</code></pre>
-<p>修改为：</p>
-<pre><code class="language-powershell">rem set MODE=&quot;cluster&quot;
-set MODE=&quot;standalone&quot;
-</code></pre>
-<p>注： <code>rem</code>为注释语句</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">set MODE=<span style="color:#e6db74">&#34;cluster&#34;</span>
+</code></pre></div><p>修改为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">rem set MODE=<span style="color:#e6db74">&#34;cluster&#34;</span>
+set MODE=<span style="color:#e6db74">&#34;standalone&#34;</span>
+</code></pre></div><p>注： <code>rem</code>为注释语句</p>
 </li>
 <li>
 <p>可以去修改数据库配置，感觉太麻烦了</p>
@@ -192,194 +189,179 @@ set MODE=&quot;standalone&quot;
 <p>删掉多余的src目录。</p>
 <p>然后再分别新建Module类型的项目，分别命名为provider、consumer、gateway，依赖选择Spring Web。</p>
 <p>在父pom.xml文件中，引入子模块：</p>
-<pre><code class="language-xml">&lt;packaging&gt;pom&lt;/packaging&gt;
-&lt;modules&gt;
-    &lt;module&gt;consumer&lt;/module&gt;
-    &lt;module&gt;gateway&lt;/module&gt;
-    &lt;module&gt;provider&lt;/module&gt;
-&lt;/modules&gt;
-</code></pre>
-<p>再新建一个公共子模块，命名为common。分别在provider、consumer子模块的pom.xml文件中引入common模块的依赖：</p>
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.wtsm&lt;/groupId&gt;
-    &lt;artifactId&gt;common&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>因为每个子模块都需要引入配置中心和注册中心，所以在common和gateway模块中引入相应的依赖：</p>
-<pre><code class="language-xml">&lt;!-- 配置管理 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-config&lt;/artifactId&gt;
-    &lt;version&gt;2021.1&lt;/version&gt;
-&lt;/dependency&gt;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;packaging&gt;</span>pom<span style="color:#f92672">&lt;/packaging&gt;</span>
+<span style="color:#f92672">&lt;modules&gt;</span>
+    <span style="color:#f92672">&lt;module&gt;</span>consumer<span style="color:#f92672">&lt;/module&gt;</span>
+    <span style="color:#f92672">&lt;module&gt;</span>gateway<span style="color:#f92672">&lt;/module&gt;</span>
+    <span style="color:#f92672">&lt;module&gt;</span>provider<span style="color:#f92672">&lt;/module&gt;</span>
+<span style="color:#f92672">&lt;/modules&gt;</span>
+</code></pre></div><p>再新建一个公共子模块，命名为common。分别在provider、consumer子模块的pom.xml文件中引入common模块的依赖：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>com.wtsm<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>common<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>0.0.1-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>因为每个子模块都需要引入配置中心和注册中心，所以在common和gateway模块中引入相应的依赖：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- 配置管理 --&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>com.alibaba.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-alibaba-nacos-config<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>2021.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
 
-&lt;!-- 服务发现 --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;
-    &lt;version&gt;2021.1&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>在application.yml同目录下，新建一个名为bootstrap.yml的资源文件，并保持application.yml为空。对gateway的bootstrap.yml配置文件进行配置：</p>
-<pre><code class="language-yaml"># bootstrap.yml
-spring:
-  application:
-    name: consumer
-  cloud:
-    nacos:
-      config:
-        server-addr: http://localhost:8848
-        group: test   
-        file-extension: yaml
-</code></pre>
-<p>注：<code>spring.application.name</code>为nacos配置中心中dataId的一部分。 <code>group</code>为分组名。 <code>file-extension</code>为配置中心配置文件的扩展名。</p>
+<span style="color:#75715e">&lt;!-- 服务发现 --&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>com.alibaba.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>2021.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>在application.yml同目录下，新建一个名为bootstrap.yml的资源文件，并保持application.yml为空。对gateway的bootstrap.yml配置文件进行配置：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># bootstrap.yml</span>
+<span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">consumer</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">nacos</span>:
+      <span style="color:#f92672">config</span>:
+        <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+        <span style="color:#f92672">group</span>: <span style="color:#ae81ff">test   </span>
+        <span style="color:#f92672">file-extension</span>: <span style="color:#ae81ff">yaml</span>
+</code></pre></div><p>注：<code>spring.application.name</code>为nacos配置中心中dataId的一部分。 <code>group</code>为分组名。 <code>file-extension</code>为配置中心配置文件的扩展名。</p>
 <p>然后在nacos的web管理页面的配置管理，新建一个配置。 <code>Data Id</code>填写上面<code>spring.applicatio.name</code>的值， <code>Group</code>即为上面的 <code>group</code>，配置格式选择YAML，配置内容填写需要放在配置中心的配置，这里填写运行端口与注册中心的地址：</p>
-<pre><code class="language-yaml">server:
-  port: 8082
-spring:
-	application:
-	    name: consumer
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://localhost:8848
-</code></pre>
-<p>bootstrap.yml会比application.yml先加载，但是要使用bootstrap.yml配置文件的话，需要添加依赖，这里我们在common和gateway中添加：</p>
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;
-    &lt;version&gt;3.0.4&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>先启动consumer模块，能看到程序以配置中心配置的8082端口运行，并且在服务列表能看到consumer服务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">server</span>:
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8082</span>
+<span style="color:#f92672">spring</span>:
+	<span style="color:#f92672">application</span>:
+	    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">consumer</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">nacos</span>:
+      <span style="color:#f92672">discovery</span>:
+        <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+</code></pre></div><p>bootstrap.yml会比application.yml先加载，但是要使用bootstrap.yml配置文件的话，需要添加依赖，这里我们在common和gateway中添加：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-bootstrap<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>3.0.4<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>先启动consumer模块，能看到程序以配置中心配置的8082端口运行，并且在服务列表能看到consumer服务</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%201.png" alt="Untitled"></p>
 <p>说明配置中心与注册中心都连接成功。</p>
 <p>同理，对provider配置bootstrap.yml和配置中心配置：</p>
-<pre><code class="language-yaml"># bootstrap.yml
-spring:
-  application:
-    name: provider
-  cloud:
-    nacos:
-      config:
-        server-addr: http://localhost:8848
-        group: test
-        file-extension: yaml
-</code></pre>
-<pre><code class="language-yaml">server:
-  port: 8083
-spring:
-  application:
-    name: provider
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://localhost:8848
-</code></pre>
-<p>同理，对gateway配置bootstrap.yml和配置中心配置</p>
-<pre><code class="language-yaml">spring:
-  application:
-    name: gateway
-  cloud:
-    nacos:
-      config:
-        server-addr: http://localhost:8848
-        group: test
-        file-extension: yaml
-</code></pre>
-<pre><code class="language-yaml">server:
-  port: 8081
-spring:
-  application:
-    name: gateway
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://localhost:8848
-</code></pre>
-<h1 id="启动服务">启动服务</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># bootstrap.yml</span>
+<span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">provider</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">nacos</span>:
+      <span style="color:#f92672">config</span>:
+        <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+        <span style="color:#f92672">group</span>: <span style="color:#ae81ff">test</span>
+        <span style="color:#f92672">file-extension</span>: <span style="color:#ae81ff">yaml</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">server</span>:
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8083</span>
+<span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">provider</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">nacos</span>:
+      <span style="color:#f92672">discovery</span>:
+        <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+</code></pre></div><p>同理，对gateway配置bootstrap.yml和配置中心配置</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">gateway</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">nacos</span>:
+      <span style="color:#f92672">config</span>:
+        <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+        <span style="color:#f92672">group</span>: <span style="color:#ae81ff">test</span>
+        <span style="color:#f92672">file-extension</span>: <span style="color:#ae81ff">yaml</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">server</span>:
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>
+<span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">gateway</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">nacos</span>:
+      <span style="color:#f92672">discovery</span>:
+        <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+</code></pre></div><h1 id="启动服务">启动服务</h1>
 <p>使用idea快捷键alt+8，打开Services界面，添加服务</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%202.png" alt="Untitled"></p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%203.png" alt="Untitled"></p>
 <p>把多余的隐藏，剩这三个：</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%204.png" alt="Untitled"></p>
 <p>启动时发现报错了。</p>
-<pre><code class="language-yaml">***************************
-APPLICATION FAILED TO START
-***************************
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e">***************************</span>
+<span style="color:#ae81ff">APPLICATION FAILED TO START</span>
+<span style="color:#75715e">***************************</span>
 
-Description:
+<span style="color:#f92672">Description</span>:
 
-Your project setup is incompatible with our requirements due to following reasons:
+<span style="color:#f92672">Your project setup is incompatible with our requirements due to following reasons</span>:
 
-- Spring Boot [2.5.5] is not compatible with this Spring Cloud release train
+- <span style="color:#ae81ff">Spring Boot [2.5.5] is not compatible with this Spring Cloud release train</span>
 
-Action:
+<span style="color:#f92672">Action</span>:
 
-Consider applying the following actions:
+<span style="color:#f92672">Consider applying the following actions</span>:
 
-- Change Spring Boot version to one of the following versions [2.3.x, 2.4.x] .
-You can find the latest Spring Boot versions here [https://spring.io/projects/spring-boot#learn]. 
-If you want to learn more about the Spring Cloud Release train compatibility, you can visit this page [https://spring.io/projects/spring-cloud#overview] and check the [Release Trains] section.
-If you want to disable this check, just set the property [spring.cloud.compatibility-verifier.enabled=false]
-</code></pre>
-<p>这是因为所引入的Spring Cloud Alibaba和spring boot版本不符合，因为我用Spring Cloud Alibaba版本为2021.1，根据<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">Spring Cloud Alibaba官方版本说明</a>，需要将spring boot的版本改为2.4.2。</p>
+- <span style="color:#ae81ff">Change Spring Boot version to one of the following versions [2.3.x, 2.4.x] .</span>
+<span style="color:#ae81ff">You can find the latest Spring Boot versions here [https://spring.io/projects/spring-boot#learn]. </span>
+<span style="color:#ae81ff">If you want to learn more about the Spring Cloud Release train compatibility, you can visit this page [https://spring.io/projects/spring-cloud#overview] and check the [Release Trains] section.</span>
+<span style="color:#ae81ff">If you want to disable this check, just set the property [spring.cloud.compatibility-verifier.enabled=false]</span>
+</code></pre></div><p>这是因为所引入的Spring Cloud Alibaba和spring boot版本不符合，因为我用Spring Cloud Alibaba版本为2021.1，根据<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">Spring Cloud Alibaba官方版本说明</a>，需要将spring boot的版本改为2.4.2。</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%205.png" alt="Untitled"></p>
-<pre><code class="language-xml">&lt;parent&gt;
-    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-    &lt;version&gt;2.4.2&lt;/version&gt;
-    &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;
-&lt;/parent&gt;
-</code></pre>
-<p>能看到启动成功</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;parent&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-parent<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>2.4.2<span style="color:#f92672">&lt;/version&gt;</span>
+    <span style="color:#f92672">&lt;relativePath/&gt;</span> <span style="color:#75715e">&lt;!-- lookup parent from repository --&gt;</span>
+<span style="color:#f92672">&lt;/parent&gt;</span>
+</code></pre></div><p>能看到启动成功</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%206.png" alt="Untitled"></p>
 <p>到nacos页面，能看到注册成功的服务</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%207.png" alt="Untitled"></p>
 <p>测试nacos的配置自动刷新：</p>
 <p>新增一个类：</p>
-<pre><code class="language-java">@RestController
-@RequestMapping(&quot;/config&quot;)
-@RefreshScope
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RestController</span>
+<span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/config&#34;</span><span style="color:#f92672">)</span>
+<span style="color:#a6e22e">@RefreshScope</span>
 
-public class ConfigController {
-    @Value(&quot;${local:false}&quot;)
-    private boolean local;
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConfigController</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Value</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;${local:false}&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">boolean</span> local<span style="color:#f92672">;</span>
 
-    @RequestMapping(&quot;/get&quot;)
-    public boolean get() {
-        return local;
-    }
-}
-</code></pre>
-<p>访问<a href="http://localhost:8082/config/get">http://localhost:8082/config/get</a>，得到结果为false</p>
+    <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/get&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">get</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> local<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>访问<a href="http://localhost:8082/config/get">http://localhost:8082/config/get</a>，得到结果为false</p>
 <p>然后在配置中心，添加 <code>local: true</code>，结果为：</p>
-<pre><code class="language-java">server:
-  port: 8082
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">server:
+  port<span style="color:#f92672">:</span> 8082
 spring:
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://localhost:8848
-local: true
-</code></pre>
-<p>在不重启应用的情况下，再次访问链接，得到的结果为true。说明配置确实动态刷新了。</p>
+  cloud<span style="color:#f92672">:</span>
+    nacos<span style="color:#f92672">:</span>
+      discovery<span style="color:#f92672">:</span>
+        server<span style="color:#f92672">-</span>addr<span style="color:#f92672">:</span> http<span style="color:#f92672">:</span><span style="color:#75715e">//localhost:8848
+</span><span style="color:#75715e"></span>local: <span style="color:#66d9ef">true</span>
+</code></pre></div><p>在不重启应用的情况下，再次访问链接，得到的结果为true。说明配置确实动态刷新了。</p>
 <h1 id="集成dubbo">集成dubbo</h1>
 <p>dubbo也是由阿里巴巴开源的一个微服务开发框架，可用于微服务之间的RPC通信。</p>
 <p>需要使用dubbo的话，需要在common中引入依赖：</p>
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-dubbo&lt;/artifactId&gt;
-    &lt;version&gt;2021.1&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-      &lt;groupId&gt;org.apache.commons&lt;/groupId&gt;
-      &lt;artifactId&gt;commons-lang3&lt;/artifactId&gt;
-      &lt;version&gt;3.12.0&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>注：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>com.alibaba.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-dubbo<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>2021.1<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+      <span style="color:#f92672">&lt;groupId&gt;</span>org.apache.commons<span style="color:#f92672">&lt;/groupId&gt;</span>
+      <span style="color:#f92672">&lt;artifactId&gt;</span>commons-lang3<span style="color:#f92672">&lt;/artifactId&gt;</span>
+      <span style="color:#f92672">&lt;version&gt;</span>3.12.0<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>注：</p>
 <ol>
 <li>如果不引入commons-lang3的话会报错： <code>java.lang.ClassNotFoundException: org.apache.commons.lang3.StringUtils</code>。但是在2018年的时候就提示已经移除了commons-lang3，详见<a href="https://github.com/apache/dubbo/pull/1921">https://github.com/apache/dubbo/pull/1921</a>，而且spring-cloud-starter-dubbo的2021.1中使用的dubbo时2.7.8的，版本时间是2020年。理应没这个问题才对，很奇怪。</li>
 </ol>
@@ -387,137 +369,128 @@ local: true
 <ol>
 <li>如果引入下面的dubbo的话，</li>
 </ol>
-<pre><code class="language-xml">&lt;!-- dubbo --&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.apache.dubbo&lt;/groupId&gt;
-    &lt;artifactId&gt;dubbo&lt;/artifactId&gt;
-    &lt;version&gt;3.0.3&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>虽然不会报commons-lang3的错，但是在使用consumer调用远程接口时，会提示远程方法为null： <code>java.lang.NullPointerException: null</code>，且查看provider服务的元数据时，只有 <code>preserved.register.source=SPRING_CLOUD</code>，正常来说，应该如下图所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- dubbo --&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.apache.dubbo<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>dubbo<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>3.0.3<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>虽然不会报commons-lang3的错，但是在使用consumer调用远程接口时，会提示远程方法为null： <code>java.lang.NullPointerException: null</code>，且查看provider服务的元数据时，只有 <code>preserved.register.source=SPRING_CLOUD</code>，正常来说，应该如下图所示：</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%209.png" alt="Untitled"></p>
 <p>在配置中心为consumer添加dubbo的配置：</p>
-<pre><code class="language-yaml">server:
-  port: 8082
-spring:
-  application:
-    name: consumer
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://localhost:8848
-dubbo:
-  application:
-    name: consumer
-    qos-enable: false
-  protocol:
-    name: dubbo
-    port: -1 # rpc需要一个额外的端口，-1表示端口随机
-  registry:
-    address: spring-cloud://localhost
-  cloud:
-    subscribed-services: provider
-  consumer:
-    check: false
-</code></pre>
-<p>在配置中心为provider添加dubbo的配置：</p>
-<pre><code class="language-yaml">server:
-  port: 8083
-spring:
-  application:
-    name: provider
-  cloud:
-    nacos:
-      discovery:
-        server-addr: http://localhost:8848
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">server</span>:
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8082</span>
+<span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">consumer</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">nacos</span>:
+      <span style="color:#f92672">discovery</span>:
+        <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+<span style="color:#f92672">dubbo</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">consumer</span>
+    <span style="color:#f92672">qos-enable</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#f92672">protocol</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dubbo</span>
+    <span style="color:#f92672">port</span>: -<span style="color:#ae81ff">1</span> <span style="color:#75715e"># rpc需要一个额外的端口，-1表示端口随机</span>
+  <span style="color:#f92672">registry</span>:
+    <span style="color:#f92672">address</span>: <span style="color:#ae81ff">spring-cloud://localhost</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">subscribed-services</span>: <span style="color:#ae81ff">provider</span>
+  <span style="color:#f92672">consumer</span>:
+    <span style="color:#f92672">check</span>: <span style="color:#66d9ef">false</span>
+</code></pre></div><p>在配置中心为provider添加dubbo的配置：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">server</span>:
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8083</span>
+<span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">provider</span>
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">nacos</span>:
+      <span style="color:#f92672">discovery</span>:
+        <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
 
-dubbo:
-  application:
-    name: provider
-    qos-enable: false #不启用qos，启用的话会报端口被占用
-  scan:
-    base-packages: com.wtsm.provider.service  #Dubbo服务实现类的扫描基准包路径
-  protocol:
-    name: dubbo
-    port: -1
-  registry:
-    address: nacos://localhost:8848
+<span style="color:#f92672">dubbo</span>:
+  <span style="color:#f92672">application</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">provider</span>
+    <span style="color:#f92672">qos-enable</span>: <span style="color:#66d9ef">false</span> <span style="color:#75715e">#不启用qos，启用的话会报端口被占用</span>
+  <span style="color:#f92672">scan</span>:
+    <span style="color:#f92672">base-packages</span>: <span style="color:#ae81ff">com.wtsm.provider.service </span> <span style="color:#75715e">#Dubbo服务实现类的扫描基准包路径</span>
+  <span style="color:#f92672">protocol</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">dubbo</span>
+    <span style="color:#f92672">port</span>: -<span style="color:#ae81ff">1</span>
+  <span style="color:#f92672">registry</span>:
+    <span style="color:#f92672">address</span>: <span style="color:#ae81ff">nacos://localhost:8848</span>
   
-</code></pre>
-<p>新增一个子模块，命名为provider-api。在改模块中新建一个接口IProviderService：</p>
-<pre><code class="language-java">public interface IProviderService {
-    String getProvider();
-}
-</code></pre>
-<p>分别在consumer和provider增加provider-api的依赖：</p>
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.wtsm&lt;/groupId&gt;
-    &lt;artifactId&gt;provider-api&lt;/artifactId&gt;
-    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>在provider中实现IProviderService接口：</p>
-<pre><code class="language-java">import com.wtsm.providerapi.IProviderService;
-import org.apache.dubbo.config.annotation.DubboService;
+</code></pre></div><p>新增一个子模块，命名为provider-api。在改模块中新建一个接口IProviderService：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IProviderService</span> <span style="color:#f92672">{</span>
+    String <span style="color:#a6e22e">getProvider</span><span style="color:#f92672">();</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>分别在consumer和provider增加provider-api的依赖：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>com.wtsm<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>provider-api<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>0.0.1-SNAPSHOT<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>在provider中实现IProviderService接口：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> com.wtsm.providerapi.IProviderService<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.dubbo.config.annotation.DubboService<span style="color:#f92672">;</span>
 
-@DubboService
-public class ProviderServiceImpl implements IProviderService {
-    @Override
-    public String getProvider() {
-        return &quot;调用服务成功&quot;;
-    }
-}
-</code></pre>
-<p>在consumer中调用接口：</p>
-<pre><code class="language-java">import com.wtsm.providerapi.IProviderService;
-import org.apache.dubbo.config.annotation.DubboReference;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+<span style="color:#a6e22e">@DubboService</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProviderServiceImpl</span> <span style="color:#66d9ef">implements</span> IProviderService <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getProvider</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;调用服务成功&#34;</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>在consumer中调用接口：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import</span> com.wtsm.providerapi.IProviderService<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.apache.dubbo.config.annotation.DubboReference<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.cloud.context.config.annotation.RefreshScope<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.GetMapping<span style="color:#f92672">;</span>
+<span style="color:#f92672">import</span> org.springframework.web.bind.annotation.RestController<span style="color:#f92672">;</span>
 
-@RestController
-@RefreshScope
-public class ConsumerController {
+<span style="color:#a6e22e">@RestController</span>
+<span style="color:#a6e22e">@RefreshScope</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ConsumerController</span> <span style="color:#f92672">{</span>
 
-    @DubboReference
-    private IProviderService providerService;
+    <span style="color:#a6e22e">@DubboReference</span>
+    <span style="color:#66d9ef">private</span> IProviderService providerService<span style="color:#f92672">;</span>
 
-    @GetMapping(&quot;getProvider&quot;)
-    public String getProvider(){
-        return providerService.getProvider();
-    }
-}
-</code></pre>
-<p>运行consumer和provider服务，访问<a href="http://localhost:8082/getProvider">http://localhost:8082/getProvider</a>，能看到调用成功</p>
+    <span style="color:#a6e22e">@GetMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;getProvider&#34;</span><span style="color:#f92672">)</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getProvider</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> providerService<span style="color:#f92672">.</span><span style="color:#a6e22e">getProvider</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>运行consumer和provider服务，访问<a href="http://localhost:8082/getProvider">http://localhost:8082/getProvider</a>，能看到调用成功</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Snipaste_2021-09-30_15-56-35.png" alt="Snipaste_2021-09-30_15-56-35.png"></p>
 <h1 id="集成网关">集成网关</h1>
 <p><strong>注释</strong>掉gateway模块的 <code>spring-boot-starter-web</code>依赖，然后在<strong>gateway模块</strong>中引入 <code>spring-cloud-starter-gateway</code>依赖，因为<code>spring-cloud-starter-gateway</code>内部实现的webflux与spring mvc的配置所冲突。</p>
 <p>如果使用 <code>lb</code>，但不添加<code>spring-cloud-starter-loadbalancer</code>依赖的话，会报503的错。详见</p>
 <p><a href="https://blog.csdn.net/wangzibai/article/details/115283755">nacos+spring cloud gateway 出现503 Service Unavailable_wangzibai的博客-CSDN博客</a></p>
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-gateway&lt;/artifactId&gt;
-    &lt;version&gt;3.0.4&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
-    &lt;artifactId&gt;spring-cloud-starter-loadbalancer&lt;/artifactId&gt;
-    &lt;version&gt;3.0.4&lt;/version&gt;  &lt;!-- 版本号是必须要加的 --&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>然后在gateway的配置文件中，新增配置：</p>
-<pre><code class="language-yaml">spring:
-  cloud:
-    gateway:
-      routes:
-        - id: consumer_route
-          # uri后面指定消费者的服务id，lb代表从注册中心获取服务，lb是Load Balance的缩写
-          uri: lb://consumer
-          predicates:
-             # 匹配转发路径
-            - Path=/**
-</code></pre>
-<p>将所有服务启动后，访问 <a href="http://localhost:8081/getProvider">http://localhost:8081/getProvider</a>，会转发到consumer微服务中</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-gateway<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>3.0.4<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-loadbalancer<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>3.0.4<span style="color:#f92672">&lt;/version&gt;</span>  <span style="color:#75715e">&lt;!-- 版本号是必须要加的 --&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>然后在gateway的配置文件中，新增配置：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">spring</span>:
+  <span style="color:#f92672">cloud</span>:
+    <span style="color:#f92672">gateway</span>:
+      <span style="color:#f92672">routes</span>:
+        - <span style="color:#f92672">id</span>: <span style="color:#ae81ff">consumer_route</span>
+          <span style="color:#75715e"># uri后面指定消费者的服务id，lb代表从注册中心获取服务，lb是Load Balance的缩写</span>
+          <span style="color:#f92672">uri</span>: <span style="color:#ae81ff">lb://consumer</span>
+          <span style="color:#f92672">predicates</span>:
+             <span style="color:#75715e"># 匹配转发路径</span>
+            - <span style="color:#ae81ff">Path=/**</span>
+</code></pre></div><p>将所有服务启动后，访问 <a href="http://localhost:8081/getProvider">http://localhost:8081/getProvider</a>，会转发到consumer微服务中</p>
 <p><img src="/media/%E4%BD%BF%E7%94%A8spring%20cloud%EF%BC%8Cnacos%EF%BC%8Cdubbo%EF%BC%8Cgateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1%203e1428f0d0114adbb3a041370ca8bf47/Untitled%2010.png" alt="Untitled"></p>
 <h1 id="参考">参考</h1>
 <p><a href="https://www.jianshu.com/u/80b6d267cfbf">蝉鸣又初雪 - 简书</a></p>
@@ -609,7 +582,7 @@ public class ConsumerController {
 
 
 
-<script type="text/javascript" src="/js/main.min.457ad251d7627fb9756da373da1c5de180a794987aa9108a3e0648015a240a20.js"></script>
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
 
 
 
