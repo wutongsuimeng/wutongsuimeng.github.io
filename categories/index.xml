@@ -6,22 +6,22 @@
     <description>Recent content in Categories on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 Nov 2021 15:33:03 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 23 Jan 2022 23:07:00 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>算法</title>
-      <link>https://wutongsuimeng.github.io/categories/%E7%AE%97%E6%B3%95/</link>
-      <pubDate>Sun, 07 Nov 2021 15:33:03 +0800</pubDate>
+      <title>Java</title>
+      <link>https://wutongsuimeng.github.io/categories/java/</link>
+      <pubDate>Sun, 23 Jan 2022 23:07:00 +0800</pubDate>
       
-      <guid>https://wutongsuimeng.github.io/categories/%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://wutongsuimeng.github.io/categories/java/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Hugo</title>
-      <link>https://wutongsuimeng.github.io/categories/hugo/</link>
+      <title>其他</title>
+      <link>https://wutongsuimeng.github.io/categories/%E5%85%B6%E4%BB%96/</link>
       <pubDate>Wed, 13 Oct 2021 23:18:11 +0800</pubDate>
       
-      <guid>https://wutongsuimeng.github.io/categories/hugo/</guid>
+      <guid>https://wutongsuimeng.github.io/categories/%E5%85%B6%E4%BB%96/</guid>
       <description></description>
     </item>
     
@@ -35,18 +35,9 @@
     </item>
     
     <item>
-      <title>微服务</title>
-      <link>https://wutongsuimeng.github.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</link>
-      <pubDate>Sun, 10 Oct 2021 21:16:29 +0800</pubDate>
-      
-      <guid>https://wutongsuimeng.github.io/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Go</title>
       <link>https://wutongsuimeng.github.io/categories/go/</link>
-      <pubDate>Sat, 17 Jul 2021 16:50:04 +0800</pubDate>
+      <pubDate>Mon, 11 Oct 2021 23:58:53 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/categories/go/</guid>
       <description></description>
@@ -55,27 +46,9 @@
     <item>
       <title>spring</title>
       <link>https://wutongsuimeng.github.io/categories/spring/</link>
-      <pubDate>Sun, 13 Jun 2021 15:36:18 +0800</pubDate>
+      <pubDate>Sun, 10 Oct 2021 21:16:29 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/categories/spring/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>java</title>
-      <link>https://wutongsuimeng.github.io/categories/java/</link>
-      <pubDate>Sun, 23 May 2021 15:08:58 +0800</pubDate>
-      
-      <guid>https://wutongsuimeng.github.io/categories/java/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>maven</title>
-      <link>https://wutongsuimeng.github.io/categories/maven/</link>
-      <pubDate>Sun, 23 May 2021 15:08:58 +0800</pubDate>
-      
-      <guid>https://wutongsuimeng.github.io/categories/maven/</guid>
       <description></description>
     </item>
     
@@ -89,20 +62,20 @@
     </item>
     
     <item>
-      <title>数据库</title>
-      <link>https://wutongsuimeng.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <title>Mysql</title>
+      <link>https://wutongsuimeng.github.io/categories/mysql/</link>
       <pubDate>Sat, 13 Mar 2021 20:11:46 +0800</pubDate>
       
-      <guid>https://wutongsuimeng.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <guid>https://wutongsuimeng.github.io/categories/mysql/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>容器</title>
-      <link>https://wutongsuimeng.github.io/categories/%E5%AE%B9%E5%99%A8/</link>
+      <title>Docker</title>
+      <link>https://wutongsuimeng.github.io/categories/docker/</link>
       <pubDate>Mon, 08 Mar 2021 13:58:09 +0800</pubDate>
       
-      <guid>https://wutongsuimeng.github.io/categories/%E5%AE%B9%E5%99%A8/</guid>
+      <guid>https://wutongsuimeng.github.io/categories/docker/</guid>
       <description></description>
     </item>
     

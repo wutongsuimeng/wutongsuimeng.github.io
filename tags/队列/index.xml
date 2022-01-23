@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>队列 on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/tags/%E9%98%9F%E5%88%97/</link>
+    <description>Recent content in 队列 on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 23 Jan 2022 23:07:00 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/%E9%98%9F%E5%88%97/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java集合-队列</title>
+      <link>https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/</link>
+      <pubDate>Sun, 23 Jan 2022 23:07:00 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/</guid>
+      <description>&lt;p&gt;Java中对应的队列接口为 &lt;code&gt;Queue&lt;/code&gt;，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
