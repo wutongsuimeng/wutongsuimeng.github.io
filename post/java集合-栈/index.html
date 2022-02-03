@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Java集合-队列 - 梧桐碎梦</title>
+  <title>Java集合-栈 - 梧桐碎梦</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="梧桐碎梦" /><meta name="description" content="Java中对应的队列接口为 Queue，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。 Queue" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="栈是一种先进后出的数据结构，在Java中对应的接口为 Deque，Stack接口已经不建议使用。Deque接口继承自Queue接口，实则为双端" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -26,7 +26,7 @@
 <meta name="generator" content="Hugo 0.85.0 with theme even" />
 
 
-<link rel="canonical" href="https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/" />
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E6%A0%88/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -39,20 +39,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Java集合-队列" />
-<meta property="og:description" content="Java中对应的队列接口为 Queue，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。 Queue" />
+<meta property="og:title" content="Java集合-栈" />
+<meta property="og:description" content="栈是一种先进后出的数据结构，在Java中对应的接口为 Deque，Stack接口已经不建议使用。Deque接口继承自Queue接口，实则为双端" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2022-01-23T15:07:00+08:00" />
-<meta property="article:modified_time" content="2022-01-23T15:07:00+08:00" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E6%A0%88/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-01-28T23:16:39+08:00" />
+<meta property="article:modified_time" content="2022-01-28T23:16:39+08:00" />
 
-<meta itemprop="name" content="Java集合-队列">
-<meta itemprop="description" content="Java中对应的队列接口为 Queue，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。 Queue"><meta itemprop="datePublished" content="2022-01-23T15:07:00+08:00" />
-<meta itemprop="dateModified" content="2022-01-23T15:07:00+08:00" />
-<meta itemprop="wordCount" content="294">
-<meta itemprop="keywords" content="队列," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Java集合-队列"/>
-<meta name="twitter:description" content="Java中对应的队列接口为 Queue，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。 Queue"/>
+<meta itemprop="name" content="Java集合-栈">
+<meta itemprop="description" content="栈是一种先进后出的数据结构，在Java中对应的接口为 Deque，Stack接口已经不建议使用。Deque接口继承自Queue接口，实则为双端"><meta itemprop="datePublished" content="2022-01-28T23:16:39+08:00" />
+<meta itemprop="dateModified" content="2022-01-28T23:16:39+08:00" />
+<meta itemprop="wordCount" content="210">
+<meta itemprop="keywords" content="栈," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Java集合-栈"/>
+<meta name="twitter:description" content="栈是一种先进后出的数据结构，在Java中对应的接口为 Deque，Stack接口已经不建议使用。Deque接口继承自Queue接口，实则为双端"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -125,14 +125,14 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Java集合-队列</h1>
+      <h1 class="post-title">Java集合-栈</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-01-23 15:07:00 </span>
+        <span class="post-time"> 2022-01-28 23:16:39 </span>
         <div class="post-category">
             <a href="/categories/java/"> Java </a>
             </div>
-          <span class="more-meta"> 约 294 字 </span>
+          <span class="more-meta"> 约 210 字 </span>
           <span class="more-meta"> 预计阅读 1 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -145,44 +145,96 @@
   </div>
 </div>
     <div class="post-content">
-      <p>Java中对应的队列接口为 <code>Queue</code>，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。</p>
-<p><code>Queue</code>主要方法有：</p>
+      <p>栈是一种先进后出的数据结构，在Java中对应的接口为 <code>Deque</code>，<code>Stack</code>接口已经不建议使用。<code>Deque</code>接口继承自<code>Queue</code>接口，实则为双端队列，支持两端元素的插入、删除与访问。
+<code>Deque</code>的方法有:</p>
+<p>首端操作：</p>
 <table>
 <thead>
 <tr>
 <th></th>
-<th>抛出错误</th>
-<th>返回特殊值(null或false)</th>
+<th>抛出异常</th>
+<th>返回特殊值</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>插入</td>
-<td>add()</td>
-<td>offer()</td>
-</tr>
-<tr>
-<td>移除</td>
-<td>remove()</td>
-<td>poll()</td>
-</tr>
-<tr>
 <td>查看</td>
-<td>element()</td>
-<td>peek()</td>
+<td>getFirst()</td>
+<td>peekFrist()</td>
+</tr>
+<tr>
+<td>插入</td>
+<td>addFirst()</td>
+<td>offerFirst()</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>removeFirst()</td>
+<td>pollFirst()</td>
 </tr>
 </tbody>
 </table>
-<p>通常情况下，推荐使用 <code>offer()</code>、<code>poll()</code>、<code>peek()</code>，这三个方法。</p>
-<p>当插入的新元素已经存在于队列时，<code>offer()</code>方法返回<code>false</code>；当队列为空时，<code>poll()</code>和<code>peek()</code>方法返回 <code>null</code>。</p>
-<p><code>Queue</code>主要实现类有：
-![[Queue主要实现类.png]]</p>
-<p>我们平常使用的实现类为 <code>LinkedList</code>，该类为 <code>Queue</code>和 <code>Deque</code>的双向链表实现类。</p>
-<p>例如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Queue<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> queue<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;&gt;();</span>
-queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
-queue<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">();</span>
-queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span><span style="color:#f92672">();</span>
+<p>尾端操作：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>抛出异常</th>
+<th>返回特殊值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看</td>
+<td>getLast()</td>
+<td>peekLast()</td>
+</tr>
+<tr>
+<td>插入</td>
+<td>addLast()</td>
+<td>offerLast()</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>removeLast()</td>
+<td>pollLast()</td>
+</tr>
+</tbody>
+</table>
+<p>栈方法对应的 <code>Deque</code>方法：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>栈方法</th>
+<th>Deque方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看</td>
+<td>peek()</td>
+<td>peekFirst()</td>
+</tr>
+<tr>
+<td>插入</td>
+<td>push()</td>
+<td>addFirst()</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>pop()</td>
+<td>removeFirst()</td>
+</tr>
+</tbody>
+</table>
+<p><code>Deque</code>主要实现类有：
+<img src="Deque%E5%AE%9E%E7%8E%B0%E7%B1%BB.png" alt=""></p>
+<p>使用例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Deque<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> deque<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;&gt;();</span>
+deque<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+deque<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">();</span>
+deque<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
 </code></pre></div>
     </div>
 
@@ -194,7 +246,7 @@ queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span>
   <p class="copyright-item">
     <span class="item-title">上次更新</span>
     <span class="item-content">
-        2022-01-23 15:07:00
+        2022-01-28 23:16:39
         
     </span>
   </p>
@@ -203,16 +255,12 @@ queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span>
 </div>
 <footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/%E9%98%9F%E5%88%97/">队列</a>
+          <a href="/tags/%E6%A0%88/">栈</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/%E4%BD%8D%E8%BF%90%E7%AE%97/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">位运算</span>
-            <span class="prev-text nav-mobile">上一篇</span>
-          </a>
-        <a class="next" href="/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/">
-            <span class="next-text nav-default">判断ip是否在某ip范围内</span>
+        
+        <a class="next" href="/post/%E4%BD%8D%E8%BF%90%E7%AE%97/">
+            <span class="next-text nav-default">位运算</span>
             <span class="next-text nav-mobile">下一篇</span>
             <i class="iconfont icon-right"></i>
           </a>
