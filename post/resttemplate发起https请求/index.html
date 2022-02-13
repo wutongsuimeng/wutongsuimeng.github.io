@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>RestTemplate发起HTTPS请求 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="RestTemplate发起HTTPS请求" />
+<meta property="og:description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-02-13T14:29:11+08:00" />
+<meta property="article:modified_time" content="2022-02-13T14:29:11+08:00" />
+
+<meta itemprop="name" content="RestTemplate发起HTTPS请求">
+<meta itemprop="description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首"><meta itemprop="datePublished" content="2022-02-13T14:29:11+08:00" />
+<meta itemprop="dateModified" content="2022-02-13T14:29:11+08:00" />
+<meta itemprop="wordCount" content="594">
+<meta itemprop="keywords" content="Java,HTTPS,RestTemplate," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RestTemplate发起HTTPS请求"/>
+<meta name="twitter:description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">RestTemplate发起HTTPS请求</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-02-13 14:29:11 </span>
+        <div class="post-category">
+            <a href="/categories/java/"> Java </a>
+            </div>
+          <span class="more-meta"> 约 594 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。
+在此我采用的是忽略证书的校验。
+首先使用 <code>RestTemplateBuilder</code>来构建一个 <code>RestTemplate</code>，而非使用默认。<code>requestFactory()</code>方法用来设置 <code>ClientHttpRequestFactory</code>。<code>SimpleClientHttpRequestFactory</code>是Spring内置的默认实现，实现了 <code>ClientHttpRequestFactory</code>接口，我们需要重写其 <code>prepareConnection()</code>方法，在此方法里实现对 <code>HttpURLConnection</code>的重新处理，忽略对证书的校验。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://xxx.xxx.xxx&#34;</span><span style="color:#f92672">;</span>
+RestTemplate restTemplate <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RestTemplateBuilder<span style="color:#f92672">()</span>
+		<span style="color:#f92672">.</span><span style="color:#a6e22e">requestFactory</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">new</span> SimpleClientHttpRequestFactory<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+					<span style="color:#a6e22e">@Override</span>
+					<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>HttpURLConnection connection<span style="color:#f92672">,</span> String httpMethod<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+						<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+							<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>connection <span style="color:#66d9ef">instanceof</span> HttpsURLConnection<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">// https协议，修改协议版本
+</span><span style="color:#75715e"></span>								KeyStore trustStore <span style="color:#f92672">=</span> KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span>KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefaultType</span><span style="color:#f92672">());</span>
+								<span style="color:#75715e">// 信任任何链接,忽略对证书的校验
+</span><span style="color:#75715e"></span>								TrustStrategy anyTrustStrategy <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>x509Certificates<span style="color:#f92672">,</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+											  <span style="color:#75715e">//自定义SSLContext
+</span><span style="color:#75715e"></span>								SSLContext ctx <span style="color:#f92672">=</span> SSLContexts<span style="color:#f92672">.</span><span style="color:#a6e22e">custom</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadTrustMaterial</span><span style="color:#f92672">(</span>trustStore<span style="color:#f92672">,</span> anyTrustStrategy<span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+								<span style="color:#75715e">// ssl问题
+</span><span style="color:#75715e"></span>								<span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setSSLSocketFactory</span><span style="color:#f92672">(</span>ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getSocketFactory</span><span style="color:#f92672">());</span>
+								<span style="color:#75715e">//解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+</span><span style="color:#75715e"></span>								<span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setHostnameVerifier</span><span style="color:#f92672">((</span>s<span style="color:#f92672">,</span> sslSession<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+								HttpsURLConnection httpsConnection <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">;</span>
+								<span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>httpsConnection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
+							<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// http协议
+</span><span style="color:#75715e"></span>								<span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
+							<span style="color:#f92672">}</span>
+						<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+							e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+						<span style="color:#f92672">}</span>
+					<span style="color:#f92672">}</span>
+				<span style="color:#f92672">}</span>
+		<span style="color:#f92672">)</span>
+		<span style="color:#75715e">//basic认证
+</span><span style="color:#75715e"></span>		<span style="color:#f92672">.</span><span style="color:#a6e22e">basicAuthentication</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">)</span>
+		<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+HttpHeaders headers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpHeaders<span style="color:#f92672">();</span>
+HttpEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> entity <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpEntity<span style="color:#f92672">&lt;&gt;(</span>headers<span style="color:#f92672">);</span>
+ResponseEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> response <span style="color:#f92672">=</span> restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">exchange</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> HttpMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">,</span> entity<span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+String str <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">getBody</span><span style="color:#f92672">();</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+</code></pre></div><p>注：</p>
+<ol>
+<li>可以把 <code>SimpleClientHttpRequestFactory</code>的内部匿名类抽成一个类。</li>
+<li><code>RestTemplateBuilder</code> 需要直接构建成 <code>RestTemplate</code>对象，而不能中间生成 <code>RestTemplateBuilder</code>对象。</li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2022-02-13 14:29:11
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">Java</a>
+          <a href="/tags/https/">HTTPS</a>
+          <a href="/tags/resttemplate/">RestTemplate</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/java%E9%9B%86%E5%90%88-%E6%A0%88/">
+            <span class="next-text nav-default">Java集合-栈</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

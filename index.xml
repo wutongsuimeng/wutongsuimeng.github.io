@@ -6,7 +6,16 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 28 Jan 2022 23:16:39 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 13 Feb 2022 14:29:11 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RestTemplate发起HTTPS请求</title>
+      <link>https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/</link>
+      <pubDate>Sun, 13 Feb 2022 14:29:11 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/</guid>
+      <description>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首</description>
+    </item>
+    
     <item>
       <title>Java集合-栈</title>
       <link>https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E6%A0%88/</link>

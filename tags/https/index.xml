@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HTTPS on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/tags/https/</link>
+    <description>Recent content in HTTPS on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 13 Feb 2022 14:29:11 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/https/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>RestTemplate发起HTTPS请求</title>
+      <link>https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/</link>
+      <pubDate>Sun, 13 Feb 2022 14:29:11 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/</guid>
+      <description>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首</description>
+    </item>
+    
+  </channel>
+</rss>
