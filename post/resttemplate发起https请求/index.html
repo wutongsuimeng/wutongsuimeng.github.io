@@ -49,7 +49,7 @@
 <meta itemprop="name" content="RestTemplate发起HTTPS请求">
 <meta itemprop="description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首"><meta itemprop="datePublished" content="2022-02-13T14:29:11+08:00" />
 <meta itemprop="dateModified" content="2022-02-13T14:29:11+08:00" />
-<meta itemprop="wordCount" content="594">
+<meta itemprop="wordCount" content="555">
 <meta itemprop="keywords" content="Java,HTTPS,RestTemplate," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="RestTemplate发起HTTPS请求"/>
 <meta name="twitter:description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首"/>
@@ -132,7 +132,7 @@
         <div class="post-category">
             <a href="/categories/java/"> Java </a>
             </div>
-          <span class="more-meta"> 约 594 字 </span>
+          <span class="more-meta"> 约 555 字 </span>
           <span class="more-meta"> 预计阅读 2 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -145,36 +145,38 @@
   </div>
 </div>
     <div class="post-content">
-      <p>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。
-在此我采用的是忽略证书的校验。
-首先使用 <code>RestTemplateBuilder</code>来构建一个 <code>RestTemplate</code>，而非使用默认。<code>requestFactory()</code>方法用来设置 <code>ClientHttpRequestFactory</code>。<code>SimpleClientHttpRequestFactory</code>是Spring内置的默认实现，实现了 <code>ClientHttpRequestFactory</code>接口，我们需要重写其 <code>prepareConnection()</code>方法，在此方法里实现对 <code>HttpURLConnection</code>的重新处理，忽略对证书的校验。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://xxx.xxx.xxx&#34;</span><span style="color:#f92672">;</span>
+      <p>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。</p>
+<p>在此我采用的是忽略证书的校验。</p>
+<p>首先使用 <code>RestTemplateBuilder</code>来构建一个 <code>RestTemplate</code>，而非使用默认。<code>requestFactory()</code>方法用来设置 <code>ClientHttpRequestFactory</code>。<code>SimpleClientHttpRequestFactory</code>是Spring内置的默认实现，实现了 <code>ClientHttpRequestFactory</code>接口，我们需要重写其 <code>prepareConnection()</code>方法，在此方法里实现对 <code>HttpURLConnection</code>的重新处理，忽略对证书的校验。</p>
+<p>代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HttpsClientHttpRequestFactory</span> <span style="color:#66d9ef">extends</span> SimpleClientHttpRequestFactory <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>HttpURLConnection connection<span style="color:#f92672">,</span> String httpMethod<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>connection <span style="color:#66d9ef">instanceof</span> HttpsURLConnection<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">// https协议，修改协议版本
+</span><span style="color:#75715e"></span>                KeyStore trustStore <span style="color:#f92672">=</span> KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span>KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefaultType</span><span style="color:#f92672">());</span>
+                <span style="color:#75715e">// 信任任何链接,忽略对证书的校验
+</span><span style="color:#75715e"></span>                TrustStrategy anyTrustStrategy <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>x509Certificates<span style="color:#f92672">,</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+                <span style="color:#75715e">//自定义SSLContext
+</span><span style="color:#75715e"></span>                SSLContext ctx <span style="color:#f92672">=</span> SSLContexts<span style="color:#f92672">.</span><span style="color:#a6e22e">custom</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadTrustMaterial</span><span style="color:#f92672">(</span>trustStore<span style="color:#f92672">,</span> anyTrustStrategy<span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+                <span style="color:#75715e">// ssl问题
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setSSLSocketFactory</span><span style="color:#f92672">(</span>ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getSocketFactory</span><span style="color:#f92672">());</span>
+                <span style="color:#75715e">//解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setHostnameVerifier</span><span style="color:#f92672">((</span>s<span style="color:#f92672">,</span> sslSession<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+                HttpsURLConnection httpsConnection <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>httpsConnection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// http协议
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    
+String url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://xxx.xxx.xxx&#34;</span><span style="color:#f92672">;</span>
 RestTemplate restTemplate <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RestTemplateBuilder<span style="color:#f92672">()</span>
-		<span style="color:#f92672">.</span><span style="color:#a6e22e">requestFactory</span><span style="color:#f92672">(()</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">new</span> SimpleClientHttpRequestFactory<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-					<span style="color:#a6e22e">@Override</span>
-					<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>HttpURLConnection connection<span style="color:#f92672">,</span> String httpMethod<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-						<span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-							<span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>connection <span style="color:#66d9ef">instanceof</span> HttpsURLConnection<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">// https协议，修改协议版本
-</span><span style="color:#75715e"></span>								KeyStore trustStore <span style="color:#f92672">=</span> KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span>KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefaultType</span><span style="color:#f92672">());</span>
-								<span style="color:#75715e">// 信任任何链接,忽略对证书的校验
-</span><span style="color:#75715e"></span>								TrustStrategy anyTrustStrategy <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>x509Certificates<span style="color:#f92672">,</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-											  <span style="color:#75715e">//自定义SSLContext
-</span><span style="color:#75715e"></span>								SSLContext ctx <span style="color:#f92672">=</span> SSLContexts<span style="color:#f92672">.</span><span style="color:#a6e22e">custom</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadTrustMaterial</span><span style="color:#f92672">(</span>trustStore<span style="color:#f92672">,</span> anyTrustStrategy<span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
-								<span style="color:#75715e">// ssl问题
-</span><span style="color:#75715e"></span>								<span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setSSLSocketFactory</span><span style="color:#f92672">(</span>ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getSocketFactory</span><span style="color:#f92672">());</span>
-								<span style="color:#75715e">//解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
-</span><span style="color:#75715e"></span>								<span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setHostnameVerifier</span><span style="color:#f92672">((</span>s<span style="color:#f92672">,</span> sslSession<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-								HttpsURLConnection httpsConnection <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">;</span>
-								<span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>httpsConnection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
-							<span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// http协议
-</span><span style="color:#75715e"></span>								<span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
-							<span style="color:#f92672">}</span>
-						<span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-							e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-						<span style="color:#f92672">}</span>
-					<span style="color:#f92672">}</span>
-				<span style="color:#f92672">}</span>
-		<span style="color:#f92672">)</span>
+		<span style="color:#f92672">.</span><span style="color:#a6e22e">requestFactory</span><span style="color:#f92672">(</span>HttpsClientHttpRequestFactory<span style="color:#f92672">::</span><span style="color:#66d9ef">new</span><span style="color:#f92672">)</span>
 		<span style="color:#75715e">//basic认证
 </span><span style="color:#75715e"></span>		<span style="color:#f92672">.</span><span style="color:#a6e22e">basicAuthentication</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">)</span>
 		<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
@@ -183,9 +185,9 @@ HttpEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f9267
 ResponseEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> response <span style="color:#f92672">=</span> restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">exchange</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> HttpMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">,</span> entity<span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
 String str <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">getBody</span><span style="color:#f92672">();</span>
 System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+    
 </code></pre></div><p>注：</p>
 <ol>
-<li>可以把 <code>SimpleClientHttpRequestFactory</code>的内部匿名类抽成一个类。</li>
 <li><code>RestTemplateBuilder</code> 需要直接构建成 <code>RestTemplate</code>对象，而不能中间生成 <code>RestTemplateBuilder</code>对象。</li>
 </ol>
 
