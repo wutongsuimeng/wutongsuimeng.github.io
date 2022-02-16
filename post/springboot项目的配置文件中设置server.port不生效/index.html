@@ -49,7 +49,7 @@
 <meta itemprop="name" content="SpringBoot项目的配置文件中设置server.port不生效">
 <meta itemprop="description" content="我的配置文件为： # application.yml server: port: 8081 spring: application: name: test cloud: nacos: discovery: server-addr: http://localhost:8848 设置了 server.port不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配"><meta itemprop="datePublished" content="2022-02-15T14:15:03+08:00" />
 <meta itemprop="dateModified" content="2022-02-15T14:15:03+08:00" />
-<meta itemprop="wordCount" content="105">
+<meta itemprop="wordCount" content="242">
 <meta itemprop="keywords" content="Spring Boot," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="SpringBoot项目的配置文件中设置server.port不生效"/>
 <meta name="twitter:description" content="我的配置文件为： # application.yml server: port: 8081 spring: application: name: test cloud: nacos: discovery: server-addr: http://localhost:8848 设置了 server.port不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配"/>
@@ -132,7 +132,7 @@
         <div class="post-category">
             <a href="/categories/spring/"> Spring </a>
             </div>
-          <span class="more-meta"> 约 105 字 </span>
+          <span class="more-meta"> 约 242 字 </span>
           <span class="more-meta"> 预计阅读 1 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -156,15 +156,16 @@
       <span style="color:#f92672">nacos</span>:  
         <span style="color:#f92672">discovery</span>:  
           <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
-</code></pre></div><p>设置了 <code>server.port</code>不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配置，所以删掉nacos的配置即可。
-修改后的配置文件：</p>
+</code></pre></div><p>设置了 <code>server.port</code>不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配置，所以删掉nacos的配置即可。</p>
+<p>修改后的配置文件：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># application.yml</span>
 <span style="color:#f92672">server</span>:  
   <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>  
 <span style="color:#f92672">spring</span>:  
   <span style="color:#f92672">application</span>:  
     <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test </span>
-</code></pre></div>
+</code></pre></div><p>如果需要使用nacos，在application.yml文件中配置<code>server.port</code>的话，会发现配置不生效。这个时候需要新建一个空白的application.properties文件，来使的application.yml文件中的<code>server.port</code>配置生效。原因未知。</p>
+
     </div>
 
     <div class="post-copyright">
