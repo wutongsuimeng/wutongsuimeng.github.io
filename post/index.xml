@@ -6,7 +6,16 @@
     <description>Recent content in Posts on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 15 Feb 2022 14:15:03 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 16 Feb 2022 11:35:36 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>集成nacos和feign时报错java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties</title>
+      <link>https://wutongsuimeng.github.io/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/</link>
+      <pubDate>Wed, 16 Feb 2022 11:35:36 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/</guid>
+      <description>今天在尝试集成nacos和feign时，报错： java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.</description>
+    </item>
+    
     <item>
       <title>SpringBoot项目的配置文件中设置server.port不生效</title>
       <link>https://wutongsuimeng.github.io/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/</link>
