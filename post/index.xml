@@ -6,14 +6,45 @@
     <description>Recent content in Posts on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 14 Apr 2022 22:38:44 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 May 2022 17:58:26 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HashMap1.8 的源码解析</title>
+      <link>https://wutongsuimeng.github.io/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Sun, 29 May 2022 17:58:26 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;h1 id=&#34;结构&#34;&gt;结构&lt;/h1&gt;
+&lt;p&gt;HashMap的结构为数组+链表+红黑树。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//对象数组
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;transient&lt;/span&gt; Node&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;[]&lt;/span&gt; table&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; 
+&lt;span style=&#34;color:#75715e&#34;&gt;// 链表节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Node&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;implements&lt;/span&gt; Map&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Entry&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; hash&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//哈希值
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; K key&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//建
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        V value&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//值
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        Node&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; next&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//下一个节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;//红黑树节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TreeNode&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;extends&lt;/span&gt; LinkedHashMap&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Entry&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; parent&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// red-black tree links
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; left&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; right&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; prev&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// needed to unlink next upon deletion
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;boolean&lt;/span&gt; red&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>后端接收表单方式上传的文件和数据</title>
       <link>https://wutongsuimeng.github.io/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/</link>
       <pubDate>Thu, 14 Apr 2022 22:38:44 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/</guid>
-      <description>通过 Postman 上传多个文件和数据，后端接收文件和数据。 后端 因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，requ</description>
+      <description>&lt;p&gt;通过 Postman 上传多个文件和数据，后端接收文件和数据。&lt;/p&gt;
+&lt;h2 id=&#34;后端&#34;&gt;后端&lt;/h2&gt;
+&lt;p&gt;因为 Postman 是通过表单方式上传，所以需要通过 &lt;code&gt;@RequestParam&lt;/code&gt; 注解接收文件，&lt;code&gt;value&lt;/code&gt; 属性定义请求参数，&lt;code&gt;required&lt;/code&gt; 定义该参数是否必须，默认为 &lt;code&gt;true&lt;/code&gt;。
+上传文件需要使用 &lt;code&gt;MultipartFile&lt;/code&gt; 对象来接收，因为允许上传多个文件，所以使用了数组的形式。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -22,7 +53,56 @@
       <pubDate>Sun, 27 Feb 2022 16:12:44 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/</guid>
-      <description>nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。 Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。 引入依赖 因为n</description>
+      <description>&lt;p&gt;nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。&lt;/p&gt;
+&lt;p&gt;Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。&lt;/p&gt;
+&lt;h1 id=&#34;引入依赖&#34;&gt;引入依赖&lt;/h1&gt;
+&lt;p&gt;因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。&lt;/p&gt;
+&lt;p&gt;因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- pom.xml --&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;properties&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;java.version&amp;gt;&lt;/span&gt;1.8&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/java.version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;spring.boot.version&amp;gt;&lt;/span&gt;2.4.2&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/spring.boot.version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;spring.cloud.version&amp;gt;&lt;/span&gt;3.0.1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/spring.cloud.version&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/properties&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependencies&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.boot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-boot-starter-web&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${spring.boot.version}&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.alibaba.cloud&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;2021.1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;exclusions&amp;gt;&lt;/span&gt;
+			&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!--//丢弃ribbon--&amp;gt;&lt;/span&gt;
+			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;exclusion&amp;gt;&lt;/span&gt;
+				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.netflix.ribbon&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;ribbon&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/exclusion&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/exclusions&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.cloud&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-starter-openfeign&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${spring.cloud.version}&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.cloud&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-starter-bootstrap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${spring.cloud.version}&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.cloud&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-loadbalancer&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${spring.cloud.version}&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependencies&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在使用nacos时需要注意nacos及其依赖的版本。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。&lt;/li&gt;
+&lt;li&gt;因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看&lt;a href=&#34;https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E&#34;&gt;版本说明&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     
     <item>
@@ -31,7 +111,13 @@
       <pubDate>Wed, 16 Feb 2022 11:35:36 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/</guid>
-      <description>今天在尝试集成nacos和feign时，报错： java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.</description>
+      <description>&lt;p&gt;今天在尝试集成nacos和feign时，报错：
+&lt;code&gt;java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;通过idea的Add Maven dependency功能，发现这个类位于 &lt;code&gt;spring-cloud-commons&lt;/code&gt;包内。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Pasted%20image%2020220216113850.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;但是通过解压所引入的&lt;code&gt;spring-cloud-commons&lt;/code&gt;的jar包，发现是存在该类的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Pasted%20image%2020220216115557.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;所以猜测可能是版本问题。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -40,7 +126,26 @@
       <pubDate>Tue, 15 Feb 2022 14:15:03 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/</guid>
-      <description>我的配置文件为： # application.yml server: port: 8081 spring: application: name: test cloud: nacos: discovery: server-addr: http://localhost:8848 设置了 server.port不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配</description>
+      <description>&lt;p&gt;我的配置文件为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# application.yml&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;server&lt;/span&gt;:  
+  &lt;span style=&#34;color:#f92672&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;8081&lt;/span&gt;  
+&lt;span style=&#34;color:#f92672&#34;&gt;spring&lt;/span&gt;:  
+  &lt;span style=&#34;color:#f92672&#34;&gt;application&lt;/span&gt;:  
+    &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;test  &lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;cloud&lt;/span&gt;:  
+      &lt;span style=&#34;color:#f92672&#34;&gt;nacos&lt;/span&gt;:  
+        &lt;span style=&#34;color:#f92672&#34;&gt;discovery&lt;/span&gt;:  
+          &lt;span style=&#34;color:#f92672&#34;&gt;server-addr&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://localhost:8848&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;设置了 &lt;code&gt;server.port&lt;/code&gt;不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配置，所以删掉nacos的配置即可。&lt;/p&gt;
+&lt;p&gt;修改后的配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# application.yml&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;server&lt;/span&gt;:  
+  &lt;span style=&#34;color:#f92672&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;8081&lt;/span&gt;  
+&lt;span style=&#34;color:#f92672&#34;&gt;spring&lt;/span&gt;:  
+  &lt;span style=&#34;color:#f92672&#34;&gt;application&lt;/span&gt;:  
+    &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;test &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果需要使用nacos，在application.yml文件中配置&lt;code&gt;server.port&lt;/code&gt;的话，会发现配置不生效。这个时候需要新建一个空白的application.properties文件，来使的application.yml文件中的&lt;code&gt;server.port&lt;/code&gt;配置生效。原因未知。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -49,7 +154,51 @@
       <pubDate>Sun, 13 Feb 2022 14:29:11 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/</guid>
-      <description>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首</description>
+      <description>&lt;p&gt;因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。&lt;/p&gt;
+&lt;p&gt;在此我采用的是忽略证书的校验。&lt;/p&gt;
+&lt;p&gt;首先使用 &lt;code&gt;RestTemplateBuilder&lt;/code&gt;来构建一个 &lt;code&gt;RestTemplate&lt;/code&gt;，而非使用默认。&lt;code&gt;requestFactory()&lt;/code&gt;方法用来设置 &lt;code&gt;ClientHttpRequestFactory&lt;/code&gt;。&lt;code&gt;SimpleClientHttpRequestFactory&lt;/code&gt;是Spring内置的默认实现，实现了 &lt;code&gt;ClientHttpRequestFactory&lt;/code&gt;接口，我们需要重写其 &lt;code&gt;prepareConnection()&lt;/code&gt;方法，在此方法里实现对 &lt;code&gt;HttpURLConnection&lt;/code&gt;的重新处理，忽略对证书的校验。&lt;/p&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;HttpsClientHttpRequestFactory&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;extends&lt;/span&gt; SimpleClientHttpRequestFactory &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@Override&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;prepareConnection&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;HttpURLConnection connection&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; String httpMethod&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;throws&lt;/span&gt; IOException &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;connection &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceof&lt;/span&gt; HttpsURLConnection&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// https协议，修改协议版本
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                KeyStore trustStore &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; KeyStore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getInstance&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;KeyStore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getDefaultType&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;());&lt;/span&gt;
+                &lt;span style=&#34;color:#75715e&#34;&gt;// 信任任何链接,忽略对证书的校验
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                TrustStrategy anyTrustStrategy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x509Certificates&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; s&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+                &lt;span style=&#34;color:#75715e&#34;&gt;//自定义SSLContext
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                SSLContext ctx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SSLContexts&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;custom&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;loadTrustMaterial&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;trustStore&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; anyTrustStrategy&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;build&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+                &lt;span style=&#34;color:#75715e&#34;&gt;// ssl问题
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#f92672&#34;&gt;((&lt;/span&gt;HttpsURLConnection&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; connection&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setSSLSocketFactory&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ctx&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getSocketFactory&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;());&lt;/span&gt;
+                &lt;span style=&#34;color:#75715e&#34;&gt;//解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#f92672&#34;&gt;((&lt;/span&gt;HttpsURLConnection&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; connection&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setHostnameVerifier&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;((&lt;/span&gt;s&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; sslSession&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+                HttpsURLConnection httpsConnection &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;HttpsURLConnection&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; connection&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;prepareConnection&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;httpsConnection&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; httpMethod&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// http协议
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;prepareConnection&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;connection&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; httpMethod&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Exception e&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+            e&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;printStackTrace&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;    
+String url &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://xxx.xxx.xxx&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+RestTemplate restTemplate &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; RestTemplateBuilder&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;requestFactory&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;HttpsClientHttpRequestFactory&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+		&lt;span style=&#34;color:#75715e&#34;&gt;//basic认证
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;basicAuthentication&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;username&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;build&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+HttpHeaders headers &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HttpHeaders&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+HttpEntity&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; entity &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HttpEntity&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;(&lt;/span&gt;headers&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+ResponseEntity&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; restTemplate&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;exchange&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;url&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; HttpMethod&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;GET&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; entity&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; String&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+String str &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getBody&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+System&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;str&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;RestTemplateBuilder&lt;/code&gt; 需要直接构建成 &lt;code&gt;RestTemplate&lt;/code&gt;对象，而不能中间生成 &lt;code&gt;RestTemplateBuilder&lt;/code&gt;对象。&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     
     <item>
@@ -58,7 +207,97 @@
       <pubDate>Fri, 28 Jan 2022 23:16:39 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E6%A0%88/</guid>
-      <description>栈是一种先进后出的数据结构，在Java中对应的接口为 Deque，Stack接口已经不建议使用。Deque接口继承自Queue接口，实则为双端</description>
+      <description>&lt;p&gt;栈是一种先进后出的数据结构，在Java中对应的接口为 &lt;code&gt;Deque&lt;/code&gt;，&lt;code&gt;Stack&lt;/code&gt;接口已经不建议使用。&lt;code&gt;Deque&lt;/code&gt;接口继承自&lt;code&gt;Queue&lt;/code&gt;接口，实则为双端队列，支持两端元素的插入、删除与访问。
+&lt;code&gt;Deque&lt;/code&gt;的方法有:&lt;/p&gt;
+&lt;p&gt;首端操作：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;抛出异常&lt;/th&gt;
+&lt;th&gt;返回特殊值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;getFirst()&lt;/td&gt;
+&lt;td&gt;peekFrist()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;addFirst()&lt;/td&gt;
+&lt;td&gt;offerFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;removeFirst()&lt;/td&gt;
+&lt;td&gt;pollFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;尾端操作：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;抛出异常&lt;/th&gt;
+&lt;th&gt;返回特殊值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;getLast()&lt;/td&gt;
+&lt;td&gt;peekLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;addLast()&lt;/td&gt;
+&lt;td&gt;offerLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;removeLast()&lt;/td&gt;
+&lt;td&gt;pollLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;栈方法对应的 &lt;code&gt;Deque&lt;/code&gt;方法：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;栈方法&lt;/th&gt;
+&lt;th&gt;Deque方法&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;peek()&lt;/td&gt;
+&lt;td&gt;peekFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;push()&lt;/td&gt;
+&lt;td&gt;addFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;pop()&lt;/td&gt;
+&lt;td&gt;removeFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;code&gt;Deque&lt;/code&gt;主要实现类有：
+&lt;img src=&#34;Deque%E5%AE%9E%E7%8E%B0%E7%B1%BB.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;使用例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;Deque&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; deque&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; LinkedList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;push&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;peek&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pop&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -67,7 +306,40 @@
       <pubDate>Mon, 24 Jan 2022 14:23:34 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E4%BD%8D%E8%BF%90%E7%AE%97/</guid>
-      <description>Java的位运算主要有：按位与(&amp;amp;)、按位或(|)、按位取反(~)、按位异或(^)、左移(&amp;lt;&amp;lt;)、带符号右移(&amp;gt;&amp;</description>
+      <description>&lt;p&gt;Java的位运算主要有：按位与(&lt;code&gt;&amp;amp;&lt;/code&gt;)、按位或(&lt;code&gt;|&lt;/code&gt;)、按位取反(&lt;code&gt;~&lt;/code&gt;)、按位异或(&lt;code&gt;^&lt;/code&gt;)、左移(&lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt;)、带符号右移(&lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;)、无符号右移(&lt;code&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/code&gt;)&lt;/p&gt;
+&lt;h2 id=&#34;按位与&#34;&gt;按位与(&amp;amp;)&lt;/h2&gt;
+&lt;p&gt;当相同位上的两个数字都为1时，结果为1；否则为0&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0
+0&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0 
+0&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;按位或&#34;&gt;按位或(|)&lt;/h2&gt;
+&lt;p&gt;当相同位上的数字至少有一个为1时，结果为1；否则为0&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt; 1&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+ 1&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+ 0&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+ 0&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;按位取反&#34;&gt;按位取反(~)&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0
+&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;按位异或&#34;&gt;按位异或(^)&lt;/h2&gt;
+&lt;p&gt;当相同位上的两个数字不同时，结果为1；相同时为0&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0 
+1&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+0&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+0&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;左移&#34;&gt;左移(&amp;laquo;)&lt;/h2&gt;
+&lt;p&gt;将二进制数字向左移动，移动几位就在最右侧补多少个0。
+例如 &lt;code&gt;3&amp;lt;&amp;lt;1&lt;/code&gt;，因为3的二进制表示形式为11，向左移动一位后变为110，所以 &lt;code&gt;3&amp;lt;&amp;lt;1=6&lt;/code&gt;。
+左移n位相当于乘上2的n次方。&lt;/p&gt;
+&lt;h2 id=&#34;带符号右移&#34;&gt;带符号右移(&amp;raquo;)&lt;/h2&gt;
+&lt;p&gt;将二进制数字向右移动，移动几位就在最右侧消去多少个比特位，并最左侧填充符号位。
+例如 &lt;code&gt;3&amp;gt;&amp;gt;1&lt;/code&gt;，因为3的二进制表示形式为011，所以向右移动一位后变为001，所以 &lt;code&gt;3&amp;gt;&amp;gt;1=1&lt;/code&gt;。
+例如 &lt;code&gt;-3&amp;gt;&amp;gt;1&lt;/code&gt;，因为-3的二进制补码表示为11111111111111111111111111111101&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，所以带符号向右移动一位后变为11111111111111111111111111111110，对应的数字为-2，所以 &lt;code&gt;-3&amp;gt;&amp;gt;1=-2&lt;/code&gt;。
+1左移一位会变成0，0左移依旧为0。&lt;/p&gt;
+&lt;h2 id=&#34;无符号右移&#34;&gt;无符号右移(&amp;raquo;&amp;gt;)&lt;/h2&gt;
+&lt;p&gt;将二进制数字向右移动，移动几位就在最右侧消去多少个比特位，并最左侧填充0。
+例如 &lt;code&gt;-3&amp;gt;&amp;gt;&amp;gt;1&lt;/code&gt;，因为-3的二进制补码表示为11111111111111111111111111111101，所以无符号向右移动一位后变为01111111111111111111111111111110，对应的数字为2147483646，所以 &lt;code&gt;-3&amp;gt;&amp;gt;&amp;gt;1=2147483646&lt;/code&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -76,7 +348,45 @@
       <pubDate>Sun, 23 Jan 2022 15:07:00 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/</guid>
-      <description>Java中对应的队列接口为 Queue，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。 Queue</description>
+      <description>&lt;p&gt;Java中对应的队列接口为 &lt;code&gt;Queue&lt;/code&gt;，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Queue&lt;/code&gt;主要方法有：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;抛出错误&lt;/th&gt;
+&lt;th&gt;返回特殊值(null或false)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;add()&lt;/td&gt;
+&lt;td&gt;offer()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;移除&lt;/td&gt;
+&lt;td&gt;remove()&lt;/td&gt;
+&lt;td&gt;poll()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;element()&lt;/td&gt;
+&lt;td&gt;peek()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;通常情况下，推荐使用 &lt;code&gt;offer()&lt;/code&gt;、&lt;code&gt;poll()&lt;/code&gt;、&lt;code&gt;peek()&lt;/code&gt;，这三个方法。&lt;/p&gt;
+&lt;p&gt;当插入的新元素已经存在于队列时，&lt;code&gt;offer()&lt;/code&gt;方法返回&lt;code&gt;false&lt;/code&gt;；当队列为空时，&lt;code&gt;poll()&lt;/code&gt;和&lt;code&gt;peek()&lt;/code&gt;方法返回 &lt;code&gt;null&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Queue&lt;/code&gt;主要实现类有：
+![[Queue主要实现类.png]]&lt;/p&gt;
+&lt;p&gt;我们平常使用的实现类为 &lt;code&gt;LinkedList&lt;/code&gt;，该类为 &lt;code&gt;Queue&lt;/code&gt;和 &lt;code&gt;Deque&lt;/code&gt;的双向链表实现类。&lt;/p&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;Queue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; queue&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; LinkedList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;offer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;peek&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;poll&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -85,7 +395,43 @@
       <pubDate>Sun, 07 Nov 2021 15:33:03 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/</guid>
-      <description>&lt;p&gt;判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。&lt;/p&gt;</description>
+      <description>&lt;p&gt;判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。&lt;/p&gt;
+&lt;p&gt;首先分析start≤ip。&lt;/p&gt;
+&lt;p&gt;因为ip的一般形式为 &lt;code&gt;&amp;quot;a.b.c.d&amp;quot;&lt;/code&gt;，通过 &lt;code&gt;.&lt;/code&gt;将整个ip分为四段。假设判断的ip为{a,b,c,d}，start为{a1,b1,c1,d1}。从左开始分析的话，每段有小于、等于、大于三个比较关系。如果a&amp;gt;a1，直接就能说明ip&amp;gt;start，不用再继续判断start后面的段；如果a=a1，则需要继续判断start剩下部分；如果a&amp;lt;a1，说明ip&amp;lt;start，直接返回false即可。&lt;/p&gt;
+&lt;p&gt;因为还存在start=ip的情况，所以需要保留循环的次数，如果比较到最后一段，说明start≤ip。&lt;/p&gt;
+&lt;p&gt;end的比较与start同理。&lt;/p&gt;
+&lt;p&gt;代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ipInRange&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;String ip&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;String start&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;String end&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+        String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; ips&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;ip&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\\\\.&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+        String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; starts&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;start&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\\\\.&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+        String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; ends&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;end&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\\\\.&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;boolean&lt;/span&gt; flags&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;flage&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//flags为true代表ip已经符合start，不用判断；flage标记end
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(;&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;ips&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;length&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; i&lt;span style=&#34;color:#f92672&#34;&gt;++){&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t_ip&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;parseInt&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ips&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]);&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t_start&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;parseInt&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;starts&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]);&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t_end&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;parseInt&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ends&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]);&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(!&lt;/span&gt;flags&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;   
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;t_ip&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;t_start&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                    flags&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;//说明start不用判断了
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;t_ip&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;t_start&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;//说明ip小于start
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(!&lt;/span&gt;flage&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;t_ip&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;t_end&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                    flage&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+                &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;t_ip&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;t_end&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+                &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;flags&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;flage&lt;span style=&#34;color:#f92672&#34;&gt;)||&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;ips&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;length&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//i==ips.length为true代表ip从头判断到尾，说明ip与某个边界相等。
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; args&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        System&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ipInRange&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.215.253&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.215.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.215.252&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;));&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -95,7 +441,48 @@
       
       <guid>https://wutongsuimeng.github.io/post/%E8%87%AA%E5%AE%9A%E4%B9%89hugo%E7%9A%84even%E4%B8%BB%E9%A2%98%E7%A6%81%E6%AD%A2%E5%A4%8D%E5%88%B6%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://lite.qwant.com/redirect/MjRlOWYxM2QzOTUyNzYyZGIzODdkMjg2NDBlNjlmZjQ3YzkzYzU2MDQ0MzU5ZGI3OTAxZjYwYjA1NmMyZGY5Yg==/aHR0cHMlM0ElMkYlMkZnb2h1Z28uaW8lMkY=?position=2&amp;amp;serp_position=2&amp;amp;t=web&amp;amp;locale=zh_cn&amp;amp;query=hugo&amp;amp;ad=0&amp;amp;uri=%2F%3Fq%3Dhugo&amp;amp;cacheKey=z8f3764807dbcf0e2149a3d11eab2b164&#34;&gt;hugo&lt;/a&gt;是一个静态网站生成框架，基于go实现。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&#34;https://github.com/olOwOlo/hugo-theme-even&#34;&gt;hugo-theme-even&lt;/a&gt;是一个hugo的主题。&lt;/p&gt;</description>
+&lt;p&gt;&lt;a href=&#34;https://github.com/olOwOlo/hugo-theme-even&#34;&gt;hugo-theme-even&lt;/a&gt;是一个hugo的主题。&lt;/p&gt;
+&lt;p&gt;因为even默认生成的代码存在代码行数，但是复制文章时会把代码行数也一并复制，所以特地对even的代码进行修改，让其复制时不复制代码行数。&lt;/p&gt;
+&lt;p&gt;因为需要修改assets目录里面的文件，所以需要hugo extended版，可使用命令 &lt;code&gt;hugo&lt;/code&gt;查看版本。&lt;/p&gt;
+&lt;p&gt;even默认代码高亮为chroma，所以我们先禁用chroma，并启用highlight作为代码高亮。&lt;/p&gt;
+&lt;p&gt;修改config.toml配置文件:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-toml&#34; data-lang=&#34;toml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 将下面配置设置为false&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;pygmentsCodefences&lt;/span&gt; = &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;pygmentsUseClasses&lt;/span&gt; = &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;pygmentsCodefencesGuessSyntax&lt;/span&gt; = &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;#将下面配置设置为true&lt;/span&gt;
+&lt;span style=&#34;color:#a6e22e&#34;&gt;highlightInClient&lt;/span&gt; = &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;然后修改assets\js目录下面的even.js文件，使得代码行数禁止复制：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-javascript&#34; data-lang=&#34;javascript&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Even&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;highlight&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;function&lt;/span&gt;() {
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;blocks&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; document.&lt;span style=&#34;color:#a6e22e&#34;&gt;querySelectorAll&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;pre code&amp;#39;&lt;/span&gt;);
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;blocks&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;length&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;block&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;blocks&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;];
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rootElement&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;block&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;parentElement&lt;/span&gt;;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lineCodes&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;block&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerHTML&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;/\\n/&lt;/span&gt;);
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;lineCodes&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;lineCodes&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;length&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#f92672&#34;&gt;===&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;lineCodes&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;pop&lt;/span&gt;();
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lineLength&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lineCodes&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;length&lt;/span&gt;;
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;codeLineHtml&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lineLength&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+      &lt;span style=&#34;color:#a6e22e&#34;&gt;codeLineHtml&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`&amp;lt;div class=&amp;#34;line&amp;#34;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;/div&amp;gt;`&lt;/span&gt;;
+    }
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;codeHtml&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&amp;#39;&lt;/span&gt;;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; (&lt;span style=&#34;color:#66d9ef&#34;&gt;let&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;lineLength&lt;/span&gt;; &lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;++&lt;/span&gt;) {
+      &lt;span style=&#34;color:#a6e22e&#34;&gt;codeHtml&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`&amp;lt;div class=&amp;#34;line&amp;#34;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;lineCodes&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;i&lt;/span&gt;]&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;/div&amp;gt;`&lt;/span&gt;;
+    }
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;block&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;className&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39; highlight&amp;#39;&lt;/span&gt;;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;const&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;figure&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; document.&lt;span style=&#34;color:#a6e22e&#34;&gt;createElement&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;figure&amp;#39;&lt;/span&gt;);
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;figure&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;className&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;block&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;className&lt;/span&gt;;
+		&lt;span style=&#34;color:#75715e&#34;&gt;//修改该行代码，添加style=&amp;#34;user-select:none&amp;#34;
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;figure&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;innerHTML&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;`&amp;lt;table&amp;gt;&amp;lt;tbody&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td class=&amp;#34;gutter&amp;#34;&amp;gt;&amp;lt;pre style=&amp;#34;user-select:none&amp;#34;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;codeLineHtml&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;/pre&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;td class=&amp;#34;code&amp;#34;&amp;gt;&amp;lt;pre&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;codeHtml&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;lt;/pre&amp;gt;&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&amp;lt;/tbody&amp;gt;&amp;lt;/table&amp;gt;`&lt;/span&gt;;
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;rootElement&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;parentElement&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;replaceChild&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;figure&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;rootElement&lt;/span&gt;);
+  }
+};
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;重新编译，能看到复制代码时不再复制代码行数。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -107,7 +494,9 @@
       <description>&lt;p&gt;Elasticsearch用于搜索、分析数据。&lt;/p&gt;
 &lt;p&gt;Kibana用于展示数据。&lt;/p&gt;
 &lt;p&gt;Beats用于收集数据。&lt;/p&gt;
-&lt;p&gt;Logstash用于集中、转换和存储数据。&lt;/p&gt;</description>
+&lt;p&gt;Logstash用于集中、转换和存储数据。&lt;/p&gt;
+&lt;p&gt;日志的主要处理流程为下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled.png&#34; alt=&#34;ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled.png&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -116,7 +505,18 @@
       <pubDate>Mon, 11 Oct 2021 23:58:53 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAgo%E9%A1%B9%E7%9B%AE/</guid>
-      <description>&lt;p&gt;承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。&lt;/p&gt;</description>
+      <description>&lt;p&gt;承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。&lt;/p&gt;
+&lt;h1 id=&#34;安装go&#34;&gt;安装Go&lt;/h1&gt;
+&lt;p&gt;因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。&lt;/p&gt;
+&lt;p&gt;首先在jenkins安装go插件 &lt;code&gt;Go Plugin&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;然后去全局工具配置，配置go。选择&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled.png&#34; alt=&#34;Untitled&#34;&gt;&lt;/p&gt;
+&lt;p&gt;别名这里选择填go，也可以别的。&lt;/p&gt;
+&lt;p&gt;标签可以不填。&lt;/p&gt;
+&lt;p&gt;压缩包(二进制)的下载URL填了：&lt;a href=&#34;https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz&#34;&gt;https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz&lt;/a&gt;，这是go国内的下载方式。&lt;/p&gt;
+&lt;p&gt;解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation&lt;/p&gt;
+&lt;p&gt;最后go会安装在 &lt;code&gt;解压目录/go/别名/&lt;/code&gt; 下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%201.png&#34; alt=&#34;Untitled&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -126,7 +526,11 @@
       
       <guid>https://wutongsuimeng.github.io/post/gitlabjenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4/</guid>
       <description>&lt;p&gt;gitlab是一个代码管理项目，使用git作为管理工具。其实gitlab本身就集成了一套CI/CD流程，但是这里选择搭配更为简单的jenkins作为CI/CD。&lt;/p&gt;
-&lt;p&gt;jenkins是一个支持自动化构建、部署和测试的软件，并且提供了众多的插件。jenkins可以选择多种方式安装，这里选择使用docker。&lt;/p&gt;</description>
+&lt;p&gt;jenkins是一个支持自动化构建、部署和测试的软件，并且提供了众多的插件。jenkins可以选择多种方式安装，这里选择使用docker。&lt;/p&gt;
+&lt;p&gt;服务器地址分别为：&lt;/p&gt;
+&lt;p&gt;gitlab: 192.168.1.0:9080&lt;/p&gt;
+&lt;p&gt;jenkins: 192.168.1.0:9081&lt;/p&gt;
+&lt;p&gt;部署机器: 192.168.1.1&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -135,7 +539,33 @@
       <pubDate>Sun, 10 Oct 2021 21:16:29 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8spring-cloudnacosdubbogateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/</guid>
-      <description>&lt;p&gt;本文使用spring cloud，nacos，dubbo，gateway搭建微服务&lt;/p&gt;</description>
+      <description>&lt;p&gt;本文使用spring cloud，nacos，dubbo，gateway搭建微服务&lt;/p&gt;
+&lt;h1 id=&#34;启动nacos&#34;&gt;启动nacos&lt;/h1&gt;
+&lt;p&gt;nacos是阿里开源的一个组件，用于服务发现、注册中心与配置中心。&lt;/p&gt;
+&lt;p&gt;首先下载nacos server：&lt;a href=&#34;https://github.com/alibaba/nacos&#34;&gt;https://github.com/alibaba/nacos&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;解压压缩包，打开bin目录。因为直接启动的话，会以集群模式启动，单机下会报错。所以有三种方法解决:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;使用命令行启动，指定为单机模式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;startup.cmd -m standalone
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改startup.cmd文件，将其修改为单机模式：&lt;/p&gt;
+&lt;p&gt;将&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;set MODE=&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cluster&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;修改为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;rem set MODE=&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cluster&amp;#34;&lt;/span&gt;
+set MODE=&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;standalone&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注： &lt;code&gt;rem&lt;/code&gt;为注释语句&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可以去修改数据库配置，感觉太麻烦了&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;建议第一种。&lt;/p&gt;
+&lt;p&gt;然后便能直接启动。&lt;/p&gt;
+&lt;p&gt;web页面地址为：&lt;a href=&#34;http://localhost:8848/nacos/index.html&#34;&gt;http://localhost:8848/nacos/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;默认账号密码都是nacos&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -144,7 +574,13 @@
       <pubDate>Sat, 17 Jul 2021 16:50:04 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/goland%E7%9A%84%E8%AE%BE%E7%BD%AE/</guid>
-      <description>&lt;p&gt;Goland是JetBrains家的go编辑器。&lt;/p&gt;</description>
+      <description>&lt;p&gt;Goland是JetBrains家的go编辑器。&lt;/p&gt;
+&lt;p&gt;GOROOT:Go安装的位置，该目录下有bin目录。不可以跟GOPATH设置同一目录&lt;/p&gt;
+&lt;p&gt;GOPATH:Go的工作目录，传统结构为下图。GOPATH跟项目不能是同一目录，项目应该在GOPATH目录下。但在go.mod出现之后，项目不再要求必须放在GOPATH目录下了，可以放在其他位置。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Goland%E7%9A%84%E8%AE%BE%E7%BD%AE%202e57580543d74529aec121013ade3d26/GOPATH.svg&#34; alt=&#34;Goland%E7%9A%84%E8%AE%BE%E7%BD%AE%202e57580543d74529aec121013ade3d26/GOPATH.svg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;GOPROXY:设置Go下载包时的代理。推荐使用GOPROXY=https://goproxy.io，也可以用别的。&lt;/p&gt;
+&lt;p&gt;现在go推荐的方式时使用go.mod管理项目的依赖包。使用go.mod之后，项目可以不放在GOPATH下的src目录，可以放在任意的地方，但是包依赖依旧会下载到GOPATH的pkg目录下。&lt;/p&gt;
+&lt;p&gt;go.mod在Go版本1.16前，可以通过 &lt;code&gt;go env -w GO111MODULE=on&lt;/code&gt; 启用go.mod，1.16之后默认启用on。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -153,7 +589,12 @@
       <pubDate>Sun, 13 Jun 2021 15:36:18 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/grpc%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
-      <description>&lt;p&gt;grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。&lt;/p&gt;</description>
+      <description>&lt;p&gt;grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。&lt;/p&gt;
+&lt;p&gt;grpc采用的是http2协议。&lt;/p&gt;
+&lt;h1 id=&#34;使用&#34;&gt;使用&lt;/h1&gt;
+&lt;h2 id=&#34;项目结构&#34;&gt;项目结构&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled.png&#34; alt=&#34;grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;分别为client（客户端）、grpc（gRPC 服务）、server（服务端）。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -162,7 +603,32 @@
       <pubDate>Sun, 23 May 2021 15:08:58 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE/</guid>
-      <description>&lt;p&gt;本文介绍如何在离线状况下编译maven项目。&lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍如何在离线状况下编译maven项目。&lt;/p&gt;
+&lt;p&gt;假设项目分布为：&lt;/p&gt;
+&lt;p&gt;D-&amp;gt;Code        -&amp;gt;project -&amp;gt;pom.xml：项目位置&lt;/p&gt;
+&lt;p&gt;|-&amp;gt;Maven      -&amp;gt;conf      -&amp;gt;settings.xml：maven配置文件的位置&lt;/p&gt;
+&lt;p&gt;|-&amp;gt;repository：存放依赖的位置&lt;/p&gt;
+&lt;h1 id=&#34;命令行编译&#34;&gt;命令行编译&lt;/h1&gt;
+&lt;p&gt;先配置maven的配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!--settings.xml--&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;settings&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://maven.apache.org/SETTINGS/1.0.0&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns:xsi=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#a6e22e&#34;&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+ 
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;localRepository&amp;gt;&lt;/span&gt;D:\repository&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/localRepository&amp;gt;&lt;/span&gt;
+  
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;offline&amp;gt;&lt;/span&gt;true&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/offline&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/settings&amp;gt;&lt;/span&gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;localRepository&lt;/code&gt;设置本地仓库位置，&lt;code&gt;offline&lt;/code&gt;设置离线模式。&lt;/p&gt;
+&lt;p&gt;然后在命令行中打开项目的位置，即pom.xml文件所在的位置下，使用命令编译项目：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ mvn clean package -s &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;D:/Maven/conf/settings.xml&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;-s&lt;/code&gt;设置maven配置文件的位置。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -171,7 +637,28 @@
       <pubDate>Sun, 21 Mar 2021 17:37:56 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub-rescue%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
-      <description>重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: # 列出所有磁盘 &amp;gt; ls &amp;gt; (hd0,gpt1) (hd0,gpt2) # 一个一个查看磁盘里面的内容</description>
+      <description>&lt;p&gt;重装window后，突然就进去不了linux系统，在命令行窗口下提示&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg&#34; alt=&#34;%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;解决办法:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 列出所有磁盘&lt;/span&gt;
+&amp;gt; ls
+&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hd0,gpt1&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hd0,gpt2&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# 一个一个查看磁盘里面的内容,找到grub所在位置,如果有提示/boot,/grub,即很有可能便是grub的位置&lt;/span&gt;
+&amp;gt; ls &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hd0,gpt2&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;/
+&amp;gt; ./ ../ boot/ dev/ 
+&lt;span style=&#34;color:#75715e&#34;&gt;# 设置为启动分区&lt;/span&gt;
+&amp;gt; set prefix&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;hd0,gpt2&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;/boot/grub
+&amp;gt; set root&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;hd0,gpt5
+&amp;gt; insmod normal
+&amp;gt; normal
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后便会重启系统&lt;/p&gt;
+&lt;p&gt;进入到系统之后,重新安装grub&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 查看/boot/efi的挂载点&lt;/span&gt;
+&amp;gt; df
+&lt;span style=&#34;color:#75715e&#34;&gt;# 安装grub&lt;/span&gt;
+&amp;gt; sudo grub-install /dev/sda1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -180,7 +667,13 @@
       <pubDate>Sat, 13 Mar 2021 20:11:46 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85/</guid>
-      <description>下载mysql 下载地址：https://dev.mysql.com/downloads/mysql/ 把下载好的压缩文件解压放到一个不含中文路</description>
+      <description>&lt;h2 id=&#34;下载mysql&#34;&gt;下载mysql&lt;/h2&gt;
+&lt;p&gt;下载地址：&lt;a href=&#34;https://dev.mysql.com/downloads/mysql/&#34;&gt;https://dev.mysql.com/downloads/mysql/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled.png&#34; alt=&#34;Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;把下载好的压缩文件解压放到一个不含中文路径的目录下&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%201.png&#34; alt=&#34;Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%201.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;用管理员模式打开cmd，打开到mysql的bin目录：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%202.png&#34; alt=&#34;Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%202.png&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -189,7 +682,21 @@
       <pubDate>Mon, 08 Mar 2021 19:52:06 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
-      <description>更改虚拟机的网络模式为桥接模式 关闭防火墙 service iptables stop 重启虚拟机，使用命令查看当前ip ifconfig 使用该ip在物理机访问即可访问到虚拟机的web服务。</description>
+      <description>&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;更改虚拟机的网络模式为桥接模式&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/Untitled.png&#34; alt=&#34;/media/物理机访问虚拟机内的web服务器/Untitled.png&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;关闭防火墙&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;service iptables stop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;重启虚拟机，使用命令查看当前ip&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ifconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用该ip在物理机访问即可访问到虚拟机的web服务。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     
     <item>
@@ -198,7 +705,14 @@
       <pubDate>Mon, 08 Mar 2021 13:58:09 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/</guid>
-      <description>报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &amp;ldquo;/mysql&amp;rdquo; is already in use by container &amp;ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&amp;rdquo;. You have to remove (or rename) that container to be able to reuse that name. 解决： 因为之前强行停止的容器没有完全停止及清理，所以</description>
+      <description>&lt;p&gt;报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &amp;ldquo;/mysql&amp;rdquo; is already in use by container &amp;ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&amp;rdquo;. You have to remove (or rename) that container to be able to reuse that name.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/Snipaste_2021-03-08_10-18-49.png&#34; alt=&#34;/media启动容器失败/Snipaste_2021-03-08_10-18-49.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;解决：&lt;/p&gt;
+&lt;p&gt;因为之前强行停止的容器没有完全停止及清理，所以要对之前启动的容器进行清理及完全停止：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker rm -f &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;docker ps -a -q&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;重启docker：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo service docker restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
   </channel>

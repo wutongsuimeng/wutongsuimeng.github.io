@@ -13,7 +13,32 @@
       <pubDate>Sun, 23 May 2021 15:08:58 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE/</guid>
-      <description>&lt;p&gt;本文介绍如何在离线状况下编译maven项目。&lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍如何在离线状况下编译maven项目。&lt;/p&gt;
+&lt;p&gt;假设项目分布为：&lt;/p&gt;
+&lt;p&gt;D-&amp;gt;Code        -&amp;gt;project -&amp;gt;pom.xml：项目位置&lt;/p&gt;
+&lt;p&gt;|-&amp;gt;Maven      -&amp;gt;conf      -&amp;gt;settings.xml：maven配置文件的位置&lt;/p&gt;
+&lt;p&gt;|-&amp;gt;repository：存放依赖的位置&lt;/p&gt;
+&lt;h1 id=&#34;命令行编译&#34;&gt;命令行编译&lt;/h1&gt;
+&lt;p&gt;先配置maven的配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!--settings.xml--&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;settings&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://maven.apache.org/SETTINGS/1.0.0&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns:xsi=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#a6e22e&#34;&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+ 
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;localRepository&amp;gt;&lt;/span&gt;D:\repository&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/localRepository&amp;gt;&lt;/span&gt;
+  
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;offline&amp;gt;&lt;/span&gt;true&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/offline&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/settings&amp;gt;&lt;/span&gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;localRepository&lt;/code&gt;设置本地仓库位置，&lt;code&gt;offline&lt;/code&gt;设置离线模式。&lt;/p&gt;
+&lt;p&gt;然后在命令行中打开项目的位置，即pom.xml文件所在的位置下，使用命令编译项目：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ mvn clean package -s &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;D:/Maven/conf/settings.xml&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;-s&lt;/code&gt;设置maven配置文件的位置。&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -13,7 +13,13 @@
       <pubDate>Sat, 13 Mar 2021 20:11:46 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85/</guid>
-      <description>下载mysql 下载地址：https://dev.mysql.com/downloads/mysql/ 把下载好的压缩文件解压放到一个不含中文路</description>
+      <description>&lt;h2 id=&#34;下载mysql&#34;&gt;下载mysql&lt;/h2&gt;
+&lt;p&gt;下载地址：&lt;a href=&#34;https://dev.mysql.com/downloads/mysql/&#34;&gt;https://dev.mysql.com/downloads/mysql/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled.png&#34; alt=&#34;Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;把下载好的压缩文件解压放到一个不含中文路径的目录下&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%201.png&#34; alt=&#34;Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%201.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;用管理员模式打开cmd，打开到mysql的bin目录：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%202.png&#34; alt=&#34;Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%202.png&#34;&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>

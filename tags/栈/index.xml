@@ -13,7 +13,97 @@
       <pubDate>Fri, 28 Jan 2022 23:16:39 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E6%A0%88/</guid>
-      <description>栈是一种先进后出的数据结构，在Java中对应的接口为 Deque，Stack接口已经不建议使用。Deque接口继承自Queue接口，实则为双端</description>
+      <description>&lt;p&gt;栈是一种先进后出的数据结构，在Java中对应的接口为 &lt;code&gt;Deque&lt;/code&gt;，&lt;code&gt;Stack&lt;/code&gt;接口已经不建议使用。&lt;code&gt;Deque&lt;/code&gt;接口继承自&lt;code&gt;Queue&lt;/code&gt;接口，实则为双端队列，支持两端元素的插入、删除与访问。
+&lt;code&gt;Deque&lt;/code&gt;的方法有:&lt;/p&gt;
+&lt;p&gt;首端操作：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;抛出异常&lt;/th&gt;
+&lt;th&gt;返回特殊值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;getFirst()&lt;/td&gt;
+&lt;td&gt;peekFrist()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;addFirst()&lt;/td&gt;
+&lt;td&gt;offerFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;removeFirst()&lt;/td&gt;
+&lt;td&gt;pollFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;尾端操作：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;抛出异常&lt;/th&gt;
+&lt;th&gt;返回特殊值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;getLast()&lt;/td&gt;
+&lt;td&gt;peekLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;addLast()&lt;/td&gt;
+&lt;td&gt;offerLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;removeLast()&lt;/td&gt;
+&lt;td&gt;pollLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;栈方法对应的 &lt;code&gt;Deque&lt;/code&gt;方法：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;栈方法&lt;/th&gt;
+&lt;th&gt;Deque方法&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;peek()&lt;/td&gt;
+&lt;td&gt;peekFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;push()&lt;/td&gt;
+&lt;td&gt;addFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;pop()&lt;/td&gt;
+&lt;td&gt;removeFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;code&gt;Deque&lt;/code&gt;主要实现类有：
+&lt;img src=&#34;Deque%E5%AE%9E%E7%8E%B0%E7%B1%BB.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;使用例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;Deque&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; deque&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; LinkedList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;push&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;peek&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pop&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
   </channel>

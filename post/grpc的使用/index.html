@@ -17,6 +17,8 @@
 
 
 <meta name="author" content="梧桐碎梦" /><meta name="description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。
+grpc采用的是http2协议。
+使用 项目结构 分别为client（客户端）、grpc（gRPC 服务）、server（服务端）。
 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
@@ -41,19 +43,34 @@
 
 
 <meta property="og:title" content="gRPC的使用" />
-<meta property="og:description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。" />
+<meta property="og:description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。
+grpc采用的是http2协议。
+使用
+项目结构
+
+分别为client（客户端）、grpc（gRPC 服务）、server（服务端）。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/grpc%E7%9A%84%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-06-13T15:36:18+08:00" />
 <meta property="article:modified_time" content="2021-06-13T15:36:18+08:00" />
 
 <meta itemprop="name" content="gRPC的使用">
-<meta itemprop="description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。"><meta itemprop="datePublished" content="2021-06-13T15:36:18+08:00" />
+<meta itemprop="description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。
+grpc采用的是http2协议。
+使用
+项目结构
+
+分别为client（客户端）、grpc（gRPC 服务）、server（服务端）。"><meta itemprop="datePublished" content="2021-06-13T15:36:18+08:00" />
 <meta itemprop="dateModified" content="2021-06-13T15:36:18+08:00" />
 <meta itemprop="wordCount" content="2066">
 <meta itemprop="keywords" content="rpc,grpc," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="gRPC的使用"/>
-<meta name="twitter:description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。"/>
+<meta name="twitter:description" content="grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。
+grpc采用的是http2协议。
+使用
+项目结构
+
+分别为client（客户端）、grpc（gRPC 服务）、server（服务端）。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

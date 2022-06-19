@@ -13,7 +13,21 @@
       <pubDate>Mon, 08 Mar 2021 19:52:06 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/</guid>
-      <description>更改虚拟机的网络模式为桥接模式 关闭防火墙 service iptables stop 重启虚拟机，使用命令查看当前ip ifconfig 使用该ip在物理机访问即可访问到虚拟机的web服务。</description>
+      <description>&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;更改虚拟机的网络模式为桥接模式&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/Untitled.png&#34; alt=&#34;/media/物理机访问虚拟机内的web服务器/Untitled.png&#34;&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;关闭防火墙&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;service iptables stop
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;重启虚拟机，使用命令查看当前ip&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;ifconfig
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用该ip在物理机访问即可访问到虚拟机的web服务。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     
   </channel>

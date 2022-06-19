@@ -13,7 +13,12 @@
       <pubDate>Sun, 13 Jun 2021 15:36:18 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/grpc%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
-      <description>&lt;p&gt;grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。&lt;/p&gt;</description>
+      <description>&lt;p&gt;grpc是由google开源的rpc（Remote Procedure Call，远程程序调用）框架，rpc用于跨平台、跨语言传输数据。&lt;/p&gt;
+&lt;p&gt;grpc采用的是http2协议。&lt;/p&gt;
+&lt;h1 id=&#34;使用&#34;&gt;使用&lt;/h1&gt;
+&lt;h2 id=&#34;项目结构&#34;&gt;项目结构&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled.png&#34; alt=&#34;grpc%206dc0246e96bb4264a82fa800e38e0102/Untitled.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;分别为client（客户端）、grpc（gRPC 服务）、server（服务端）。&lt;/p&gt;</description>
     </item>
     
   </channel>

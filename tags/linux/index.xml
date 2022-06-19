@@ -13,7 +13,28 @@
       <pubDate>Sun, 21 Mar 2021 17:37:56 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub-rescue%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
-      <description>重装window后，突然就进去不了linux系统，在命令行窗口下提示 error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found 解决办法: # 列出所有磁盘 &amp;gt; ls &amp;gt; (hd0,gpt1) (hd0,gpt2) # 一个一个查看磁盘里面的内容</description>
+      <description>&lt;p&gt;重装window后，突然就进去不了linux系统，在命令行窗口下提示&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;error :file &#39;/boot/grub/x86_64-efi/normal.mod&#39; not found&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg&#34; alt=&#34;%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;解决办法:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 列出所有磁盘&lt;/span&gt;
+&amp;gt; ls
+&amp;gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hd0,gpt1&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hd0,gpt2&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;# 一个一个查看磁盘里面的内容,找到grub所在位置,如果有提示/boot,/grub,即很有可能便是grub的位置&lt;/span&gt;
+&amp;gt; ls &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;hd0,gpt2&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;/
+&amp;gt; ./ ../ boot/ dev/ 
+&lt;span style=&#34;color:#75715e&#34;&gt;# 设置为启动分区&lt;/span&gt;
+&amp;gt; set prefix&lt;span style=&#34;color:#f92672&#34;&gt;=(&lt;/span&gt;hd0,gpt2&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;/boot/grub
+&amp;gt; set root&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;hd0,gpt5
+&amp;gt; insmod normal
+&amp;gt; normal
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;之后便会重启系统&lt;/p&gt;
+&lt;p&gt;进入到系统之后,重新安装grub&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 查看/boot/efi的挂载点&lt;/span&gt;
+&amp;gt; df
+&lt;span style=&#34;color:#75715e&#34;&gt;# 安装grub&lt;/span&gt;
+&amp;gt; sudo grub-install /dev/sda1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
   </channel>

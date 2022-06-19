@@ -13,7 +13,14 @@
       <pubDate>Mon, 08 Mar 2021 13:58:09 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/</guid>
-      <description>报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &amp;ldquo;/mysql&amp;rdquo; is already in use by container &amp;ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&amp;rdquo;. You have to remove (or rename) that container to be able to reuse that name. 解决： 因为之前强行停止的容器没有完全停止及清理，所以</description>
+      <description>&lt;p&gt;报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &amp;ldquo;/mysql&amp;rdquo; is already in use by container &amp;ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&amp;rdquo;. You have to remove (or rename) that container to be able to reuse that name.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/Snipaste_2021-03-08_10-18-49.png&#34; alt=&#34;/media启动容器失败/Snipaste_2021-03-08_10-18-49.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;解决：&lt;/p&gt;
+&lt;p&gt;因为之前强行停止的容器没有完全停止及清理，所以要对之前启动的容器进行清理及完全停止：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;docker rm -f &lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;docker ps -a -q&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;重启docker：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo service docker restart
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
   </channel>

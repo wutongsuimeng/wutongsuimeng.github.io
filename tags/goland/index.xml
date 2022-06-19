@@ -13,7 +13,13 @@
       <pubDate>Sat, 17 Jul 2021 16:50:04 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/goland%E7%9A%84%E8%AE%BE%E7%BD%AE/</guid>
-      <description>&lt;p&gt;Goland是JetBrains家的go编辑器。&lt;/p&gt;</description>
+      <description>&lt;p&gt;Goland是JetBrains家的go编辑器。&lt;/p&gt;
+&lt;p&gt;GOROOT:Go安装的位置，该目录下有bin目录。不可以跟GOPATH设置同一目录&lt;/p&gt;
+&lt;p&gt;GOPATH:Go的工作目录，传统结构为下图。GOPATH跟项目不能是同一目录，项目应该在GOPATH目录下。但在go.mod出现之后，项目不再要求必须放在GOPATH目录下了，可以放在其他位置。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Goland%E7%9A%84%E8%AE%BE%E7%BD%AE%202e57580543d74529aec121013ade3d26/GOPATH.svg&#34; alt=&#34;Goland%E7%9A%84%E8%AE%BE%E7%BD%AE%202e57580543d74529aec121013ade3d26/GOPATH.svg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;GOPROXY:设置Go下载包时的代理。推荐使用GOPROXY=https://goproxy.io，也可以用别的。&lt;/p&gt;
+&lt;p&gt;现在go推荐的方式时使用go.mod管理项目的依赖包。使用go.mod之后，项目可以不放在GOPATH下的src目录，可以放在任意的地方，但是包依赖依旧会下载到GOPATH的pkg目录下。&lt;/p&gt;
+&lt;p&gt;go.mod在Go版本1.16前，可以通过 &lt;code&gt;go env -w GO111MODULE=on&lt;/code&gt; 启用go.mod，1.16之后默认启用on。&lt;/p&gt;</description>
     </item>
     
   </channel>

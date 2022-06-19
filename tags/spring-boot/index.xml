@@ -13,7 +13,26 @@
       <pubDate>Tue, 15 Feb 2022 14:15:03 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/</guid>
-      <description>我的配置文件为： # application.yml server: port: 8081 spring: application: name: test cloud: nacos: discovery: server-addr: http://localhost:8848 设置了 server.port不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配</description>
+      <description>&lt;p&gt;我的配置文件为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# application.yml&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;server&lt;/span&gt;:  
+  &lt;span style=&#34;color:#f92672&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;8081&lt;/span&gt;  
+&lt;span style=&#34;color:#f92672&#34;&gt;spring&lt;/span&gt;:  
+  &lt;span style=&#34;color:#f92672&#34;&gt;application&lt;/span&gt;:  
+    &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;test  &lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;cloud&lt;/span&gt;:  
+      &lt;span style=&#34;color:#f92672&#34;&gt;nacos&lt;/span&gt;:  
+        &lt;span style=&#34;color:#f92672&#34;&gt;discovery&lt;/span&gt;:  
+          &lt;span style=&#34;color:#f92672&#34;&gt;server-addr&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;http://localhost:8848&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;设置了 &lt;code&gt;server.port&lt;/code&gt;不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配置，所以删掉nacos的配置即可。&lt;/p&gt;
+&lt;p&gt;修改后的配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-yaml&#34; data-lang=&#34;yaml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# application.yml&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;server&lt;/span&gt;:  
+  &lt;span style=&#34;color:#f92672&#34;&gt;port&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;8081&lt;/span&gt;  
+&lt;span style=&#34;color:#f92672&#34;&gt;spring&lt;/span&gt;:  
+  &lt;span style=&#34;color:#f92672&#34;&gt;application&lt;/span&gt;:  
+    &lt;span style=&#34;color:#f92672&#34;&gt;name&lt;/span&gt;: &lt;span style=&#34;color:#ae81ff&#34;&gt;test &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果需要使用nacos，在application.yml文件中配置&lt;code&gt;server.port&lt;/code&gt;的话，会发现配置不生效。这个时候需要新建一个空白的application.properties文件，来使的application.yml文件中的&lt;code&gt;server.port&lt;/code&gt;配置生效。原因未知。&lt;/p&gt;</description>
     </item>
     
   </channel>

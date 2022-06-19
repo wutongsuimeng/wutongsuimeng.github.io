@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>源码 on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/tags/%E6%BA%90%E7%A0%81/</link>
+    <description>Recent content in 源码 on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 29 May 2022 17:58:26 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/%E6%BA%90%E7%A0%81/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HashMap1.8 的源码解析</title>
+      <link>https://wutongsuimeng.github.io/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Sun, 29 May 2022 17:58:26 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;h1 id=&#34;结构&#34;&gt;结构&lt;/h1&gt;
+&lt;p&gt;HashMap的结构为数组+链表+红黑树。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//对象数组
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;transient&lt;/span&gt; Node&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;[]&lt;/span&gt; table&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; 
+&lt;span style=&#34;color:#75715e&#34;&gt;// 链表节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Node&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;implements&lt;/span&gt; Map&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Entry&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; hash&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//哈希值
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; K key&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//建
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        V value&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//值
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        Node&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; next&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//下一个节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;//红黑树节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TreeNode&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;extends&lt;/span&gt; LinkedHashMap&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Entry&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; parent&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// red-black tree links
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; left&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; right&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; prev&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// needed to unlink next upon deletion
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;boolean&lt;/span&gt; red&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

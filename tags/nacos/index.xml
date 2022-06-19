@@ -13,7 +13,56 @@
       <pubDate>Sun, 27 Feb 2022 16:12:44 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/</guid>
-      <description>nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。 Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。 引入依赖 因为n</description>
+      <description>&lt;p&gt;nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。&lt;/p&gt;
+&lt;p&gt;Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。&lt;/p&gt;
+&lt;h1 id=&#34;引入依赖&#34;&gt;引入依赖&lt;/h1&gt;
+&lt;p&gt;因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。&lt;/p&gt;
+&lt;p&gt;因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!-- pom.xml --&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;properties&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;java.version&amp;gt;&lt;/span&gt;1.8&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/java.version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;spring.boot.version&amp;gt;&lt;/span&gt;2.4.2&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/spring.boot.version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;spring.cloud.version&amp;gt;&lt;/span&gt;3.0.1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/spring.cloud.version&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/properties&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependencies&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.boot&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-boot-starter-web&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${spring.boot.version}&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.alibaba.cloud&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;2021.1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;exclusions&amp;gt;&lt;/span&gt;
+			&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!--//丢弃ribbon--&amp;gt;&lt;/span&gt;
+			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;exclusion&amp;gt;&lt;/span&gt;
+				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;com.netflix.ribbon&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+				&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;ribbon&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+			&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/exclusion&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/exclusions&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.cloud&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-starter-openfeign&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${spring.cloud.version}&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.cloud&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-starter-bootstrap&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${spring.cloud.version}&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;dependency&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;groupId&amp;gt;&lt;/span&gt;org.springframework.cloud&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/groupId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;artifactId&amp;gt;&lt;/span&gt;spring-cloud-loadbalancer&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/artifactId&amp;gt;&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;version&amp;gt;&lt;/span&gt;${spring.cloud.version}&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/version&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependency&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/dependencies&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在使用nacos时需要注意nacos及其依赖的版本。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。&lt;/li&gt;
+&lt;li&gt;因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看&lt;a href=&#34;https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E&#34;&gt;版本说明&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     
     <item>
@@ -22,7 +71,13 @@
       <pubDate>Wed, 16 Feb 2022 11:35:36 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/</guid>
-      <description>今天在尝试集成nacos和feign时，报错： java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.</description>
+      <description>&lt;p&gt;今天在尝试集成nacos和feign时，报错：
+&lt;code&gt;java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;通过idea的Add Maven dependency功能，发现这个类位于 &lt;code&gt;spring-cloud-commons&lt;/code&gt;包内。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Pasted%20image%2020220216113850.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;但是通过解压所引入的&lt;code&gt;spring-cloud-commons&lt;/code&gt;的jar包，发现是存在该类的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Pasted%20image%2020220216115557.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;所以猜测可能是版本问题。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -31,7 +86,18 @@
       <pubDate>Mon, 11 Oct 2021 23:58:53 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAgo%E9%A1%B9%E7%9B%AE/</guid>
-      <description>&lt;p&gt;承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。&lt;/p&gt;</description>
+      <description>&lt;p&gt;承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。&lt;/p&gt;
+&lt;h1 id=&#34;安装go&#34;&gt;安装Go&lt;/h1&gt;
+&lt;p&gt;因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。&lt;/p&gt;
+&lt;p&gt;首先在jenkins安装go插件 &lt;code&gt;Go Plugin&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;然后去全局工具配置，配置go。选择&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled.png&#34; alt=&#34;Untitled&#34;&gt;&lt;/p&gt;
+&lt;p&gt;别名这里选择填go，也可以别的。&lt;/p&gt;
+&lt;p&gt;标签可以不填。&lt;/p&gt;
+&lt;p&gt;压缩包(二进制)的下载URL填了：&lt;a href=&#34;https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz&#34;&gt;https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz&lt;/a&gt;，这是go国内的下载方式。&lt;/p&gt;
+&lt;p&gt;解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation&lt;/p&gt;
+&lt;p&gt;最后go会安装在 &lt;code&gt;解压目录/go/别名/&lt;/code&gt; 下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%201.png&#34; alt=&#34;Untitled&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -41,7 +107,11 @@
       
       <guid>https://wutongsuimeng.github.io/post/gitlabjenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4/</guid>
       <description>&lt;p&gt;gitlab是一个代码管理项目，使用git作为管理工具。其实gitlab本身就集成了一套CI/CD流程，但是这里选择搭配更为简单的jenkins作为CI/CD。&lt;/p&gt;
-&lt;p&gt;jenkins是一个支持自动化构建、部署和测试的软件，并且提供了众多的插件。jenkins可以选择多种方式安装，这里选择使用docker。&lt;/p&gt;</description>
+&lt;p&gt;jenkins是一个支持自动化构建、部署和测试的软件，并且提供了众多的插件。jenkins可以选择多种方式安装，这里选择使用docker。&lt;/p&gt;
+&lt;p&gt;服务器地址分别为：&lt;/p&gt;
+&lt;p&gt;gitlab: 192.168.1.0:9080&lt;/p&gt;
+&lt;p&gt;jenkins: 192.168.1.0:9081&lt;/p&gt;
+&lt;p&gt;部署机器: 192.168.1.1&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -50,7 +120,33 @@
       <pubDate>Sun, 10 Oct 2021 21:16:29 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8spring-cloudnacosdubbogateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/</guid>
-      <description>&lt;p&gt;本文使用spring cloud，nacos，dubbo，gateway搭建微服务&lt;/p&gt;</description>
+      <description>&lt;p&gt;本文使用spring cloud，nacos，dubbo，gateway搭建微服务&lt;/p&gt;
+&lt;h1 id=&#34;启动nacos&#34;&gt;启动nacos&lt;/h1&gt;
+&lt;p&gt;nacos是阿里开源的一个组件，用于服务发现、注册中心与配置中心。&lt;/p&gt;
+&lt;p&gt;首先下载nacos server：&lt;a href=&#34;https://github.com/alibaba/nacos&#34;&gt;https://github.com/alibaba/nacos&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;解压压缩包，打开bin目录。因为直接启动的话，会以集群模式启动，单机下会报错。所以有三种方法解决:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;使用命令行启动，指定为单机模式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;startup.cmd -m standalone
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;修改startup.cmd文件，将其修改为单机模式：&lt;/p&gt;
+&lt;p&gt;将&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;set MODE=&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cluster&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;修改为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-powershell&#34; data-lang=&#34;powershell&#34;&gt;rem set MODE=&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;cluster&amp;#34;&lt;/span&gt;
+set MODE=&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;standalone&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注： &lt;code&gt;rem&lt;/code&gt;为注释语句&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;可以去修改数据库配置，感觉太麻烦了&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;建议第一种。&lt;/p&gt;
+&lt;p&gt;然后便能直接启动。&lt;/p&gt;
+&lt;p&gt;web页面地址为：&lt;a href=&#34;http://localhost:8848/nacos/index.html&#34;&gt;http://localhost:8848/nacos/index.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;默认账号密码都是nacos&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -17,7 +17,12 @@
 
 
 <meta name="author" content="梧桐碎梦" /><meta name="description" content="判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。
-" /><meta name="keywords" content="Hugo, theme, even" />
+首先分析start≤ip。
+因为ip的一般形式为 &amp;quot;a.b.c.d&amp;quot;，通过 .将整个ip分为四段。假设判断的ip为{a,b,c,d}，start为{a1,b1,c1,d1}。从左开始分析的话，每段有小于、等于、大于三个比较关系。如果a&amp;gt;a1，直接就能说明ip&amp;gt;start，不用再继续判断start后面的段；如果a=a1，则需要继续判断start剩下部分；如果a&amp;lt;a1，说明ip&amp;lt;start，直接返回false即可。
+因为还存在start=ip的情况，所以需要保留循环的次数，如果比较到最后一段，说明start≤ip。
+end的比较与start同理。
+代码如下：
+public static boolean ipInRange(String ip,String start,String end){ String[] ips=ip.split(&amp;#34;\\\\.&amp;#34;); String[] starts=start.split(&amp;#34;\\\\.&amp;#34;); String[] ends=end.split(&amp;#34;\\\\.&amp;#34;); boolean flags=false,flage=false; //flags为true代表ip已经符合start，不用判断；flage标记end  int i=0; for (; i &amp;lt;ips.length; i&#43;&#43;){ int t_ip=Integer.parseInt(ips[i]); int t_start=Integer.parseInt(starts[i]); int t_end=Integer.parseInt(ends[i]); if(!flags){ if(t_ip&amp;gt;t_start){ flags=true; //说明start不用判断了  }else if(t_ip&amp;lt;t_start){ return false; //说明ip小于start  } } if(!flage){ if(t_ip&amp;lt;t_end){ flage=true; }else if(t_ip&amp;gt;t_end){ return false; } } } return (flags&amp;amp;&amp;amp;flage)||i==ips.length; //i==ips.length为true代表ip从头判断到尾，说明ip与某个边界相等。  } public static void main(String[] args) { System.out.println(ipInRange(&amp;#34;192.168.215.253&amp;#34;,&amp;#34;192.168.215.1&amp;#34;,&amp;#34;192.168.215.252&amp;#34;)); } " /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -41,19 +46,127 @@
 
 
 <meta property="og:title" content="判断ip是否在某ip范围内" />
-<meta property="og:description" content="判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。" />
+<meta property="og:description" content="判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。
+首先分析start≤ip。
+因为ip的一般形式为 &quot;a.b.c.d&quot;，通过 .将整个ip分为四段。假设判断的ip为{a,b,c,d}，start为{a1,b1,c1,d1}。从左开始分析的话，每段有小于、等于、大于三个比较关系。如果a&gt;a1，直接就能说明ip&gt;start，不用再继续判断start后面的段；如果a=a1，则需要继续判断start剩下部分；如果a&lt;a1，说明ip&lt;start，直接返回false即可。
+因为还存在start=ip的情况，所以需要保留循环的次数，如果比较到最后一段，说明start≤ip。
+end的比较与start同理。
+代码如下：
+public static boolean ipInRange(String ip,String start,String end){
+        String[] ips=ip.split(&#34;\\\\.&#34;);
+        String[] starts=start.split(&#34;\\\\.&#34;);
+        String[] ends=end.split(&#34;\\\\.&#34;);
+        boolean flags=false,flage=false;  //flags为true代表ip已经符合start，不用判断；flage标记end
+        int i=0;
+        for (; i &lt;ips.length; i&#43;&#43;){
+            int t_ip=Integer.parseInt(ips[i]);
+            int t_start=Integer.parseInt(starts[i]);
+            int t_end=Integer.parseInt(ends[i]);
+            if(!flags){   
+                if(t_ip&gt;t_start){
+                    flags=true;   //说明start不用判断了
+                }else if(t_ip&lt;t_start){
+                    return false;   //说明ip小于start
+                }
+            }
+            if(!flage){
+                if(t_ip&lt;t_end){
+                    flage=true;
+                }else if(t_ip&gt;t_end){
+                    return false;
+                }
+            }
+        }
+        return (flags&amp;&amp;flage)||i==ips.length;  //i==ips.length为true代表ip从头判断到尾，说明ip与某个边界相等。
+    }
+    public static void main(String[] args) {
+        System.out.println(ipInRange(&#34;192.168.215.253&#34;,&#34;192.168.215.1&#34;,&#34;192.168.215.252&#34;));
+    }
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-11-07T15:33:03+08:00" />
 <meta property="article:modified_time" content="2021-11-07T15:33:03+08:00" />
 
 <meta itemprop="name" content="判断ip是否在某ip范围内">
-<meta itemprop="description" content="判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。"><meta itemprop="datePublished" content="2021-11-07T15:33:03+08:00" />
+<meta itemprop="description" content="判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。
+首先分析start≤ip。
+因为ip的一般形式为 &quot;a.b.c.d&quot;，通过 .将整个ip分为四段。假设判断的ip为{a,b,c,d}，start为{a1,b1,c1,d1}。从左开始分析的话，每段有小于、等于、大于三个比较关系。如果a&gt;a1，直接就能说明ip&gt;start，不用再继续判断start后面的段；如果a=a1，则需要继续判断start剩下部分；如果a&lt;a1，说明ip&lt;start，直接返回false即可。
+因为还存在start=ip的情况，所以需要保留循环的次数，如果比较到最后一段，说明start≤ip。
+end的比较与start同理。
+代码如下：
+public static boolean ipInRange(String ip,String start,String end){
+        String[] ips=ip.split(&#34;\\\\.&#34;);
+        String[] starts=start.split(&#34;\\\\.&#34;);
+        String[] ends=end.split(&#34;\\\\.&#34;);
+        boolean flags=false,flage=false;  //flags为true代表ip已经符合start，不用判断；flage标记end
+        int i=0;
+        for (; i &lt;ips.length; i&#43;&#43;){
+            int t_ip=Integer.parseInt(ips[i]);
+            int t_start=Integer.parseInt(starts[i]);
+            int t_end=Integer.parseInt(ends[i]);
+            if(!flags){   
+                if(t_ip&gt;t_start){
+                    flags=true;   //说明start不用判断了
+                }else if(t_ip&lt;t_start){
+                    return false;   //说明ip小于start
+                }
+            }
+            if(!flage){
+                if(t_ip&lt;t_end){
+                    flage=true;
+                }else if(t_ip&gt;t_end){
+                    return false;
+                }
+            }
+        }
+        return (flags&amp;&amp;flage)||i==ips.length;  //i==ips.length为true代表ip从头判断到尾，说明ip与某个边界相等。
+    }
+    public static void main(String[] args) {
+        System.out.println(ipInRange(&#34;192.168.215.253&#34;,&#34;192.168.215.1&#34;,&#34;192.168.215.252&#34;));
+    }
+"><meta itemprop="datePublished" content="2021-11-07T15:33:03+08:00" />
 <meta itemprop="dateModified" content="2021-11-07T15:33:03+08:00" />
 <meta itemprop="wordCount" content="514">
 <meta itemprop="keywords" content="算法," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="判断ip是否在某ip范围内"/>
-<meta name="twitter:description" content="判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。"/>
+<meta name="twitter:description" content="判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。
+首先分析start≤ip。
+因为ip的一般形式为 &quot;a.b.c.d&quot;，通过 .将整个ip分为四段。假设判断的ip为{a,b,c,d}，start为{a1,b1,c1,d1}。从左开始分析的话，每段有小于、等于、大于三个比较关系。如果a&gt;a1，直接就能说明ip&gt;start，不用再继续判断start后面的段；如果a=a1，则需要继续判断start剩下部分；如果a&lt;a1，说明ip&lt;start，直接返回false即可。
+因为还存在start=ip的情况，所以需要保留循环的次数，如果比较到最后一段，说明start≤ip。
+end的比较与start同理。
+代码如下：
+public static boolean ipInRange(String ip,String start,String end){
+        String[] ips=ip.split(&#34;\\\\.&#34;);
+        String[] starts=start.split(&#34;\\\\.&#34;);
+        String[] ends=end.split(&#34;\\\\.&#34;);
+        boolean flags=false,flage=false;  //flags为true代表ip已经符合start，不用判断；flage标记end
+        int i=0;
+        for (; i &lt;ips.length; i&#43;&#43;){
+            int t_ip=Integer.parseInt(ips[i]);
+            int t_start=Integer.parseInt(starts[i]);
+            int t_end=Integer.parseInt(ends[i]);
+            if(!flags){   
+                if(t_ip&gt;t_start){
+                    flags=true;   //说明start不用判断了
+                }else if(t_ip&lt;t_start){
+                    return false;   //说明ip小于start
+                }
+            }
+            if(!flage){
+                if(t_ip&lt;t_end){
+                    flage=true;
+                }else if(t_ip&gt;t_end){
+                    return false;
+                }
+            }
+        }
+        return (flags&amp;&amp;flage)||i==ips.length;  //i==ips.length为true代表ip从头判断到尾，说明ip与某个边界相等。
+    }
+    public static void main(String[] args) {
+        System.out.println(ipInRange(&#34;192.168.215.253&#34;,&#34;192.168.215.1&#34;,&#34;192.168.215.252&#34;));
+    }
+"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

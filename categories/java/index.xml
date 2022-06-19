@@ -6,14 +6,86 @@
     <description>Recent content in Java on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 13 Feb 2022 14:29:11 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 May 2022 17:58:26 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HashMap1.8 的源码解析</title>
+      <link>https://wutongsuimeng.github.io/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Sun, 29 May 2022 17:58:26 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;h1 id=&#34;结构&#34;&gt;结构&lt;/h1&gt;
+&lt;p&gt;HashMap的结构为数组+链表+红黑树。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;//对象数组
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;transient&lt;/span&gt; Node&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;[]&lt;/span&gt; table&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; 
+&lt;span style=&#34;color:#75715e&#34;&gt;// 链表节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Node&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;implements&lt;/span&gt; Map&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Entry&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; hash&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//哈希值
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; K key&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//建
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        V value&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//值
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        Node&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; next&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//下一个节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#75715e&#34;&gt;//红黑树节点
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TreeNode&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;extends&lt;/span&gt; LinkedHashMap&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Entry&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; parent&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;// red-black tree links
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; left&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; right&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+        TreeNode&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;K&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;V&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; prev&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// needed to unlink next upon deletion
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;boolean&lt;/span&gt; red&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>RestTemplate发起HTTPS请求</title>
       <link>https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/</link>
       <pubDate>Sun, 13 Feb 2022 14:29:11 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/</guid>
-      <description>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首</description>
+      <description>&lt;p&gt;因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。&lt;/p&gt;
+&lt;p&gt;在此我采用的是忽略证书的校验。&lt;/p&gt;
+&lt;p&gt;首先使用 &lt;code&gt;RestTemplateBuilder&lt;/code&gt;来构建一个 &lt;code&gt;RestTemplate&lt;/code&gt;，而非使用默认。&lt;code&gt;requestFactory()&lt;/code&gt;方法用来设置 &lt;code&gt;ClientHttpRequestFactory&lt;/code&gt;。&lt;code&gt;SimpleClientHttpRequestFactory&lt;/code&gt;是Spring内置的默认实现，实现了 &lt;code&gt;ClientHttpRequestFactory&lt;/code&gt;接口，我们需要重写其 &lt;code&gt;prepareConnection()&lt;/code&gt;方法，在此方法里实现对 &lt;code&gt;HttpURLConnection&lt;/code&gt;的重新处理，忽略对证书的校验。&lt;/p&gt;
+&lt;p&gt;代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;HttpsClientHttpRequestFactory&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;extends&lt;/span&gt; SimpleClientHttpRequestFactory &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@Override&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;protected&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;prepareConnection&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;HttpURLConnection connection&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; String httpMethod&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;throws&lt;/span&gt; IOException &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;connection &lt;span style=&#34;color:#66d9ef&#34;&gt;instanceof&lt;/span&gt; HttpsURLConnection&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;// https协议，修改协议版本
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                KeyStore trustStore &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; KeyStore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getInstance&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;KeyStore&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getDefaultType&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;());&lt;/span&gt;
+                &lt;span style=&#34;color:#75715e&#34;&gt;// 信任任何链接,忽略对证书的校验
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                TrustStrategy anyTrustStrategy &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;x509Certificates&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; s&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+                &lt;span style=&#34;color:#75715e&#34;&gt;//自定义SSLContext
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                SSLContext ctx &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; SSLContexts&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;custom&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;loadTrustMaterial&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;trustStore&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; anyTrustStrategy&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;build&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+                &lt;span style=&#34;color:#75715e&#34;&gt;// ssl问题
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#f92672&#34;&gt;((&lt;/span&gt;HttpsURLConnection&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; connection&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setSSLSocketFactory&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ctx&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getSocketFactory&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;());&lt;/span&gt;
+                &lt;span style=&#34;color:#75715e&#34;&gt;//解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#f92672&#34;&gt;((&lt;/span&gt;HttpsURLConnection&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; connection&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;setHostnameVerifier&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;((&lt;/span&gt;s&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; sslSession&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+                HttpsURLConnection httpsConnection &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;HttpsURLConnection&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; connection&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;prepareConnection&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;httpsConnection&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; httpMethod&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;// http协议
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#66d9ef&#34;&gt;super&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;prepareConnection&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;connection&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; httpMethod&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;catch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Exception e&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+            e&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;printStackTrace&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;    
+String url &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://xxx.xxx.xxx&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+RestTemplate restTemplate &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; RestTemplateBuilder&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;requestFactory&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;HttpsClientHttpRequestFactory&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+		&lt;span style=&#34;color:#75715e&#34;&gt;//basic认证
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;		&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;basicAuthentication&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;username&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;password&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+		&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;build&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+HttpHeaders headers &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HttpHeaders&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+HttpEntity&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; entity &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HttpEntity&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;(&lt;/span&gt;headers&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+ResponseEntity&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; response &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; restTemplate&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;exchange&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;url&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; HttpMethod&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;GET&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; entity&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; String&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+String str &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getBody&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+System&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;str&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+    
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;注：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;RestTemplateBuilder&lt;/code&gt; 需要直接构建成 &lt;code&gt;RestTemplate&lt;/code&gt;对象，而不能中间生成 &lt;code&gt;RestTemplateBuilder&lt;/code&gt;对象。&lt;/li&gt;
+&lt;/ol&gt;</description>
     </item>
     
     <item>
@@ -22,7 +94,97 @@
       <pubDate>Fri, 28 Jan 2022 23:16:39 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E6%A0%88/</guid>
-      <description>栈是一种先进后出的数据结构，在Java中对应的接口为 Deque，Stack接口已经不建议使用。Deque接口继承自Queue接口，实则为双端</description>
+      <description>&lt;p&gt;栈是一种先进后出的数据结构，在Java中对应的接口为 &lt;code&gt;Deque&lt;/code&gt;，&lt;code&gt;Stack&lt;/code&gt;接口已经不建议使用。&lt;code&gt;Deque&lt;/code&gt;接口继承自&lt;code&gt;Queue&lt;/code&gt;接口，实则为双端队列，支持两端元素的插入、删除与访问。
+&lt;code&gt;Deque&lt;/code&gt;的方法有:&lt;/p&gt;
+&lt;p&gt;首端操作：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;抛出异常&lt;/th&gt;
+&lt;th&gt;返回特殊值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;getFirst()&lt;/td&gt;
+&lt;td&gt;peekFrist()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;addFirst()&lt;/td&gt;
+&lt;td&gt;offerFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;removeFirst()&lt;/td&gt;
+&lt;td&gt;pollFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;尾端操作：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;抛出异常&lt;/th&gt;
+&lt;th&gt;返回特殊值&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;getLast()&lt;/td&gt;
+&lt;td&gt;peekLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;addLast()&lt;/td&gt;
+&lt;td&gt;offerLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;removeLast()&lt;/td&gt;
+&lt;td&gt;pollLast()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;栈方法对应的 &lt;code&gt;Deque&lt;/code&gt;方法：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;栈方法&lt;/th&gt;
+&lt;th&gt;Deque方法&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;peek()&lt;/td&gt;
+&lt;td&gt;peekFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;push()&lt;/td&gt;
+&lt;td&gt;addFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;删除&lt;/td&gt;
+&lt;td&gt;pop()&lt;/td&gt;
+&lt;td&gt;removeFirst()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;code&gt;Deque&lt;/code&gt;主要实现类有：
+&lt;img src=&#34;Deque%E5%AE%9E%E7%8E%B0%E7%B1%BB.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;使用例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;Deque&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; deque&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; LinkedList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;push&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;peek&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+deque&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;pop&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -31,7 +193,40 @@
       <pubDate>Mon, 24 Jan 2022 14:23:34 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E4%BD%8D%E8%BF%90%E7%AE%97/</guid>
-      <description>Java的位运算主要有：按位与(&amp;amp;)、按位或(|)、按位取反(~)、按位异或(^)、左移(&amp;lt;&amp;lt;)、带符号右移(&amp;gt;&amp;</description>
+      <description>&lt;p&gt;Java的位运算主要有：按位与(&lt;code&gt;&amp;amp;&lt;/code&gt;)、按位或(&lt;code&gt;|&lt;/code&gt;)、按位取反(&lt;code&gt;~&lt;/code&gt;)、按位异或(&lt;code&gt;^&lt;/code&gt;)、左移(&lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt;)、带符号右移(&lt;code&gt;&amp;gt;&amp;gt;&lt;/code&gt;)、无符号右移(&lt;code&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/code&gt;)&lt;/p&gt;
+&lt;h2 id=&#34;按位与&#34;&gt;按位与(&amp;amp;)&lt;/h2&gt;
+&lt;p&gt;当相同位上的两个数字都为1时，结果为1；否则为0&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0
+0&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0 
+0&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0 
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;按位或&#34;&gt;按位或(|)&lt;/h2&gt;
+&lt;p&gt;当相同位上的数字至少有一个为1时，结果为1；否则为0&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt; 1&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+ 1&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+ 0&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+ 0&lt;span style=&#34;color:#f92672&#34;&gt;|&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;按位取反&#34;&gt;按位取反(~)&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0
+&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;按位异或&#34;&gt;按位异或(^)&lt;/h2&gt;
+&lt;p&gt;当相同位上的两个数字不同时，结果为1；相同时为0&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0 
+1&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+0&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1 
+0&lt;span style=&#34;color:#f92672&#34;&gt;^&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;左移&#34;&gt;左移(&amp;laquo;)&lt;/h2&gt;
+&lt;p&gt;将二进制数字向左移动，移动几位就在最右侧补多少个0。
+例如 &lt;code&gt;3&amp;lt;&amp;lt;1&lt;/code&gt;，因为3的二进制表示形式为11，向左移动一位后变为110，所以 &lt;code&gt;3&amp;lt;&amp;lt;1=6&lt;/code&gt;。
+左移n位相当于乘上2的n次方。&lt;/p&gt;
+&lt;h2 id=&#34;带符号右移&#34;&gt;带符号右移(&amp;raquo;)&lt;/h2&gt;
+&lt;p&gt;将二进制数字向右移动，移动几位就在最右侧消去多少个比特位，并最左侧填充符号位。
+例如 &lt;code&gt;3&amp;gt;&amp;gt;1&lt;/code&gt;，因为3的二进制表示形式为011，所以向右移动一位后变为001，所以 &lt;code&gt;3&amp;gt;&amp;gt;1=1&lt;/code&gt;。
+例如 &lt;code&gt;-3&amp;gt;&amp;gt;1&lt;/code&gt;，因为-3的二进制补码表示为11111111111111111111111111111101&lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt; &lt;sup id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;，所以带符号向右移动一位后变为11111111111111111111111111111110，对应的数字为-2，所以 &lt;code&gt;-3&amp;gt;&amp;gt;1=-2&lt;/code&gt;。
+1左移一位会变成0，0左移依旧为0。&lt;/p&gt;
+&lt;h2 id=&#34;无符号右移&#34;&gt;无符号右移(&amp;raquo;&amp;gt;)&lt;/h2&gt;
+&lt;p&gt;将二进制数字向右移动，移动几位就在最右侧消去多少个比特位，并最左侧填充0。
+例如 &lt;code&gt;-3&amp;gt;&amp;gt;&amp;gt;1&lt;/code&gt;，因为-3的二进制补码表示为11111111111111111111111111111101，所以无符号向右移动一位后变为01111111111111111111111111111110，对应的数字为2147483646，所以 &lt;code&gt;-3&amp;gt;&amp;gt;&amp;gt;1=2147483646&lt;/code&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -40,7 +235,45 @@
       <pubDate>Sun, 23 Jan 2022 15:07:00 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/</guid>
-      <description>Java中对应的队列接口为 Queue，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。 Queue</description>
+      <description>&lt;p&gt;Java中对应的队列接口为 &lt;code&gt;Queue&lt;/code&gt;，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Queue&lt;/code&gt;主要方法有：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;抛出错误&lt;/th&gt;
+&lt;th&gt;返回特殊值(null或false)&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;插入&lt;/td&gt;
+&lt;td&gt;add()&lt;/td&gt;
+&lt;td&gt;offer()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;移除&lt;/td&gt;
+&lt;td&gt;remove()&lt;/td&gt;
+&lt;td&gt;poll()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;查看&lt;/td&gt;
+&lt;td&gt;element()&lt;/td&gt;
+&lt;td&gt;peek()&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;通常情况下，推荐使用 &lt;code&gt;offer()&lt;/code&gt;、&lt;code&gt;poll()&lt;/code&gt;、&lt;code&gt;peek()&lt;/code&gt;，这三个方法。&lt;/p&gt;
+&lt;p&gt;当插入的新元素已经存在于队列时，&lt;code&gt;offer()&lt;/code&gt;方法返回&lt;code&gt;false&lt;/code&gt;；当队列为空时，&lt;code&gt;poll()&lt;/code&gt;和&lt;code&gt;peek()&lt;/code&gt;方法返回 &lt;code&gt;null&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Queue&lt;/code&gt;主要实现类有：
+![[Queue主要实现类.png]]&lt;/p&gt;
+&lt;p&gt;我们平常使用的实现类为 &lt;code&gt;LinkedList&lt;/code&gt;，该类为 &lt;code&gt;Queue&lt;/code&gt;和 &lt;code&gt;Deque&lt;/code&gt;的双向链表实现类。&lt;/p&gt;
+&lt;p&gt;例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;Queue&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; queue&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; LinkedList&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&amp;gt;();&lt;/span&gt;
+queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;offer&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;peek&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+queue&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;poll&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -49,7 +282,43 @@
       <pubDate>Sun, 07 Nov 2021 15:33:03 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/</guid>
-      <description>&lt;p&gt;判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。&lt;/p&gt;</description>
+      <description>&lt;p&gt;判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。&lt;/p&gt;
+&lt;p&gt;首先分析start≤ip。&lt;/p&gt;
+&lt;p&gt;因为ip的一般形式为 &lt;code&gt;&amp;quot;a.b.c.d&amp;quot;&lt;/code&gt;，通过 &lt;code&gt;.&lt;/code&gt;将整个ip分为四段。假设判断的ip为{a,b,c,d}，start为{a1,b1,c1,d1}。从左开始分析的话，每段有小于、等于、大于三个比较关系。如果a&amp;gt;a1，直接就能说明ip&amp;gt;start，不用再继续判断start后面的段；如果a=a1，则需要继续判断start剩下部分；如果a&amp;lt;a1，说明ip&amp;lt;start，直接返回false即可。&lt;/p&gt;
+&lt;p&gt;因为还存在start=ip的情况，所以需要保留循环的次数，如果比较到最后一段，说明start≤ip。&lt;/p&gt;
+&lt;p&gt;end的比较与start同理。&lt;/p&gt;
+&lt;p&gt;代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;boolean&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ipInRange&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;String ip&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;String start&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;String end&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+        String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; ips&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;ip&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\\\\.&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+        String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; starts&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;start&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\\\\.&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+        String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; ends&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;end&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;split&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;\\\\.&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;boolean&lt;/span&gt; flags&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;flage&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//flags为true代表ip已经符合start，不用判断；flage标记end
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; i&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;0&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(;&lt;/span&gt; i &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;ips&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;length&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; i&lt;span style=&#34;color:#f92672&#34;&gt;++){&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t_ip&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;parseInt&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ips&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]);&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t_start&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;parseInt&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;starts&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]);&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; t_end&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Integer&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;parseInt&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ends&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;]);&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(!&lt;/span&gt;flags&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;   
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;t_ip&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;t_start&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                    flags&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;//说明start不用判断了
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;t_ip&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;t_start&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;   &lt;span style=&#34;color:#75715e&#34;&gt;//说明ip小于start
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;                &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(!&lt;/span&gt;flage&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;t_ip&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt;t_end&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                    flage&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+                &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;t_ip&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;t_end&lt;span style=&#34;color:#f92672&#34;&gt;){&lt;/span&gt;
+                    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+                &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+            &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;flags&lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;flage&lt;span style=&#34;color:#f92672&#34;&gt;)||&lt;/span&gt;i&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;ips&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;length&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//i==ips.length为true代表ip从头判断到尾，说明ip与某个边界相等。
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; args&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+        System&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ipInRange&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.215.253&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.215.1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;192.168.215.252&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;));&lt;/span&gt;
+    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -58,7 +327,32 @@
       <pubDate>Sun, 23 May 2021 15:08:58 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E7%A6%BB%E7%BA%BF%E7%BC%96%E8%AF%91maven%E9%A1%B9%E7%9B%AE/</guid>
-      <description>&lt;p&gt;本文介绍如何在离线状况下编译maven项目。&lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍如何在离线状况下编译maven项目。&lt;/p&gt;
+&lt;p&gt;假设项目分布为：&lt;/p&gt;
+&lt;p&gt;D-&amp;gt;Code        -&amp;gt;project -&amp;gt;pom.xml：项目位置&lt;/p&gt;
+&lt;p&gt;|-&amp;gt;Maven      -&amp;gt;conf      -&amp;gt;settings.xml：maven配置文件的位置&lt;/p&gt;
+&lt;p&gt;|-&amp;gt;repository：存放依赖的位置&lt;/p&gt;
+&lt;h1 id=&#34;命令行编译&#34;&gt;命令行编译&lt;/h1&gt;
+&lt;p&gt;先配置maven的配置文件：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;!--settings.xml--&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;&amp;lt;?xml version=&amp;#34;1.0&amp;#34; encoding=&amp;#34;UTF-8&amp;#34;?&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;settings&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://maven.apache.org/SETTINGS/1.0.0&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#a6e22e&#34;&gt;xmlns:xsi=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://www.w3.org/2001/XMLSchema-instance&amp;#34;&lt;/span&gt;
+          &lt;span style=&#34;color:#a6e22e&#34;&gt;xsi:schemaLocation=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;
+ 
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;localRepository&amp;gt;&lt;/span&gt;D:\repository&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/localRepository&amp;gt;&lt;/span&gt;
+  
+  &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;offline&amp;gt;&lt;/span&gt;true&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/offline&amp;gt;&lt;/span&gt;
+
+&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/settings&amp;gt;&lt;/span&gt;
+
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;localRepository&lt;/code&gt;设置本地仓库位置，&lt;code&gt;offline&lt;/code&gt;设置离线模式。&lt;/p&gt;
+&lt;p&gt;然后在命令行中打开项目的位置，即pom.xml文件所在的位置下，使用命令编译项目：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;$ mvn clean package -s &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;D:/Maven/conf/settings.xml&amp;#34;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;-s&lt;/code&gt;设置maven配置文件的位置。&lt;/p&gt;</description>
     </item>
     
   </channel>

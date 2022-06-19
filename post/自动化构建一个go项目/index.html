@@ -17,6 +17,14 @@
 
 
 <meta name="author" content="梧桐碎梦" /><meta name="description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。
+安装Go 因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。
+首先在jenkins安装go插件 Go Plugin。
+然后去全局工具配置，配置go。选择
+别名这里选择填go，也可以别的。
+标签可以不填。
+压缩包(二进制)的下载URL填了：https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz，这是go国内的下载方式。
+解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation
+最后go会安装在 解压目录/go/别名/ 下。
 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
@@ -41,19 +49,52 @@
 
 
 <meta property="og:title" content="自动化构建一个Go项目" />
-<meta property="og:description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。" />
+<meta property="og:description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。
+安装Go
+因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。
+首先在jenkins安装go插件 Go Plugin。
+然后去全局工具配置，配置go。选择
+
+别名这里选择填go，也可以别的。
+标签可以不填。
+压缩包(二进制)的下载URL填了：https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz，这是go国内的下载方式。
+解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation
+最后go会安装在 解压目录/go/别名/ 下。
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAgo%E9%A1%B9%E7%9B%AE/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-11T23:58:53+08:00" />
 <meta property="article:modified_time" content="2021-10-11T23:58:53+08:00" />
 
 <meta itemprop="name" content="自动化构建一个Go项目">
-<meta itemprop="description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。"><meta itemprop="datePublished" content="2021-10-11T23:58:53+08:00" />
+<meta itemprop="description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。
+安装Go
+因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。
+首先在jenkins安装go插件 Go Plugin。
+然后去全局工具配置，配置go。选择
+
+别名这里选择填go，也可以别的。
+标签可以不填。
+压缩包(二进制)的下载URL填了：https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz，这是go国内的下载方式。
+解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation
+最后go会安装在 解压目录/go/别名/ 下。
+"><meta itemprop="datePublished" content="2021-10-11T23:58:53+08:00" />
 <meta itemprop="dateModified" content="2021-10-11T23:58:53+08:00" />
 <meta itemprop="wordCount" content="1000">
 <meta itemprop="keywords" content="gitlab,nacos,jenkins,自动化,运维,Go," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="自动化构建一个Go项目"/>
-<meta name="twitter:description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。"/>
+<meta name="twitter:description" content="承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。
+安装Go
+因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。
+首先在jenkins安装go插件 Go Plugin。
+然后去全局工具配置，配置go。选择
+
+别名这里选择填go，也可以别的。
+标签可以不填。
+压缩包(二进制)的下载URL填了：https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz，这是go国内的下载方式。
+解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation
+最后go会安装在 解压目录/go/别名/ 下。
+"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

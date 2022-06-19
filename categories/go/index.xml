@@ -13,7 +13,18 @@
       <pubDate>Mon, 11 Oct 2021 23:58:53 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAgo%E9%A1%B9%E7%9B%AE/</guid>
-      <description>&lt;p&gt;承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。&lt;/p&gt;</description>
+      <description>&lt;p&gt;承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。&lt;/p&gt;
+&lt;h1 id=&#34;安装go&#34;&gt;安装Go&lt;/h1&gt;
+&lt;p&gt;因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。&lt;/p&gt;
+&lt;p&gt;首先在jenkins安装go插件 &lt;code&gt;Go Plugin&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;然后去全局工具配置，配置go。选择&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled.png&#34; alt=&#34;Untitled&#34;&gt;&lt;/p&gt;
+&lt;p&gt;别名这里选择填go，也可以别的。&lt;/p&gt;
+&lt;p&gt;标签可以不填。&lt;/p&gt;
+&lt;p&gt;压缩包(二进制)的下载URL填了：&lt;a href=&#34;https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz&#34;&gt;https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz&lt;/a&gt;，这是go国内的下载方式。&lt;/p&gt;
+&lt;p&gt;解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation&lt;/p&gt;
+&lt;p&gt;最后go会安装在 &lt;code&gt;解压目录/go/别名/&lt;/code&gt; 下。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%201.png&#34; alt=&#34;Untitled&#34;&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -22,7 +33,13 @@
       <pubDate>Sat, 17 Jul 2021 16:50:04 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/post/goland%E7%9A%84%E8%AE%BE%E7%BD%AE/</guid>
-      <description>&lt;p&gt;Goland是JetBrains家的go编辑器。&lt;/p&gt;</description>
+      <description>&lt;p&gt;Goland是JetBrains家的go编辑器。&lt;/p&gt;
+&lt;p&gt;GOROOT:Go安装的位置，该目录下有bin目录。不可以跟GOPATH设置同一目录&lt;/p&gt;
+&lt;p&gt;GOPATH:Go的工作目录，传统结构为下图。GOPATH跟项目不能是同一目录，项目应该在GOPATH目录下。但在go.mod出现之后，项目不再要求必须放在GOPATH目录下了，可以放在其他位置。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/Goland%E7%9A%84%E8%AE%BE%E7%BD%AE%202e57580543d74529aec121013ade3d26/GOPATH.svg&#34; alt=&#34;Goland%E7%9A%84%E8%AE%BE%E7%BD%AE%202e57580543d74529aec121013ade3d26/GOPATH.svg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;GOPROXY:设置Go下载包时的代理。推荐使用GOPROXY=https://goproxy.io，也可以用别的。&lt;/p&gt;
+&lt;p&gt;现在go推荐的方式时使用go.mod管理项目的依赖包。使用go.mod之后，项目可以不放在GOPATH下的src目录，可以放在任意的地方，但是包依赖依旧会下载到GOPATH的pkg目录下。&lt;/p&gt;
+&lt;p&gt;go.mod在Go版本1.16前，可以通过 &lt;code&gt;go env -w GO111MODULE=on&lt;/code&gt; 启用go.mod，1.16之后默认启用on。&lt;/p&gt;</description>
     </item>
     
   </channel>

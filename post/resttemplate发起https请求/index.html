@@ -16,7 +16,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="梧桐碎梦" /><meta name="description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。
+在此我采用的是忽略证书的校验。
+首先使用 RestTemplateBuilder来构建一个 RestTemplate，而非使用默认。requestFactory()方法用来设置 ClientHttpRequestFactory。SimpleClientHttpRequestFactory是Spring内置的默认实现，实现了 ClientHttpRequestFactory接口，我们需要重写其 prepareConnection()方法，在此方法里实现对 HttpURLConnection的重新处理，忽略对证书的校验。
+代码：
+public class HttpsClientHttpRequestFactory extends SimpleClientHttpRequestFactory { @Override protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException { try { if (connection instanceof HttpsURLConnection) {// https协议，修改协议版本  KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType()); // 信任任何链接,忽略对证书的校验  TrustStrategy anyTrustStrategy = (x509Certificates, s) -&amp;gt; true; //自定义SSLContext  SSLContext ctx = SSLContexts.custom().loadTrustMaterial(trustStore, anyTrustStrategy).build(); // ssl问题  ((HttpsURLConnection) connection).setSSLSocketFactory(ctx.getSocketFactory()); //解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题  ((HttpsURLConnection) connection).setHostnameVerifier((s, sslSession) -&amp;gt; true); HttpsURLConnection httpsConnection = (HttpsURLConnection) connection; super.prepareConnection(httpsConnection, httpMethod); } else { // http协议  super.prepareConnection(connection, httpMethod); } } catch (Exception e) { e.printStackTrace(); } } } String url = &amp;#34;https://xxx.xxx.xxx&amp;#34;; RestTemplate restTemplate = new RestTemplateBuilder() .requestFactory(HttpsClientHttpRequestFactory::new) //basic认证 	.basicAuthentication(&amp;#34;username&amp;#34;, &amp;#34;password&amp;#34;) .build(); HttpHeaders headers = new HttpHeaders(); HttpEntity&amp;lt;String&amp;gt; entity = new HttpEntity&amp;lt;&amp;gt;(headers); ResponseEntity&amp;lt;String&amp;gt; response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class); String str = response.getBody(); System.out.println(str); 注：
+ RestTemplateBuilder 需要直接构建成 RestTemplate对象，而不能中间生成 RestTemplateBuilder对象。 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,19 +45,151 @@
 
 
 <meta property="og:title" content="RestTemplate发起HTTPS请求" />
-<meta property="og:description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首" />
+<meta property="og:description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。
+在此我采用的是忽略证书的校验。
+首先使用 RestTemplateBuilder来构建一个 RestTemplate，而非使用默认。requestFactory()方法用来设置 ClientHttpRequestFactory。SimpleClientHttpRequestFactory是Spring内置的默认实现，实现了 ClientHttpRequestFactory接口，我们需要重写其 prepareConnection()方法，在此方法里实现对 HttpURLConnection的重新处理，忽略对证书的校验。
+代码：
+public class HttpsClientHttpRequestFactory extends SimpleClientHttpRequestFactory {
+    @Override
+    protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
+        try {
+            if (connection instanceof HttpsURLConnection) {// https协议，修改协议版本
+                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                // 信任任何链接,忽略对证书的校验
+                TrustStrategy anyTrustStrategy = (x509Certificates, s) -&gt; true;
+                //自定义SSLContext
+                SSLContext ctx = SSLContexts.custom().loadTrustMaterial(trustStore, anyTrustStrategy).build();
+                // ssl问题
+                ((HttpsURLConnection) connection).setSSLSocketFactory(ctx.getSocketFactory());
+                //解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+                ((HttpsURLConnection) connection).setHostnameVerifier((s, sslSession) -&gt; true);
+                HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
+                super.prepareConnection(httpsConnection, httpMethod);
+            } else { // http协议
+                super.prepareConnection(connection, httpMethod);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+    
+String url = &#34;https://xxx.xxx.xxx&#34;;
+RestTemplate restTemplate = new RestTemplateBuilder()
+		.requestFactory(HttpsClientHttpRequestFactory::new)
+		//basic认证
+		.basicAuthentication(&#34;username&#34;, &#34;password&#34;)
+		.build();
+HttpHeaders headers = new HttpHeaders();
+HttpEntity&lt;String&gt; entity = new HttpEntity&lt;&gt;(headers);
+ResponseEntity&lt;String&gt; response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+String str = response.getBody();
+System.out.println(str);
+    
+注：
+
+RestTemplateBuilder 需要直接构建成 RestTemplate对象，而不能中间生成 RestTemplateBuilder对象。
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-02-13T14:29:11+08:00" />
 <meta property="article:modified_time" content="2022-02-13T14:29:11+08:00" />
 
 <meta itemprop="name" content="RestTemplate发起HTTPS请求">
-<meta itemprop="description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首"><meta itemprop="datePublished" content="2022-02-13T14:29:11+08:00" />
+<meta itemprop="description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。
+在此我采用的是忽略证书的校验。
+首先使用 RestTemplateBuilder来构建一个 RestTemplate，而非使用默认。requestFactory()方法用来设置 ClientHttpRequestFactory。SimpleClientHttpRequestFactory是Spring内置的默认实现，实现了 ClientHttpRequestFactory接口，我们需要重写其 prepareConnection()方法，在此方法里实现对 HttpURLConnection的重新处理，忽略对证书的校验。
+代码：
+public class HttpsClientHttpRequestFactory extends SimpleClientHttpRequestFactory {
+    @Override
+    protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
+        try {
+            if (connection instanceof HttpsURLConnection) {// https协议，修改协议版本
+                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                // 信任任何链接,忽略对证书的校验
+                TrustStrategy anyTrustStrategy = (x509Certificates, s) -&gt; true;
+                //自定义SSLContext
+                SSLContext ctx = SSLContexts.custom().loadTrustMaterial(trustStore, anyTrustStrategy).build();
+                // ssl问题
+                ((HttpsURLConnection) connection).setSSLSocketFactory(ctx.getSocketFactory());
+                //解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+                ((HttpsURLConnection) connection).setHostnameVerifier((s, sslSession) -&gt; true);
+                HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
+                super.prepareConnection(httpsConnection, httpMethod);
+            } else { // http协议
+                super.prepareConnection(connection, httpMethod);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+    
+String url = &#34;https://xxx.xxx.xxx&#34;;
+RestTemplate restTemplate = new RestTemplateBuilder()
+		.requestFactory(HttpsClientHttpRequestFactory::new)
+		//basic认证
+		.basicAuthentication(&#34;username&#34;, &#34;password&#34;)
+		.build();
+HttpHeaders headers = new HttpHeaders();
+HttpEntity&lt;String&gt; entity = new HttpEntity&lt;&gt;(headers);
+ResponseEntity&lt;String&gt; response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+String str = response.getBody();
+System.out.println(str);
+    
+注：
+
+RestTemplateBuilder 需要直接构建成 RestTemplate对象，而不能中间生成 RestTemplateBuilder对象。
+"><meta itemprop="datePublished" content="2022-02-13T14:29:11+08:00" />
 <meta itemprop="dateModified" content="2022-02-13T14:29:11+08:00" />
 <meta itemprop="wordCount" content="555">
 <meta itemprop="keywords" content="Java,HTTPS,RestTemplate," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="RestTemplate发起HTTPS请求"/>
-<meta name="twitter:description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。 在此我采用的是忽略证书的校验。 首"/>
+<meta name="twitter:description" content="因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。
+在此我采用的是忽略证书的校验。
+首先使用 RestTemplateBuilder来构建一个 RestTemplate，而非使用默认。requestFactory()方法用来设置 ClientHttpRequestFactory。SimpleClientHttpRequestFactory是Spring内置的默认实现，实现了 ClientHttpRequestFactory接口，我们需要重写其 prepareConnection()方法，在此方法里实现对 HttpURLConnection的重新处理，忽略对证书的校验。
+代码：
+public class HttpsClientHttpRequestFactory extends SimpleClientHttpRequestFactory {
+    @Override
+    protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
+        try {
+            if (connection instanceof HttpsURLConnection) {// https协议，修改协议版本
+                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                // 信任任何链接,忽略对证书的校验
+                TrustStrategy anyTrustStrategy = (x509Certificates, s) -&gt; true;
+                //自定义SSLContext
+                SSLContext ctx = SSLContexts.custom().loadTrustMaterial(trustStore, anyTrustStrategy).build();
+                // ssl问题
+                ((HttpsURLConnection) connection).setSSLSocketFactory(ctx.getSocketFactory());
+                //解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+                ((HttpsURLConnection) connection).setHostnameVerifier((s, sslSession) -&gt; true);
+                HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
+                super.prepareConnection(httpsConnection, httpMethod);
+            } else { // http协议
+                super.prepareConnection(connection, httpMethod);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+    
+String url = &#34;https://xxx.xxx.xxx&#34;;
+RestTemplate restTemplate = new RestTemplateBuilder()
+		.requestFactory(HttpsClientHttpRequestFactory::new)
+		//basic认证
+		.basicAuthentication(&#34;username&#34;, &#34;password&#34;)
+		.build();
+HttpHeaders headers = new HttpHeaders();
+HttpEntity&lt;String&gt; entity = new HttpEntity&lt;&gt;(headers);
+ResponseEntity&lt;String&gt; response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+String str = response.getBody();
+System.out.println(str);
+    
+注：
+
+RestTemplateBuilder 需要直接构建成 RestTemplate对象，而不能中间生成 RestTemplateBuilder对象。
+"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -190,7 +327,6 @@ System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span>
 <ol>
 <li><code>RestTemplateBuilder</code> 需要直接构建成 <code>RestTemplate</code>对象，而不能中间生成 <code>RestTemplateBuilder</code>对象。</li>
 </ol>
-
     </div>
 
     <div class="post-copyright">

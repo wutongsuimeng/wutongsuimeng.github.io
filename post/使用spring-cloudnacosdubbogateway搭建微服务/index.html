@@ -17,6 +17,19 @@
 
 
 <meta name="author" content="梧桐碎梦" /><meta name="description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务
+启动nacos nacos是阿里开源的一个组件，用于服务发现、注册中心与配置中心。
+首先下载nacos server：https://github.com/alibaba/nacos
+解压压缩包，打开bin目录。因为直接启动的话，会以集群模式启动，单机下会报错。所以有三种方法解决:
+  使用命令行启动，指定为单机模式：
+startup.cmd -m standalone   修改startup.cmd文件，将其修改为单机模式：
+将
+set MODE=&amp;#34;cluster&amp;#34; 修改为：
+rem set MODE=&amp;#34;cluster&amp;#34; set MODE=&amp;#34;standalone&amp;#34; 注： rem为注释语句
+  可以去修改数据库配置，感觉太麻烦了
+  建议第一种。
+然后便能直接启动。
+web页面地址为：http://localhost:8848/nacos/index.html
+默认账号密码都是nacos
 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
@@ -41,19 +54,97 @@
 
 
 <meta property="og:title" content="使用spring cloud，nacos，dubbo，gateway搭建微服务" />
-<meta property="og:description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务" />
+<meta property="og:description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务
+启动nacos
+nacos是阿里开源的一个组件，用于服务发现、注册中心与配置中心。
+首先下载nacos server：https://github.com/alibaba/nacos
+解压压缩包，打开bin目录。因为直接启动的话，会以集群模式启动，单机下会报错。所以有三种方法解决:
+
+
+使用命令行启动，指定为单机模式：
+startup.cmd -m standalone
+
+
+修改startup.cmd文件，将其修改为单机模式：
+将
+set MODE=&#34;cluster&#34;
+修改为：
+rem set MODE=&#34;cluster&#34;
+set MODE=&#34;standalone&#34;
+注： rem为注释语句
+
+
+可以去修改数据库配置，感觉太麻烦了
+
+
+建议第一种。
+然后便能直接启动。
+web页面地址为：http://localhost:8848/nacos/index.html
+默认账号密码都是nacos" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8spring-cloudnacosdubbogateway%E6%90%AD%E5%BB%BA%E5%BE%AE%E6%9C%8D%E5%8A%A1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-10T21:16:29+08:00" />
 <meta property="article:modified_time" content="2021-10-10T21:16:29+08:00" />
 
 <meta itemprop="name" content="使用spring cloud，nacos，dubbo，gateway搭建微服务">
-<meta itemprop="description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务"><meta itemprop="datePublished" content="2021-10-10T21:16:29+08:00" />
+<meta itemprop="description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务
+启动nacos
+nacos是阿里开源的一个组件，用于服务发现、注册中心与配置中心。
+首先下载nacos server：https://github.com/alibaba/nacos
+解压压缩包，打开bin目录。因为直接启动的话，会以集群模式启动，单机下会报错。所以有三种方法解决:
+
+
+使用命令行启动，指定为单机模式：
+startup.cmd -m standalone
+
+
+修改startup.cmd文件，将其修改为单机模式：
+将
+set MODE=&#34;cluster&#34;
+修改为：
+rem set MODE=&#34;cluster&#34;
+set MODE=&#34;standalone&#34;
+注： rem为注释语句
+
+
+可以去修改数据库配置，感觉太麻烦了
+
+
+建议第一种。
+然后便能直接启动。
+web页面地址为：http://localhost:8848/nacos/index.html
+默认账号密码都是nacos"><meta itemprop="datePublished" content="2021-10-10T21:16:29+08:00" />
 <meta itemprop="dateModified" content="2021-10-10T21:16:29+08:00" />
 <meta itemprop="wordCount" content="3075">
 <meta itemprop="keywords" content="微服务,nacos,spring cloud,dubbo,gateway," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="使用spring cloud，nacos，dubbo，gateway搭建微服务"/>
-<meta name="twitter:description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务"/>
+<meta name="twitter:description" content="本文使用spring cloud，nacos，dubbo，gateway搭建微服务
+启动nacos
+nacos是阿里开源的一个组件，用于服务发现、注册中心与配置中心。
+首先下载nacos server：https://github.com/alibaba/nacos
+解压压缩包，打开bin目录。因为直接启动的话，会以集群模式启动，单机下会报错。所以有三种方法解决:
+
+
+使用命令行启动，指定为单机模式：
+startup.cmd -m standalone
+
+
+修改startup.cmd文件，将其修改为单机模式：
+将
+set MODE=&#34;cluster&#34;
+修改为：
+rem set MODE=&#34;cluster&#34;
+set MODE=&#34;standalone&#34;
+注： rem为注释语句
+
+
+可以去修改数据库配置，感觉太麻烦了
+
+
+建议第一种。
+然后便能直接启动。
+web页面地址为：http://localhost:8848/nacos/index.html
+默认账号密码都是nacos"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>

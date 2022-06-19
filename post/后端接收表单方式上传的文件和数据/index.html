@@ -16,7 +16,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="梧桐碎梦" /><meta name="description" content="通过 Postman 上传多个文件和数据，后端接收文件和数据。 后端 因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，requ" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="通过 Postman 上传多个文件和数据，后端接收文件和数据。
+后端 因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，required 定义该参数是否必须，默认为 true。 上传文件需要使用 MultipartFile 对象来接收，因为允许上传多个文件，所以使用了数组的形式。
+" /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,19 +42,28 @@
 
 
 <meta property="og:title" content="后端接收表单方式上传的文件和数据" />
-<meta property="og:description" content="通过 Postman 上传多个文件和数据，后端接收文件和数据。 后端 因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，requ" />
+<meta property="og:description" content="通过 Postman 上传多个文件和数据，后端接收文件和数据。
+后端
+因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，required 定义该参数是否必须，默认为 true。
+上传文件需要使用 MultipartFile 对象来接收，因为允许上传多个文件，所以使用了数组的形式。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-04-14T22:38:44+08:00" />
 <meta property="article:modified_time" content="2022-04-14T22:38:44+08:00" />
 
 <meta itemprop="name" content="后端接收表单方式上传的文件和数据">
-<meta itemprop="description" content="通过 Postman 上传多个文件和数据，后端接收文件和数据。 后端 因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，requ"><meta itemprop="datePublished" content="2022-04-14T22:38:44+08:00" />
+<meta itemprop="description" content="通过 Postman 上传多个文件和数据，后端接收文件和数据。
+后端
+因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，required 定义该参数是否必须，默认为 true。
+上传文件需要使用 MultipartFile 对象来接收，因为允许上传多个文件，所以使用了数组的形式。"><meta itemprop="datePublished" content="2022-04-14T22:38:44+08:00" />
 <meta itemprop="dateModified" content="2022-04-14T22:38:44+08:00" />
 <meta itemprop="wordCount" content="343">
 <meta itemprop="keywords" content="Spring," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="后端接收表单方式上传的文件和数据"/>
-<meta name="twitter:description" content="通过 Postman 上传多个文件和数据，后端接收文件和数据。 后端 因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，requ"/>
+<meta name="twitter:description" content="通过 Postman 上传多个文件和数据，后端接收文件和数据。
+后端
+因为 Postman 是通过表单方式上传，所以需要通过 @RequestParam 注解接收文件，value 属性定义请求参数，required 定义该参数是否必须，默认为 true。
+上传文件需要使用 MultipartFile 对象来接收，因为允许上传多个文件，所以使用了数组的形式。"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -157,8 +168,8 @@
       <p>通过 Postman 上传多个文件和数据，后端接收文件和数据。</p>
 <h2 id="后端">后端</h2>
 <p>因为 Postman 是通过表单方式上传，所以需要通过 <code>@RequestParam</code> 注解接收文件，<code>value</code> 属性定义请求参数，<code>required</code> 定义该参数是否必须，默认为 <code>true</code>。
-上传文件需要使用 <code>MultipartFile</code> 对象来接收，因为允许上传多个文件，所以使用了数组的形式。
-后端代码：</p>
+上传文件需要使用 <code>MultipartFile</code> 对象来接收，因为允许上传多个文件，所以使用了数组的形式。</p>
+<p>后端代码：</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RestController</span>
 <span style="color:#a6e22e">@RequestMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/test&#34;</span><span style="color:#f92672">)</span>
 <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestController</span> <span style="color:#f92672">{</span>
@@ -183,7 +194,6 @@
 <img src="/media/Postman%E8%AE%BE%E7%BD%AE%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95.png" alt="">
 然后需要在 body 里选择为 form-data 方式。上传文件的话，需要将参数选择为 File 类型。
 <img src="/media/Postman%E4%BD%BF%E7%94%A8%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E5%8F%91%E8%B5%B7%E8%AF%B7%E6%B1%82.png" alt=""></p>
-
     </div>
 
     <div class="post-copyright">
@@ -206,7 +216,11 @@
           <a href="/tags/spring/">Spring</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">HashMap1.8 的源码解析</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
         <a class="next" href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/">
             <span class="next-text nav-default">系统集成Nacos和Feign</span>
             <span class="next-text nav-mobile">下一篇</span>

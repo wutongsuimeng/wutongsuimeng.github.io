@@ -16,7 +16,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="梧桐碎梦" /><meta name="description" content="nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。 Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。 引入依赖 因为n" /><meta name="keywords" content="Hugo, theme, even" />
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。
+Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。
+引入依赖 因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。
+因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。
+&amp;lt;!-- pom.xml --&amp;gt; &amp;lt;properties&amp;gt; &amp;lt;java.version&amp;gt;1.8&amp;lt;/java.version&amp;gt; &amp;lt;spring.boot.version&amp;gt;2.4.2&amp;lt;/spring.boot.version&amp;gt; &amp;lt;spring.cloud.version&amp;gt;3.0.1&amp;lt;/spring.cloud.version&amp;gt; &amp;lt;/properties&amp;gt; &amp;lt;dependencies&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.boot&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-boot-starter-web&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${spring.boot.version}&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.alibaba.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-alibaba-nacos-discovery&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;2021.1&amp;lt;/version&amp;gt; &amp;lt;exclusions&amp;gt; &amp;lt;!--//丢弃ribbon--&amp;gt; &amp;lt;exclusion&amp;gt; &amp;lt;groupId&amp;gt;com.netflix.ribbon&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;ribbon&amp;lt;/artifactId&amp;gt; &amp;lt;/exclusion&amp;gt; &amp;lt;/exclusions&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-openfeign&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${spring.cloud.version}&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-starter-bootstrap&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${spring.cloud.version}&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;org.springframework.cloud&amp;lt;/groupId&amp;gt; &amp;lt;artifactId&amp;gt;spring-cloud-loadbalancer&amp;lt;/artifactId&amp;gt; &amp;lt;version&amp;gt;${spring.cloud.version}&amp;lt;/version&amp;gt; &amp;lt;/dependency&amp;gt; &amp;lt;/dependencies&amp;gt; 在使用nacos时需要注意nacos及其依赖的版本。
+ 通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。 因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看版本说明 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
 
@@ -40,19 +45,166 @@
 
 
 <meta property="og:title" content="系统集成Nacos和Feign" />
-<meta property="og:description" content="nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。 Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。 引入依赖 因为n" />
+<meta property="og:description" content="nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。
+Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。
+引入依赖
+因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。
+因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。
+&lt;!-- pom.xml --&gt;
+&lt;properties&gt;
+	&lt;java.version&gt;1.8&lt;/java.version&gt;
+	&lt;spring.boot.version&gt;2.4.2&lt;/spring.boot.version&gt;
+	&lt;spring.cloud.version&gt;3.0.1&lt;/spring.cloud.version&gt;
+&lt;/properties&gt;
+&lt;dependencies&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+		&lt;version&gt;${spring.boot.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;
+		&lt;version&gt;2021.1&lt;/version&gt;
+		&lt;exclusions&gt;
+			&lt;!--//丢弃ribbon--&gt;
+			&lt;exclusion&gt;
+				&lt;groupId&gt;com.netflix.ribbon&lt;/groupId&gt;
+				&lt;artifactId&gt;ribbon&lt;/artifactId&gt;
+			&lt;/exclusion&gt;
+		&lt;/exclusions&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-loadbalancer&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+&lt;/dependencies&gt;
+在使用nacos时需要注意nacos及其依赖的版本。
+
+通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。
+因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看版本说明
+" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-02-27T16:12:44+08:00" />
 <meta property="article:modified_time" content="2022-02-27T16:12:44+08:00" />
 
 <meta itemprop="name" content="系统集成Nacos和Feign">
-<meta itemprop="description" content="nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。 Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。 引入依赖 因为n"><meta itemprop="datePublished" content="2022-02-27T16:12:44+08:00" />
+<meta itemprop="description" content="nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。
+Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。
+引入依赖
+因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。
+因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。
+&lt;!-- pom.xml --&gt;
+&lt;properties&gt;
+	&lt;java.version&gt;1.8&lt;/java.version&gt;
+	&lt;spring.boot.version&gt;2.4.2&lt;/spring.boot.version&gt;
+	&lt;spring.cloud.version&gt;3.0.1&lt;/spring.cloud.version&gt;
+&lt;/properties&gt;
+&lt;dependencies&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+		&lt;version&gt;${spring.boot.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;
+		&lt;version&gt;2021.1&lt;/version&gt;
+		&lt;exclusions&gt;
+			&lt;!--//丢弃ribbon--&gt;
+			&lt;exclusion&gt;
+				&lt;groupId&gt;com.netflix.ribbon&lt;/groupId&gt;
+				&lt;artifactId&gt;ribbon&lt;/artifactId&gt;
+			&lt;/exclusion&gt;
+		&lt;/exclusions&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-loadbalancer&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+&lt;/dependencies&gt;
+在使用nacos时需要注意nacos及其依赖的版本。
+
+通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。
+因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看版本说明
+"><meta itemprop="datePublished" content="2022-02-27T16:12:44+08:00" />
 <meta itemprop="dateModified" content="2022-02-27T16:12:44+08:00" />
 <meta itemprop="wordCount" content="925">
 <meta itemprop="keywords" content="Nacos,Feign," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="系统集成Nacos和Feign"/>
-<meta name="twitter:description" content="nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。 Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。 引入依赖 因为n"/>
+<meta name="twitter:description" content="nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。
+Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。
+引入依赖
+因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。
+因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。
+&lt;!-- pom.xml --&gt;
+&lt;properties&gt;
+	&lt;java.version&gt;1.8&lt;/java.version&gt;
+	&lt;spring.boot.version&gt;2.4.2&lt;/spring.boot.version&gt;
+	&lt;spring.cloud.version&gt;3.0.1&lt;/spring.cloud.version&gt;
+&lt;/properties&gt;
+&lt;dependencies&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+		&lt;version&gt;${spring.boot.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;com.alibaba.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-alibaba-nacos-discovery&lt;/artifactId&gt;
+		&lt;version&gt;2021.1&lt;/version&gt;
+		&lt;exclusions&gt;
+			&lt;!--//丢弃ribbon--&gt;
+			&lt;exclusion&gt;
+				&lt;groupId&gt;com.netflix.ribbon&lt;/groupId&gt;
+				&lt;artifactId&gt;ribbon&lt;/artifactId&gt;
+			&lt;/exclusion&gt;
+		&lt;/exclusions&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-openfeign&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-starter-bootstrap&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+	&lt;dependency&gt;
+		&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+		&lt;artifactId&gt;spring-cloud-loadbalancer&lt;/artifactId&gt;
+		&lt;version&gt;${spring.cloud.version}&lt;/version&gt;
+	&lt;/dependency&gt;
+&lt;/dependencies&gt;
+在使用nacos时需要注意nacos及其依赖的版本。
+
+通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。
+因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看版本说明
+"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -248,7 +400,6 @@
 <li><a href="https://github.com/OpenFeign/feign#readme">GitHub - OpenFeign/feign: Feign makes writing java http clients easier</a></li>
 <li><a href="https://blog.csdn.net/weixin_54750842/article/details/120074035">NACOS注册中心,Load balancer does not have available server for client_如刀割热的博客-CSDN博客</a></li>
 </ol>
-
     </div>
 
     <div class="post-copyright">

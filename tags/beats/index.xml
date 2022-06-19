@@ -16,7 +16,9 @@
       <description>&lt;p&gt;Elasticsearch用于搜索、分析数据。&lt;/p&gt;
 &lt;p&gt;Kibana用于展示数据。&lt;/p&gt;
 &lt;p&gt;Beats用于收集数据。&lt;/p&gt;
-&lt;p&gt;Logstash用于集中、转换和存储数据。&lt;/p&gt;</description>
+&lt;p&gt;Logstash用于集中、转换和存储数据。&lt;/p&gt;
+&lt;p&gt;日志的主要处理流程为下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://wutongsuimeng.github.io/media/ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled.png&#34; alt=&#34;ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled.png&#34;&gt;&lt;/p&gt;</description>
     </item>
     
   </channel>
