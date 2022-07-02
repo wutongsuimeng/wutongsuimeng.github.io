@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Mock的使用 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。
+Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Mock的使用" />
+<meta property="og:description" content="Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。
+Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2022-07-02T22:33:53+08:00" />
+<meta property="article:modified_time" content="2022-07-02T22:33:53+08:00" />
+
+<meta itemprop="name" content="Mock的使用">
+<meta itemprop="description" content="Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。
+Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。"><meta itemprop="datePublished" content="2022-07-02T22:33:53+08:00" />
+<meta itemprop="dateModified" content="2022-07-02T22:33:53+08:00" />
+<meta itemprop="wordCount" content="1796">
+<meta itemprop="keywords" content="Java,Mock,测试," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Mock的使用"/>
+<meta name="twitter:description" content="Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。
+Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Mock的使用</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-07-02 22:33:53 </span>
+        <div class="post-category">
+            <a href="/categories/java/"> Java </a>
+            </div>
+          <span class="more-meta"> 约 1796 字 </span>
+          <span class="more-meta"> 预计阅读 4 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#添加依赖">添加依赖</a></li>
+    <li><a href="#使用-mock">使用 Mock</a>
+      <ul>
+        <li><a href="#mock-普通方法">mock 普通方法</a></li>
+        <li><a href="#spy">Spy</a></li>
+        <li><a href="#mock-静态方法">mock 静态方法</a></li>
+        <li><a href="#私有属性的访问与修改">私有属性的访问与修改</a></li>
+        <li><a href="#mock-单例模式">mock 单例模式</a></li>
+        <li><a href="#mock-void方法">mock void方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#capture">capture</a></li>
+    <li><a href="#验证">验证</a></li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#其他">其他</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。</p>
+<p>Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。</p>
+<h1 id="添加依赖">添加依赖</h1>
+<p>环境为 Java1.6、Junit4.4</p>
+<p>添加 PowerMockito 的依赖，因为使用 PowerMockito 就不需要再导入 Mockito 的依赖了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.powermock<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>powermock-module-junit4<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>2.0.2<span style="color:#f92672">&lt;/version&gt;</span>
+    <span style="color:#f92672">&lt;scope&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>org.powermock<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>powermock-api-mockito2<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>2.0.2<span style="color:#f92672">&lt;/version&gt;</span>
+    <span style="color:#f92672">&lt;scope&gt;</span>test<span style="color:#f92672">&lt;/scope&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div><p>注：如果是 Junit4.4 但是导入了<code>powermock-module-junit4-legacy</code>，在使用<code>@RunWith(PowerMockRunner.class)</code>时，会报<code>org/junit/internal/runners/TestClassRunnerorg/junit/internal/runners/TestClassRunner</code>的错。</p>
+<p>详情：<a href="https://github.com/powermock/powermock/wiki/Mockito-2-Maven">Mockito 2 Maven · powermock/powermock Wiki · GitHub</a></p>
+<h1 id="使用-mock">使用 Mock</h1>
+<p>有两种方式来 mock 一个类。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import static</span> org.mockito.Mockito.*<span style="color:#f92672">;</span>
+<span style="color:#75715e">//1使用方法
+</span><span style="color:#75715e"></span>PersonDao dao<span style="color:#f92672">=</span>mock<span style="color:#f92672">(</span>PersonDao<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+<span style="color:#75715e">//2使用注解
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Mock</span>
+PersonDao dao<span style="color:#f92672">;</span>
+</code></pre></div><p>下面使用到的代码为：</p>
+<p>被测试的代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonService</span> <span style="color:#f92672">{</span>
+    PersonDao personDao<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PersonDao<span style="color:#f92672">();</span>
+
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> num<span style="color:#f92672">=</span>3<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> num2<span style="color:#f92672">=</span>3<span style="color:#f92672">;</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span><span style="color:#f92672">(){</span>
+        String str<span style="color:#f92672">=</span>personDao<span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testStatic</span><span style="color:#f92672">(){</span>
+        String str<span style="color:#f92672">=</span>PersonDao<span style="color:#f92672">.</span><span style="color:#a6e22e">testStatic</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testSingle</span><span style="color:#f92672">(){</span>
+        SingleInstance instance<span style="color:#f92672">=</span>SingleInstance<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">();</span>
+        String str<span style="color:#f92672">=</span>instance<span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">();</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testVoid</span><span style="color:#f92672">(){</span>
+        personDao<span style="color:#f92672">.</span><span style="color:#a6e22e">testVoid</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">testVerify</span><span style="color:#f92672">(){</span>
+        <span style="color:#66d9ef">return</span> 1<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+<span style="color:#f92672">}</span>
+</code></pre></div><p>依赖代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonDao</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">test</span><span style="color:#f92672">(</span>String str<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;test:&#34;</span><span style="color:#f92672">+</span>str<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">testStatic</span><span style="color:#f92672">(</span>String str<span style="color:#f92672">){</span>
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;test:&#34;</span><span style="color:#f92672">+</span>str<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">testVoid</span><span style="color:#f92672">(){}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="mock-普通方法">mock 普通方法</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import static</span> org.mockito.Mockito.*<span style="color:#f92672">;</span>
+
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>MockitoJUnitRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Mock</span>
+    <span style="color:#66d9ef">private</span> PersonDao personDao<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span>
+        when<span style="color:#f92672">(</span>personDao<span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">(</span>anyString<span style="color:#f92672">())).</span><span style="color:#a6e22e">thenReturn</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;not find&#34;</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>personDao<span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#75715e">//输出： not find
+</span></code></pre></div><p>Mockito 提供了很多方法来匹配参数，例如 <code>anyString()</code>、<code>anyInt()</code>、<code>any()</code>，而不必知道具体参数。也可以使用 <code>eq()</code> 方法来匹配具体的参数，例如：*<code>when*(personDao.find(*eq*(&quot;1&quot;))).thenReturn(&quot;not find&quot;);</code></p>
+<p><code>when()...thenReturn()</code>的过程被称为打桩（stub）。当执行 <code>personDao.find()</code>方法时，返回所指定的值。</p>
+<p>需要注意打桩时，匹配参数要不全用具体值，要不全用Matchers提供，否则会报错：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">org<span style="color:#f92672">.</span><span style="color:#a6e22e">mockito</span><span style="color:#f92672">.</span><span style="color:#a6e22e">exceptions</span><span style="color:#f92672">.</span><span style="color:#a6e22e">misusing</span><span style="color:#f92672">.</span><span style="color:#a6e22e">InvalidUseOfMatchersException</span><span style="color:#f92672">:</span> 
+Invalid use of argument matchers<span style="color:#f92672">!</span>
+</code></pre></div><h2 id="spy">Spy</h2>
+<p>mock 出来的类不会真正执行，但是 Spy 出来的方法会真正执行，但是仍然可以打桩。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>MockitoJUnitRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Spy</span>
+    <span style="color:#66d9ef">private</span> PersonDao personDao<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>personDao<span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#75715e">//输出 test:1
+</span></code></pre></div><p>mock 出来的方法：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>MockitoJUnitRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Mock</span>
+    <span style="color:#66d9ef">private</span> PersonDao personDao<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>personDao<span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+<span style="color:#75715e">//输出：null
+</span></code></pre></div><h2 id="mock-静态方法">mock 静态方法</h2>
+<p>mock 静态方法需要 PowerMock。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import static</span> org.powermock.api.mockito.PowerMockito.*<span style="color:#f92672">;</span>
+<span style="color:#a6e22e">@PrepareForTest</span><span style="color:#f92672">({</span>PersonDao<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">})</span>
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>PowerMockRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span>
+				<span style="color:#75715e">//mock一个静态类，被测试代码依赖的类
+</span><span style="color:#75715e"></span>        mockStatic<span style="color:#f92672">(</span>PersonDao<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+				<span style="color:#75715e">//当调用PersonDao.findStatic()方法，返回特定的值
+</span><span style="color:#75715e"></span>        when<span style="color:#f92672">(</span>PersonDao<span style="color:#f92672">.</span><span style="color:#a6e22e">testStatic</span><span style="color:#f92672">(</span>Mockito<span style="color:#f92672">.</span><span style="color:#a6e22e">anyString</span><span style="color:#f92672">())).</span><span style="color:#a6e22e">thenReturn</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;not find&#34;</span><span style="color:#f92672">);</span>
+				<span style="color:#75715e">//被测试的类
+</span><span style="color:#75715e"></span>        PersonService personService<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PersonService<span style="color:#f92672">();</span>
+        personService<span style="color:#f92672">.</span><span style="color:#a6e22e">testStatic</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="私有属性的访问与修改">私有属性的访问与修改</h2>
+<p>主要是使用到了 Whitebox 的 <code>setInternalState()</code> 和 <code>getInternalState()</code> 方法，能访问、修改私有实例方法和私有静态方法。</p>
+<p>私有实例方法，参数传入实例变量：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import static</span> org.powermock.api.mockito.PowerMockito.*<span style="color:#f92672">;</span>
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>PowerMockRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span>
+        PersonService personService<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PersonService<span style="color:#f92672">();</span>
+        Whitebox<span style="color:#f92672">.</span><span style="color:#a6e22e">setInternalState</span><span style="color:#f92672">(</span>personService<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;num2&#34;</span><span style="color:#f92672">,</span>5<span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">int</span> num<span style="color:#f92672">=</span>Whitebox<span style="color:#f92672">.</span><span style="color:#a6e22e">getInternalState</span><span style="color:#f92672">(</span>personService<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;num2&#34;</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>num<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>私有静态方法，参数传入类：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import static</span> org.powermock.api.mockito.PowerMockito.*<span style="color:#f92672">;</span>
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>PowerMockRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">run</span><span style="color:#f92672">(){</span>
+				<span style="color:#75715e">//修改
+</span><span style="color:#75715e"></span>        Whitebox<span style="color:#f92672">.</span><span style="color:#a6e22e">setInternalState</span><span style="color:#f92672">(</span>PersonService<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;num&#34;</span><span style="color:#f92672">,</span>5<span style="color:#f92672">);</span>
+				<span style="color:#75715e">//访问
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> num<span style="color:#f92672">=</span>Whitebox<span style="color:#f92672">.</span><span style="color:#a6e22e">getInternalState</span><span style="color:#f92672">(</span>PersonService<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;num&#34;</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>num<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>Whitebox 提供了很多 API，可以查看<a href="https://www.javadoc.io/doc/org.powermock/powermock-reflect/1.6.4/org/powermock/reflect/Whitebox.html">https://www.javadoc.io/doc/org.powermock/powermock-reflect/1.6.4/org/powermock/reflect/Whitebox.html</a></p>
+<h2 id="mock-单例模式">mock 单例模式</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@PrepareForTest</span><span style="color:#f92672">({</span>SingleInstance<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">})</span>
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>PowerMockRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Mock</span>
+    <span style="color:#66d9ef">private</span> SingleInstance singleInstance<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">runSingle</span><span style="color:#f92672">(){</span>
+        mockStatic<span style="color:#f92672">(</span>SingleInstance<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+				<span style="color:#75715e">// 获取单例模式的实例方法
+</span><span style="color:#75715e"></span>        when<span style="color:#f92672">(</span>SingleInstance<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">thenReturn</span><span style="color:#f92672">(</span>singleInstance<span style="color:#f92672">);</span>
+        when<span style="color:#f92672">(</span>singleInstance<span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">()).</span><span style="color:#a6e22e">thenReturn</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;not find&#34;</span><span style="color:#f92672">);</span>
+        PersonService personService<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PersonService<span style="color:#f92672">();</span>
+        personService<span style="color:#f92672">.</span><span style="color:#a6e22e">testSingle</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="mock-void方法">mock void方法</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import static</span> org.powermock.api.mockito.PowerMockito.*<span style="color:#f92672">;</span>
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>PowerMockRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Mock</span>
+    <span style="color:#66d9ef">private</span> PersonDao personDao<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">runVoid</span><span style="color:#f92672">(){</span>
+        PersonService personService<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PersonService<span style="color:#f92672">();</span>
+        doNothing<span style="color:#f92672">().</span><span style="color:#a6e22e">when</span><span style="color:#f92672">(</span>personDao<span style="color:#f92672">).</span><span style="color:#a6e22e">testVoid</span><span style="color:#f92672">();</span>
+        personService<span style="color:#f92672">.</span><span style="color:#a6e22e">testVoid</span><span style="color:#f92672">();</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h1 id="capture">capture</h1>
+<p>capture 用来捕获被调用时传入方法的参数值，该方法需要时被 mock 的方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import static</span> org.powermock.api.mockito.PowerMockito.*<span style="color:#f92672">;</span>
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>PowerMockRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Mock</span>
+    <span style="color:#66d9ef">private</span> PersonDao personDao<span style="color:#f92672">;</span>
+		<span style="color:#75715e">//声明captor类型
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">@Captor</span>
+    <span style="color:#66d9ef">private</span> ArgumentCaptor<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> captor<span style="color:#f92672">;</span>
+
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">runCapture</span><span style="color:#f92672">(){</span>
+        PersonService personService<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PersonService<span style="color:#f92672">();</span>
+				<span style="color:#75715e">//将mock出来的对象注入PersonService实例
+</span><span style="color:#75715e"></span>        Whitebox<span style="color:#f92672">.</span><span style="color:#a6e22e">setInternalState</span><span style="color:#f92672">(</span>personService<span style="color:#f92672">,</span><span style="color:#e6db74">&#34;personDao&#34;</span><span style="color:#f92672">,</span>personDao<span style="color:#f92672">);</span>
+				<span style="color:#75715e">//先执行方法
+</span><span style="color:#75715e"></span>        personService<span style="color:#f92672">.</span><span style="color:#a6e22e">test</span><span style="color:#f92672">();</span>
+				<span style="color:#75715e">//使用captor捕获变量
+</span><span style="color:#75715e"></span>        Mockito<span style="color:#f92672">.</span><span style="color:#a6e22e">verify</span><span style="color:#f92672">(</span>personDao<span style="color:#f92672">).</span><span style="color:#a6e22e">test</span><span style="color:#f92672">(</span>captor<span style="color:#f92672">.</span><span style="color:#a6e22e">capture</span><span style="color:#f92672">());</span>
+				<span style="color:#75715e">//打印变量
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>captor<span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h1 id="验证">验证</h1>
+<p>执行方法之后，需要验证方法执行是否符合预期结果，一般使用 <code>Assert.assertEquals()</code> 来验证*。*</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">import static</span> org.powermock.api.mockito.PowerMockito.*<span style="color:#f92672">;</span>
+<span style="color:#a6e22e">@RunWith</span><span style="color:#f92672">(</span>PowerMockRunner<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PersonServiceTest</span> <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Mock</span>
+    <span style="color:#66d9ef">private</span> PersonDao personDao<span style="color:#f92672">;</span>
+    
+    <span style="color:#a6e22e">@Test</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">runVerify</span><span style="color:#f92672">(){</span>
+        PersonService personService<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> PersonService<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">int</span> str<span style="color:#f92672">=</span>personService<span style="color:#f92672">.</span><span style="color:#a6e22e">testVerify</span><span style="color:#f92672">();</span>
+				<span style="color:#75715e">//如果结果不为1，则运行失败
+</span><span style="color:#75715e"></span>        Assert<span style="color:#f92672">.</span><span style="color:#a6e22e">assertEquals</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span>str<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><h1 id="总结">总结</h1>
+<p>mock 能帮助我们解决很多依赖构建问题，同时提供的大量 API 能帮助我们方便测试极端情况的发生。但是随着测试用例不断增长，测试类也会越来越复杂，我们在编写时也要注意测试用例的维护。</p>
+<h1 id="其他">其他</h1>
+<ol>
+<li>
+<p>如何 mock 时，报错 <code>Could not initialize plugin: interface org.mockito.plugins.MockMaker (alternate: null)</code>，需要引入依赖</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;dependency&gt;</span>
+    <span style="color:#f92672">&lt;groupId&gt;</span>net.bytebuddy<span style="color:#f92672">&lt;/groupId&gt;</span>
+    <span style="color:#f92672">&lt;artifactId&gt;</span>byte-buddy<span style="color:#f92672">&lt;/artifactId&gt;</span>
+    <span style="color:#f92672">&lt;version&gt;</span>1.12.10<span style="color:#f92672">&lt;/version&gt;</span>
+<span style="color:#f92672">&lt;/dependency&gt;</span>
+</code></pre></div></li>
+<li>
+<p>mock 要在执行真实方法之前，不然会报 null，而 verify 验证跟 captor 捕获一般在真实方法调用后执行。</p>
+</li>
+<li>
+<p>当方法的两个参数类型相同时，也可能报错：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">org<span style="color:#f92672">.</span><span style="color:#a6e22e">mockito</span><span style="color:#f92672">.</span><span style="color:#a6e22e">exceptions</span><span style="color:#f92672">.</span><span style="color:#a6e22e">misusing</span><span style="color:#f92672">.</span><span style="color:#a6e22e">InvalidUseOfMatchersException</span><span style="color:#f92672">:</span> Invalid use of argument matchers<span style="color:#f92672">!</span> 2 matchers expected<span style="color:#f92672">,</span> 1 recorded<span style="color:#f92672">:</span>
+</code></pre></div><p>解决办法为：都换成具体参数。</p>
+</li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2022-07-02 22:33:53
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">Java</a>
+          <a href="/tags/mock/">Mock</a>
+          <a href="/tags/%E6%B5%8B%E8%AF%95/">测试</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            <span class="next-text nav-default">HashMap1.8 的源码解析</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>测试 on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/tags/%E6%B5%8B%E8%AF%95/</link>
+    <description>Recent content in 测试 on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 02 Jul 2022 22:33:53 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mock的使用</title>
+      <link>https://wutongsuimeng.github.io/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Sat, 02 Jul 2022 22:33:53 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/</guid>
+      <description>&lt;p&gt;Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。&lt;/p&gt;
+&lt;p&gt;Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
