@@ -6,7 +6,30 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 02 Jul 2022 22:33:53 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 14 Aug 2022 16:08:23 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>bean的创建过程分析</title>
+      <link>https://wutongsuimeng.github.io/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/</link>
+      <pubDate>Sun, 14 Aug 2022 16:08:23 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/</guid>
+      <description>&lt;p&gt;既然是源码分析，那最好的办法还是编写一个测试用例，然后 debug 来看程序是怎样运行的。
+测试例子：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; args&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;  
+    ApplicationContext context&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; AnnotationConfigApplicationContext&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;TestConfiguration&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;class&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;  
+    TestBean tb&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;TestBean&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; context&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;getBean&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;testBean&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;  
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;@Configuration&lt;/span&gt;  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;TestConfiguration&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@Bean&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;testBean&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;  
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;@Scope&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;prototype&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;  
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; TestBean &lt;span style=&#34;color:#a6e22e&#34;&gt;testBean&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(){&lt;/span&gt;  
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; TestBean&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;  
+    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;  
+&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>Mock的使用</title>
       <link>https://wutongsuimeng.github.io/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/</link>

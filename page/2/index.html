@@ -122,6 +122,35 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/">集成nacos和feign时报错java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-02-16 11:35:36 </span>
+      <div class="post-category">
+          <a href="/categories/spring/"> Spring </a>
+          </div>
+        <span class="more-meta"> 约 416 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>今天在尝试集成nacos和feign时，报错：
+<code>java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties</code>。</p>
+<p>通过idea的Add Maven dependency功能，发现这个类位于 <code>spring-cloud-commons</code>包内。</p>
+<p><img src="/media/Pasted%20image%2020220216113850.png" alt=""></p>
+<p>但是通过解压所引入的<code>spring-cloud-commons</code>的jar包，发现是存在该类的。</p>
+<p><img src="/media/Pasted%20image%2020220216115557.png" alt=""></p>
+<p>所以猜测可能是版本问题。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/">SpringBoot项目的配置文件中设置server.port不生效</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-02-15 14:15:03 </span>
@@ -395,67 +424,6 @@ deque<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><
     </div>
     <div class="read-more">
       <a href="/post/%E4%BD%8D%E8%BF%90%E7%AE%97/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/">Java集合-队列</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-01-23 15:07:00 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> Java </a>
-          </div>
-        <span class="more-meta"> 约 294 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>Java中对应的队列接口为 <code>Queue</code>，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。</p>
-<p><code>Queue</code>主要方法有：</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>抛出错误</th>
-<th>返回特殊值(null或false)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>插入</td>
-<td>add()</td>
-<td>offer()</td>
-</tr>
-<tr>
-<td>移除</td>
-<td>remove()</td>
-<td>poll()</td>
-</tr>
-<tr>
-<td>查看</td>
-<td>element()</td>
-<td>peek()</td>
-</tr>
-</tbody>
-</table>
-<p>通常情况下，推荐使用 <code>offer()</code>、<code>poll()</code>、<code>peek()</code>，这三个方法。</p>
-<p>当插入的新元素已经存在于队列时，<code>offer()</code>方法返回<code>false</code>；当队列为空时，<code>poll()</code>和<code>peek()</code>方法返回 <code>null</code>。</p>
-<p><code>Queue</code>主要实现类有：
-![[Queue主要实现类.png]]</p>
-<p>我们平常使用的实现类为 <code>LinkedList</code>，该类为 <code>Queue</code>和 <code>Deque</code>的双向链表实现类。</p>
-<p>例如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Queue<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> queue<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;&gt;();</span>
-queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
-queue<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">();</span>
-queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span><span style="color:#f92672">();</span>
-</code></pre></div>
-    </div>
-    <div class="read-more">
-      <a href="/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
