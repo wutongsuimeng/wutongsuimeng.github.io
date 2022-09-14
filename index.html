@@ -135,7 +135,18 @@
   
   <div class="post-content">
     <div class="post-summary">
-      首先看一段程序。 int type=2; switch (type){ case 1: System.out.print(1); case 2: System.out.print(2); case 3: System.out.print(3); } 踩过这个坑或者仔细看过 switch 语法的人都知道，上面的程序会打印出：23 ，而不是 2。因为 switch 语句会从相匹配
+      <p>首先看一段程序。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> type<span style="color:#f92672">=</span>2<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>type<span style="color:#f92672">){</span>  
+    <span style="color:#66d9ef">case</span> 1<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">case</span> 2<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">case</span> 3<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>3<span style="color:#f92672">);</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><p>踩过这个坑或者仔细看过 switch 语法的人都知道，上面的程序会打印出：23 ，而不是 2。因为 switch 语句会从相匹配的 case 开始执行，直到遇到 break 语句，或者执行整一个 switch 语句。如果没加 break ，则会将 2 和 3 的 case 都执行，而不是只执行匹配的 case ，所以在使用 switch 时，一定要注意加 break ，或者在 case 里 return，否则很容易出现程序错误。
+在编程时，我们可以通过一些插件来提醒我们这些的错误的发生，例如 SonarLint 、Alibaba Java Coding Guidelines。</p>
     </div>
     <div class="read-more">
       <a href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/" class="read-more-link">阅读更多</a>
