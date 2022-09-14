@@ -23,8 +23,8 @@
     &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; 3&lt;span style=&#34;color:#f92672&#34;&gt;:&lt;/span&gt;  
         System&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;print&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;3&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;  
 &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;踩过这个坑或者仔细看过 switch 语法的人都知道，上面的程序会打印出：23 ，而不是 2。因为 switch 语句会从相匹配的 case 开始执行，直到遇到 break 语句，或者执行整一个 switch 语句。如果没加 break ，则会将 2 和 3 的 case 都执行，而不是只执行匹配的 case ，所以在使用 switch 时，一定要注意加 break ，或者在 case 里 return，否则很容易出现程序错误。
-在编程时，我们可以通过一些插件来提醒我们这些的错误的发生，例如 SonarLint 、Alibaba Java Coding Guidelines。&lt;/p&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;踩过这个坑或者仔细看过 switch 语法的人都知道，上面的程序会打印出：23 ，而不是 2。因为 switch 语句会从相匹配的 case 开始执行，直到遇到 break 语句，或者执行整一个 switch 语句。如果没加 break ，则会将 2 和 3 的 case 都执行，而不是只执行匹配的 case ，所以在使用 switch 时，一定要注意加 break ，或者在 case 里 return，否则很容易出现程序错误。&lt;/p&gt;
+&lt;p&gt;在编程时，我们可以通过一些插件来提醒我们这些的错误的发生，例如 SonarLint 、Alibaba Java Coding Guidelines。&lt;/p&gt;</description>
     </item>
     
     <item>
