@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/tags/c/</link>
+    <description>Recent content in C on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 25 Sep 2022 17:23:45 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/c/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CLion 使用 WSL</title>
+      <link>https://wutongsuimeng.github.io/post/clion-%E4%BD%BF%E7%94%A8-wsl/</link>
+      <pubDate>Sun, 25 Sep 2022 17:23:45 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/clion-%E4%BD%BF%E7%94%A8-wsl/</guid>
+      <description>&lt;p&gt;CLion 在安装时会自带 MinGW，MinGW 是 gcc 在 Window 上的版本，支持 C 语言在 Window 平台的编译。但由于跟 posix 标准不完全一致，如果所运行的 C 语言程序中包含了 socket.h 等库，MinGW 则没办法编译。所以我们可以改为通过使用 WSL 来进行编译。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

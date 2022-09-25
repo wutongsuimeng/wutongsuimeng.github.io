@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>分类 - 梧桐碎梦</title>
+  <title>梧桐碎梦</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -26,9 +26,9 @@
 <meta name="generator" content="Hugo 0.85.0 with theme even" />
 
 
-<link rel="canonical" href="https://wutongsuimeng.github.io/categories/" />
-  <link href="https://wutongsuimeng.github.io/categories/index.xml" rel="alternate" type="application/rss+xml" title="梧桐碎梦" />
-  <link href="https://wutongsuimeng.github.io/categories/index.xml" rel="feed" type="application/rss+xml" title="梧桐碎梦" />
+<link rel="canonical" href="https://wutongsuimeng.github.io/" />
+  <link href="https://wutongsuimeng.github.io/index.xml" rel="alternate" type="application/rss+xml" title="梧桐碎梦" />
+  <link href="https://wutongsuimeng.github.io/index.xml" rel="feed" type="application/rss+xml" title="梧桐碎梦" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -41,14 +41,14 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Categories" />
+<meta property="og:title" content="梧桐碎梦" />
 <meta property="og:description" content="Hugo theme even example site." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://wutongsuimeng.github.io/categories/" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/" />
 
-<meta itemprop="name" content="Categories">
+<meta itemprop="name" content="梧桐碎梦">
 <meta itemprop="description" content="Hugo theme even example site."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Categories"/>
+<meta name="twitter:title" content="梧桐碎梦"/>
 <meta name="twitter:description" content="Hugo theme even example site."/>
 
 <!--[if lte IE 9]>
@@ -119,53 +119,46 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <div class="terms">
-      <div class="terms-title">
-        共计 10 个分类
-      </div>
-      <div class="terms-tags">
-        <a class="terms-link" href="/categories/java/">
-            java
-            <span class="terms-count">9</span>
-          </a>
-        <a class="terms-link" href="/categories/spring/">
-            spring
-            <span class="terms-count">7</span>
-          </a>
-        <a class="terms-link" href="/categories/%E8%BF%90%E7%BB%B4/">
-            运维
-            <span class="terms-count">3</span>
-          </a>
-        <a class="terms-link" href="/categories/go/">
-            go
-            <span class="terms-count">2</span>
-          </a>
-        <a class="terms-link" href="/categories/linux/">
-            linux
-            <span class="terms-count">2</span>
-          </a>
-        <a class="terms-link" href="/categories/c/">
-            c
-            <span class="terms-count">1</span>
-          </a>
-        <a class="terms-link" href="/categories/docker/">
-            docker
-            <span class="terms-count">1</span>
-          </a>
-        <a class="terms-link" href="/categories/mysql/">
-            mysql
-            <span class="terms-count">1</span>
-          </a>
-        <a class="terms-link" href="/categories/%E5%85%B6%E4%BB%96/">
-            其他
-            <span class="terms-count">1</span>
-          </a>
-        <a class="terms-link" href="/categories/%E7%AE%97%E6%B3%95/">
-            算法
-            <span class="terms-count">1</span>
-          </a>
-        </div>
+          <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/">启动容器失败</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2021-03-08 13:58:09 </span>
+      <div class="post-category">
+          <a href="/categories/docker/"> Docker </a>
+          </div>
+        <span class="more-meta"> 约 109 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
     </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &ldquo;/mysql&rdquo; is already in use by container &ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&rdquo;. You have to remove (or rename) that container to be able to reuse that name.</p>
+<p><img src="/media/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/Snipaste_2021-03-08_10-18-49.png" alt="/media启动容器失败/Snipaste_2021-03-08_10-18-49.png"></p>
+<p>解决：</p>
+<p>因为之前强行停止的容器没有完全停止及清理，所以要对之前启动的容器进行清理及完全停止：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker rm -f <span style="color:#66d9ef">$(</span>docker ps -a -q<span style="color:#66d9ef">)</span>
+</code></pre></div><p>重启docker：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo service docker restart
+</code></pre></div>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    </section>
+  
+  <nav class="pagination">
+    <a class="prev" href="/page/5/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text">上一页</span>
+      </a>
+    
+  </nav>
         </div>
         
 

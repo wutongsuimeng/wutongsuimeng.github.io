@@ -6,7 +6,16 @@
     <description>Recent content in Posts on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 14 Sep 2022 22:23:30 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 25 Sep 2022 17:23:45 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CLion 使用 WSL</title>
+      <link>https://wutongsuimeng.github.io/post/clion-%E4%BD%BF%E7%94%A8-wsl/</link>
+      <pubDate>Sun, 25 Sep 2022 17:23:45 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/clion-%E4%BD%BF%E7%94%A8-wsl/</guid>
+      <description>&lt;p&gt;CLion 在安装时会自带 MinGW，MinGW 是 gcc 在 Window 上的版本，支持 C 语言在 Window 平台的编译。但由于跟 posix 标准不完全一致，如果所运行的 C 语言程序中包含了 socket.h 等库，MinGW 则没办法编译。所以我们可以改为通过使用 WSL 来进行编译。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>使用 switch 时碰到的一个坑</title>
       <link>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/</link>
