@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>git on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/categories/git/</link>
+    <description>Recent content in git on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 14 Feb 2023 09:17:46 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/git/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用idea撤销git中间的提交</title>
+      <link>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/</link>
+      <pubDate>Tue, 14 Feb 2023 09:17:46 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/</guid>
+      <description>&lt;p&gt;在平时的开发中，经常会碰到提交的代码需要撤销，但是又有别人提交了代码，这种时候我们需要只撤销中间的提交，不影响前后提交的代码，可以用命令 &lt;code&gt;git revert&lt;/code&gt; 撤销，也可以使用 idea 可视化撤销，这里介绍使用 idea 操作。
+例子是三次提交的内容。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

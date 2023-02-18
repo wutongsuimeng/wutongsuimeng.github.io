@@ -122,6 +122,48 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/">SpringBoot项目的配置文件中设置server.port不生效</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-02-15 14:15:03 </span>
+      <div class="post-category">
+          <a href="/categories/spring/"> Spring </a>
+          </div>
+        <span class="more-meta"> 约 242 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>我的配置文件为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># application.yml</span>
+<span style="color:#f92672">server</span>:  
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>  
+<span style="color:#f92672">spring</span>:  
+  <span style="color:#f92672">application</span>:  
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test  </span>
+    <span style="color:#f92672">cloud</span>:  
+      <span style="color:#f92672">nacos</span>:  
+        <span style="color:#f92672">discovery</span>:  
+          <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+</code></pre></div><p>设置了 <code>server.port</code>不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配置，所以删掉nacos的配置即可。</p>
+<p>修改后的配置文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># application.yml</span>
+<span style="color:#f92672">server</span>:  
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>  
+<span style="color:#f92672">spring</span>:  
+  <span style="color:#f92672">application</span>:  
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test </span>
+</code></pre></div><p>如果需要使用nacos，在application.yml文件中配置<code>server.port</code>的话，会发现配置不生效。这个时候需要新建一个空白的application.properties文件，来使的application.yml文件中的<code>server.port</code>配置生效。原因未知。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/">RestTemplate发起HTTPS请求</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-02-13 14:29:11 </span>
@@ -418,65 +460,6 @@ queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span>
   </div>
 </article>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/">判断ip是否在某ip范围内</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-11-07 15:33:03 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> Java </a>
-          </div>
-        <span class="more-meta"> 约 514 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。</p>
-<p>首先分析start≤ip。</p>
-<p>因为ip的一般形式为 <code>&quot;a.b.c.d&quot;</code>，通过 <code>.</code>将整个ip分为四段。假设判断的ip为{a,b,c,d}，start为{a1,b1,c1,d1}。从左开始分析的话，每段有小于、等于、大于三个比较关系。如果a&gt;a1，直接就能说明ip&gt;start，不用再继续判断start后面的段；如果a=a1，则需要继续判断start剩下部分；如果a&lt;a1，说明ip&lt;start，直接返回false即可。</p>
-<p>因为还存在start=ip的情况，所以需要保留循环的次数，如果比较到最后一段，说明start≤ip。</p>
-<p>end的比较与start同理。</p>
-<p>代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">ipInRange</span><span style="color:#f92672">(</span>String ip<span style="color:#f92672">,</span>String start<span style="color:#f92672">,</span>String end<span style="color:#f92672">){</span>
-        String<span style="color:#f92672">[]</span> ips<span style="color:#f92672">=</span>ip<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\\\\.&#34;</span><span style="color:#f92672">);</span>
-        String<span style="color:#f92672">[]</span> starts<span style="color:#f92672">=</span>start<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\\\\.&#34;</span><span style="color:#f92672">);</span>
-        String<span style="color:#f92672">[]</span> ends<span style="color:#f92672">=</span>end<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\\\\.&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#66d9ef">boolean</span> flags<span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">,</span>flage<span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>  <span style="color:#75715e">//flags为true代表ip已经符合start，不用判断；flage标记end
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(;</span> i <span style="color:#f92672">&lt;</span>ips<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++){</span>
-            <span style="color:#66d9ef">int</span> t_ip<span style="color:#f92672">=</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>ips<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
-            <span style="color:#66d9ef">int</span> t_start<span style="color:#f92672">=</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>starts<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
-            <span style="color:#66d9ef">int</span> t_end<span style="color:#f92672">=</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>ends<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
-            <span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>flags<span style="color:#f92672">){</span>   
-                <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>t_ip<span style="color:#f92672">&gt;</span>t_start<span style="color:#f92672">){</span>
-                    flags<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>   <span style="color:#75715e">//说明start不用判断了
-</span><span style="color:#75715e"></span>                <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>t_ip<span style="color:#f92672">&lt;</span>t_start<span style="color:#f92672">){</span>
-                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>   <span style="color:#75715e">//说明ip小于start
-</span><span style="color:#75715e"></span>                <span style="color:#f92672">}</span>
-            <span style="color:#f92672">}</span>
-            <span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>flage<span style="color:#f92672">){</span>
-                <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>t_ip<span style="color:#f92672">&lt;</span>t_end<span style="color:#f92672">){</span>
-                    flage<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-                <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>t_ip<span style="color:#f92672">&gt;</span>t_end<span style="color:#f92672">){</span>
-                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
-                <span style="color:#f92672">}</span>
-            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>flags<span style="color:#f92672">&amp;&amp;</span>flage<span style="color:#f92672">)||</span>i<span style="color:#f92672">==</span>ips<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>  <span style="color:#75715e">//i==ips.length为true代表ip从头判断到尾，说明ip与某个边界相等。
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>ipInRange<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.215.253&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;192.168.215.1&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;192.168.215.252&#34;</span><span style="color:#f92672">));</span>
-    <span style="color:#f92672">}</span>
-</code></pre></div>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
     </section>
   
   <nav class="pagination">
@@ -519,7 +502,7 @@ queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span>
   <span class="copyright-year">
     &copy; 
     2021 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
   </span>
 </div>
 
