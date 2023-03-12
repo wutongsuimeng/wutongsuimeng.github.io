@@ -6,7 +6,16 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 14 Feb 2023 09:17:46 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Mar 2023 11:22:15 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Idea插件开发</title>
+      <link>https://wutongsuimeng.github.io/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</link>
+      <pubDate>Sat, 11 Mar 2023 11:22:15 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</guid>
+      <description>&lt;p&gt;首先新建一个 idea 插件项目，在新建的地方，选择 IDE Plugin，JDK 需要 11 以上。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>使用idea撤销git中间的提交</title>
       <link>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/</link>

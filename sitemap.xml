@@ -3,7 +3,49 @@
   
   <url>
     <loc>https://wutongsuimeng.github.io/categories/</loc>
-    <lastmod>2023-02-14T09:17:46+08:00</lastmod>
+    <lastmod>2023-03-11T11:22:15+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/idea/</loc>
+    <lastmod>2023-03-11T11:22:15+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2023-03-11T11:22:15+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/post/</loc>
+    <lastmod>2023-03-11T11:22:15+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/</loc>
+    <lastmod>2023-03-11T11:22:15+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/categories/%E5%85%B6%E4%BB%96/</loc>
+    <lastmod>2023-03-11T11:22:15+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/</loc>
+    <lastmod>2023-03-11T11:22:15+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -23,35 +65,7 @@
   </url>
   
   <url>
-    <loc>https://wutongsuimeng.github.io/tags/idea/</loc>
-    <lastmod>2023-02-14T09:17:46+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://wutongsuimeng.github.io/post/</loc>
-    <lastmod>2023-02-14T09:17:46+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://wutongsuimeng.github.io/tags/</loc>
-    <lastmod>2023-02-14T09:17:46+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/</loc>
-    <lastmod>2023-02-14T09:17:46+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://wutongsuimeng.github.io/</loc>
     <lastmod>2023-02-14T09:17:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -304,13 +318,6 @@
   
   <url>
     <loc>https://wutongsuimeng.github.io/tags/hugo/</loc>
-    <lastmod>2021-10-13T23:18:11+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://wutongsuimeng.github.io/categories/%E5%85%B6%E4%BB%96/</loc>
     <lastmod>2021-10-13T23:18:11+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

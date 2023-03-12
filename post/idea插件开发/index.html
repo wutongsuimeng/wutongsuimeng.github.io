@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Idea插件开发 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="首先新建一个 idea 插件项目，在新建的地方，选择 IDE Plugin，JDK 需要 11 以上。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Idea插件开发" />
+<meta property="og:description" content="首先新建一个 idea 插件项目，在新建的地方，选择 IDE Plugin，JDK 需要 11 以上。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-03-11T11:22:15+08:00" />
+<meta property="article:modified_time" content="2023-03-11T11:22:15+08:00" />
+
+<meta itemprop="name" content="Idea插件开发">
+<meta itemprop="description" content="首先新建一个 idea 插件项目，在新建的地方，选择 IDE Plugin，JDK 需要 11 以上。"><meta itemprop="datePublished" content="2023-03-11T11:22:15+08:00" />
+<meta itemprop="dateModified" content="2023-03-11T11:22:15+08:00" />
+<meta itemprop="wordCount" content="946">
+<meta itemprop="keywords" content="idea," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Idea插件开发"/>
+<meta name="twitter:description" content="首先新建一个 idea 插件项目，在新建的地方，选择 IDE Plugin，JDK 需要 11 以上。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Idea插件开发</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-03-11 11:22:15 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%85%B6%E4%BB%96/"> 其他 </a>
+            </div>
+          <span class="more-meta"> 约 946 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#配置文件">配置文件</a>
+      <ul>
+        <li><a href="#plugins">plugins</a></li>
+        <li><a href="#repositories">repositories</a></li>
+        <li><a href="#intellij">intellij</a></li>
+        <li><a href="#tasks">tasks</a></li>
+      </ul>
+    </li>
+    <li><a href="#实现">实现</a></li>
+    <li><a href="#运行与安装">运行与安装</a></li>
+    <li><a href="#其他问题">其他问题</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>首先新建一个 idea 插件项目，在新建的地方，选择 IDE Plugin，JDK 需要 11 以上。</p>
+<p><img src="/media/Pasted%20image%2020230311115945.png" alt="\|600"></p>
+<h1 id="配置文件">配置文件</h1>
+<p>build.gradle.kts 是项目的配置文件。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-gradle" data-lang="gradle">plugins <span style="color:#f92672">{</span>   
+    id<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java&#34;</span><span style="color:#f92672">)</span>  
+    id<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;org.jetbrains.intellij&#34;</span><span style="color:#f92672">)</span> version <span style="color:#e6db74">&#34;1.10.1&#34;</span>  
+<span style="color:#f92672">}</span>  
+group <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.wtsm&#34;</span>  
+version <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1.0-SNAPSHOT&#34;</span>  
+repositories <span style="color:#f92672">{</span>  
+    mavenCentral<span style="color:#f92672">()</span>  
+<span style="color:#f92672">}</span>  
+<span style="color:#75715e">// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html  
+</span><span style="color:#75715e"></span>intellij <span style="color:#f92672">{</span>  
+    version<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2022.1.4&#34;</span><span style="color:#f92672">)</span>  
+    type<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;IC&#34;</span><span style="color:#f92672">)</span> 
+    plugins<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>listOf<span style="color:#f92672">(</span><span style="color:#75715e">/* Plugin Dependencies */</span><span style="color:#f92672">))</span> 
+<span style="color:#f92672">}</span>  
+tasks <span style="color:#f92672">{</span>  
+    <span style="color:#75715e">// Set the JVM compatibility versions  
+</span><span style="color:#75715e"></span>    withType<span style="color:#f92672">&lt;</span>JavaCompile<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>  
+        sourceCompatibility <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;11&#34;</span>  
+        targetCompatibility <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;11&#34;</span>  
+    <span style="color:#f92672">}</span>  
+    patchPluginXml <span style="color:#f92672">{</span>  
+        sinceBuild<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;221&#34;</span><span style="color:#f92672">)</span>  
+        untilBuild<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;231.*&#34;</span><span style="color:#f92672">)</span>  
+    <span style="color:#f92672">}</span>  
+    signPlugin <span style="color:#f92672">{</span>  
+        certificateChain<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;CERTIFICATE_CHAIN&#34;</span><span style="color:#f92672">))</span>  
+        privateKey<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;PRIVATE_KEY&#34;</span><span style="color:#f92672">))</span>  
+        password<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;PRIVATE_KEY_PASSWORD&#34;</span><span style="color:#f92672">))</span>  
+    <span style="color:#f92672">}</span>  
+    publishPlugin <span style="color:#f92672">{</span>  
+        token<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">getenv</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;PUBLISH_TOKEN&#34;</span><span style="color:#f92672">))</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="plugins">plugins</h2>
+<p>指的是项目的插件依赖</p>
+<h2 id="repositories">repositories</h2>
+<p>依赖仓库。因为网络的原因，推荐使用国内的源，源地址在 <a href="https://developer.aliyun.com/mvn/guide">阿里云仓库服务</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-gradle" data-lang="gradle">repositories <span style="color:#f92672">{</span>  
+    maven<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;https://maven.aliyun.com/repository/public&#34;</span><span style="color:#f92672">)</span>  
+    mavenCentral<span style="color:#f92672">()</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><h2 id="intellij">intellij</h2>
+<p>插件配置</p>
+<p><code>version.set(&quot;2022.1.4&quot;)</code> 表示的是插件开发所基于的 idea 版本</p>
+<p><code>type.set(&quot;IC&quot;)</code> 表示插件所运行的 idea 分发平台，IC 代表 idea 社区版，IU 代表 idea 旗舰版，其他版本可以参考 <a href="https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html#intellij-extension-type">Gradle IntelliJ Plugin | IntelliJ Platform Plugin SDK</a></p>
+<p><code>plugins.set(listOf())</code> 表示的是需要用到的 idea 插件商店里的插件，<code>listOf()</code> 代表空列表。</p>
+<h2 id="tasks">tasks</h2>
+<p><code>withType&lt;JavaCompile&gt;</code> 表示的是 JDK 版本，插件运行在不同的版本需要满足最低的 JDK 版本</p>
+<p><code>patchPluginXml</code> 修补 plugin.xml 文件。<code>sinceBuild.set(&quot;221&quot;)</code> 表示插件运行最低支持 idea 版本， 221 表示 2022.1 版本; <code>untilBuild.set(&quot;231.*&quot;)</code> 表示插件运行最高支持的版本。</p>
+<h1 id="实现">实现</h1>
+<p>首先创建一个 Action <img src="/media/Pasted%20image%2020230311172325.png" alt="\|625"></p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Action ID</td>
+<td>动作的唯一 id</td>
+</tr>
+<tr>
+<td>Class Name</td>
+<td>动作的类名</td>
+</tr>
+<tr>
+<td>Name</td>
+<td>名字</td>
+</tr>
+<tr>
+<td>Add to Group</td>
+<td>把动作添加到该组，Groups 是组名，例如 ProjectViewPopupMenu 指的是项目右键弹出的菜单，EditorPopupMenu 指的是编辑器右键菜单，Actions 指的是该组的动作，Anchor 指的是新建动作在 Actions 指定动作的相对位置</td>
+</tr>
+<tr>
+<td>Keyboard shortcuts</td>
+<td>快捷键</td>
+</tr>
+</tbody>
+</table>
+<p>点击确定后会自动生成一个动作类，同时会在 resources/META-INF 目录下的 plugin.xml 文件中生成动作的注册信息。</p>
+<p>HelloAction 动作类自动继承了 AnAction 类，我们需要在其 <code>actionPerformed()</code> 方法下实现该动作的逻辑。</p>
+<p>通过 <code>e.getData(DataKey&lt;T&gt; key)</code> 可以获取项目的数据，例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">PsiElement data <span style="color:#f92672">=</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">getData</span><span style="color:#f92672">(</span>CommonDataKeys<span style="color:#f92672">.</span><span style="color:#a6e22e">PSI_ELEMENT</span><span style="color:#f92672">);</span>  
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;PsiElement:&#34;</span><span style="color:#f92672">+</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">getText</span><span style="color:#f92672">());</span>
+</code></pre></div><p>比较常用的 key 有：</p>
+<ol>
+<li><code>CommonDataKeys.PSI_ELEMENT</code> 返回选中的 PSI 元素数据</li>
+<li><code>CommonDataKeys.PROJECT</code> 返回项目数据</li>
+<li><code>CommonDataKeys.PSI_FILE</code> 返回选中的 PSI 文件</li>
+<li><code>CommonDataKeys.EDITOR</code> 返回选中的编辑器数据
+PSI (Program Structure Interface) 指的是程序结构接口，用于解析和创建源文件。<code>PsiElement</code> 有很多的实现类，例如 <code>PsiField</code>（属性）、<code>PsiVariable</code>（变量）、<code>PsiClass</code>（类）、<code>PsiMethod</code>（方法）等。
+一个例子是把选中的文字在控制台打印出来：</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HelloAction</span> <span style="color:#66d9ef">extends</span> AnAction <span style="color:#f92672">{</span>  
+    <span style="color:#a6e22e">@Override</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">actionPerformed</span><span style="color:#f92672">(</span>AnActionEvent e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        PsiElement data <span style="color:#f92672">=</span> e<span style="color:#f92672">.</span><span style="color:#a6e22e">getData</span><span style="color:#f92672">(</span>CommonDataKeys<span style="color:#f92672">.</span><span style="color:#a6e22e">PSI_ELEMENT</span><span style="color:#f92672">);</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>data<span style="color:#f92672">.</span><span style="color:#a6e22e">getText</span><span style="color:#f92672">());</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><h1 id="运行与安装">运行与安装</h1>
+<p>在 Gradle 下找到 runIde，右键运行项目，也支持 debug。</p>
+<p><img src="/media/Pasted%20image%2020230311172927.png" alt=""></p>
+<p>打包需要运行 buildPlugin，idea 会在 build/distributions 目录下生成插件的 jar 包，然后在插件安装那里选择 lnstall Plugin from Disk</p>
+<p><img src="/media/Pasted%20image%2020230312103656.png" alt="\|600"></p>
+<h1 id="其他问题">其他问题</h1>
+<p>如果在使用 <code>PsiJavaFile</code> 变量时，提示 <code>NoClassDefFoundError: com/intellij/psi/PsiJavaFile</code> 错误，这是因为缺少 java 模块依赖导致的，需要在 plugin.xml 文件中，添加：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#f92672">&lt;depends&gt;</span>com.intellij.modules.platform<span style="color:#f92672">&lt;/depends&gt;</span>
+<span style="color:#f92672">&lt;depends&gt;</span>com.intellij.modules.lang<span style="color:#f92672">&lt;/depends&gt;</span>
+<span style="color:#f92672">&lt;depends&gt;</span>com.intellij.modules.java<span style="color:#f92672">&lt;/depends&gt;</span>
+</code></pre></div><p>在 build.gradle.kts 文件中修改为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-gradle" data-lang="gradle">intellij <span style="color:#f92672">{</span>  
+    version<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2022.1.4&#34;</span><span style="color:#f92672">)</span>  
+    type<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;IC&#34;</span><span style="color:#f92672">)</span> 
+    <span style="color:#75715e">// plugins.set(listOf(/* Plugin Dependencies */)) 
+</span><span style="color:#75715e"></span>    plugins<span style="color:#f92672">.</span><span style="color:#a6e22e">set</span><span style="color:#f92672">(</span>arrayListOf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;java&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;gradle&#34;</span><span style="color:#f92672">))</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-03-11 11:22:15
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/idea/">idea</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/">
+            <span class="next-text nav-default">使用idea撤销git中间的提交</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
