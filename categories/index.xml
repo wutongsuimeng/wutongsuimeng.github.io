@@ -6,7 +6,16 @@
     <description>Recent content in Categories on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 11 Mar 2023 11:22:15 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Mar 2023 21:17:54 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java</title>
+      <link>https://wutongsuimeng.github.io/categories/java/</link>
+      <pubDate>Sun, 19 Mar 2023 21:17:54 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/categories/java/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>其他</title>
       <link>https://wutongsuimeng.github.io/categories/%E5%85%B6%E4%BB%96/</link>
@@ -22,15 +31,6 @@
       <pubDate>Tue, 14 Feb 2023 09:17:46 +0800</pubDate>
       
       <guid>https://wutongsuimeng.github.io/categories/git/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Java</title>
-      <link>https://wutongsuimeng.github.io/categories/java/</link>
-      <pubDate>Sun, 04 Dec 2022 10:17:51 +0000</pubDate>
-      
-      <guid>https://wutongsuimeng.github.io/categories/java/</guid>
       <description></description>
     </item>
     
