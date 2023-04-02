@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>设计模式 on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 设计模式 on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 02 Apr 2023 18:11:12 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>工厂模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 02 Apr 2023 18:11:12 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;h1 id=&#34;工厂模式&#34;&gt;工厂模式&lt;/h1&gt;
+&lt;p&gt;对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
+作用：将对象的创建和使用分离解耦。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

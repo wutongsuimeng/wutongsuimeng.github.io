@@ -3,7 +3,49 @@
   
   <url>
     <loc>https://wutongsuimeng.github.io/categories/</loc>
-    <lastmod>2023-03-19T21:17:54+08:00</lastmod>
+    <lastmod>2023-04-02T18:11:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/post/</loc>
+    <lastmod>2023-04-02T18:11:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/</loc>
+    <lastmod>2023-04-02T18:11:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/post/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2023-04-02T18:11:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/</loc>
+    <lastmod>2023-04-02T18:11:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2023-04-02T18:11:12+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2023-04-02T18:11:12+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -24,27 +66,6 @@
   
   <url>
     <loc>https://wutongsuimeng.github.io/categories/java/</loc>
-    <lastmod>2023-03-19T21:17:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://wutongsuimeng.github.io/post/</loc>
-    <lastmod>2023-03-19T21:17:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://wutongsuimeng.github.io/tags/</loc>
-    <lastmod>2023-03-19T21:17:54+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://wutongsuimeng.github.io/</loc>
     <lastmod>2023-03-19T21:17:54+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
