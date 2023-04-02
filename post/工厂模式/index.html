@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="梧桐碎梦" /><meta name="description" content="工厂模式 对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。 作用：将对象的创建和使用分离解耦。
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。 作用：将对象的创建和使用分离解耦。
 " /><meta name="keywords" content="Hugo, theme, even" />
 
 
@@ -41,8 +41,7 @@
 
 
 <meta property="og:title" content="工厂模式" />
-<meta property="og:description" content="工厂模式
-对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
+<meta property="og:description" content="对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
 作用：将对象的创建和使用分离解耦。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://wutongsuimeng.github.io/post/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="post" />
@@ -50,15 +49,13 @@
 <meta property="article:modified_time" content="2023-04-02T18:11:12+08:00" />
 
 <meta itemprop="name" content="工厂模式">
-<meta itemprop="description" content="工厂模式
-对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
+<meta itemprop="description" content="对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
 作用：将对象的创建和使用分离解耦。"><meta itemprop="datePublished" content="2023-04-02T18:11:12+08:00" />
 <meta itemprop="dateModified" content="2023-04-02T18:11:12+08:00" />
-<meta itemprop="wordCount" content="628">
+<meta itemprop="wordCount" content="624">
 <meta itemprop="keywords" content="设计模式," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="工厂模式"/>
-<meta name="twitter:description" content="工厂模式
-对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
+<meta name="twitter:description" content="对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
 作用：将对象的创建和使用分离解耦。"/>
 
 <!--[if lte IE 9]>
@@ -139,7 +136,7 @@
         <div class="post-category">
             <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
             </div>
-          <span class="more-meta"> 约 628 字 </span>
+          <span class="more-meta"> 约 624 字 </span>
           <span class="more-meta"> 预计阅读 2 分钟 </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
       </div>
@@ -150,7 +147,7 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#工厂模式">工厂模式</a>
+    <li>
       <ul>
         <li><a href="#简单工厂模式">简单工厂模式</a></li>
         <li><a href="#工厂方法模式">工厂方法模式</a></li>
@@ -162,8 +159,7 @@
   </div>
 </div>
     <div class="post-content">
-      <h1 id="工厂模式">工厂模式</h1>
-<p>对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
+      <p>对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
 作用：将对象的创建和使用分离解耦。</p>
 <h2 id="简单工厂模式">简单工厂模式</h2>
 <p>通过一个工厂类的静态方法来创建不同类型的对象。违反了开闭原则，每增加一个对象类就要修改工厂类的代码。</p>
