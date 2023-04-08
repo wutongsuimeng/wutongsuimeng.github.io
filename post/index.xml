@@ -6,7 +6,17 @@
     <description>Recent content in Posts on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 02 Apr 2023 18:11:12 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 08 Apr 2023 11:03:58 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>单例模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 08 Apr 2023 11:03:58 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。
+单例模式能保证一个类只有一个实例。实现方法是通过使用 &lt;code&gt;private static&lt;/code&gt; 来保存实例变量，使用 &lt;code&gt;private&lt;/code&gt; 修饰默认构造方法，避免通过 &lt;code&gt;new&lt;/code&gt; 创建多个实例。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>工厂模式</title>
       <link>https://wutongsuimeng.github.io/post/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
