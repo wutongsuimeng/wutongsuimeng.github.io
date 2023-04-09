@@ -6,7 +6,21 @@
     <description>Recent content in 设计模式 on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 08 Apr 2023 11:03:58 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 09 Apr 2023 12:09:16 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>构建器模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E6%9E%84%E5%BB%BA%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 09 Apr 2023 12:09:16 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E6%9E%84%E5%BB%BA%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。&lt;/p&gt;
+&lt;p&gt;该模式适合于：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;针对于构造复杂，或者构造函数参数很多的对象。&lt;/li&gt;
+&lt;li&gt;通过复用相同的构造代码，生成不同的产品。&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
     <item>
       <title>单例模式</title>
       <link>https://wutongsuimeng.github.io/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
