@@ -6,7 +6,57 @@
     <description>Recent content in 设计模式 on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 09 Apr 2023 12:09:16 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Apr 2023 17:16:19 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>桥接模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 16 Apr 2023 17:16:19 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：将抽象和实现解耦，使得两者可以独立地变化。&lt;/p&gt;
+&lt;p&gt;桥接模式可以将一系列密切关联的类拆分成抽象与实现两个独立的层次，以实现抽象与实现的解耦，抽象和实现可以独立变化，而不会相互影响。抽象与实现一般通过组合实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>适配器模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 16 Apr 2023 14:00:35 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：将一个类的接口变换成客户端所期待的另一种接口，从而使原本因接口不匹配而无法在一起工作的两个类能够在一起工作。&lt;/p&gt;
+&lt;p&gt;适配器模式能使得接口互不兼容的对象能相互合作。适合于希望使用某个类， 但是其接口与已有的代码不兼容的情况。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>观察者模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 16 Apr 2023 11:20:09 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：定义对象间一种一对多的依赖关系，使得每当一个对象改变状态，则所有依赖于它的对象都会得到通知并被自动更新。&lt;/p&gt;
+&lt;p&gt;观察者模式允许你定义一种订阅机制， 可在对象事件发生时通知多个 “观察” 该对象的其他对象。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>命令模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 16 Apr 2023 10:26:08 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：将请求转换为一个包含与请求相关的所有信息的独立对象。该转换让你能根据不同的请求将方法参数化、 延迟请求执行或将其放入队列中。&lt;/p&gt;
+&lt;p&gt;java 中的 &lt;code&gt;Runnable&lt;/code&gt; 接口使用的就是命令模式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>原型模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 09 Apr 2023 22:20:58 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：用原型实例指定创建对象的种类，并且通过拷贝这些原型创建新的对象&lt;/p&gt;
+&lt;p&gt;原型模式将克隆过程委派给被克隆的实际对象。 该模式为所有支持克隆的对象声明了一个通用接口， 该接口让你能够克隆对象， 同时又无需将代码和对象所属类耦合。在java中是 &lt;code&gt;Cloneable&lt;/code&gt; 接口。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>构建器模式</title>
       <link>https://wutongsuimeng.github.io/post/%E6%9E%84%E5%BB%BA%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>

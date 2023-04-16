@@ -122,215 +122,340 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/">判断ip是否在某ip范围内</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/">SpringBoot项目的配置文件中设置server.port不生效</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2021-11-07 15:33:03 </span>
+      <span class="post-time"> 2022-02-15 14:15:03 </span>
       <div class="post-category">
-          <a href="/categories/java/"> Java </a>
+          <a href="/categories/spring/"> Spring </a>
           </div>
-        <span class="more-meta"> 约 514 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>判断某个ip是否在[start,end]两个ip的范围内,即判断start≤ip≤end是否符合。</p>
-<p>首先分析start≤ip。</p>
-<p>因为ip的一般形式为 <code>&quot;a.b.c.d&quot;</code>，通过 <code>.</code>将整个ip分为四段。假设判断的ip为{a,b,c,d}，start为{a1,b1,c1,d1}。从左开始分析的话，每段有小于、等于、大于三个比较关系。如果a&gt;a1，直接就能说明ip&gt;start，不用再继续判断start后面的段；如果a=a1，则需要继续判断start剩下部分；如果a&lt;a1，说明ip&lt;start，直接返回false即可。</p>
-<p>因为还存在start=ip的情况，所以需要保留循环的次数，如果比较到最后一段，说明start≤ip。</p>
-<p>end的比较与start同理。</p>
-<p>代码如下：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">ipInRange</span><span style="color:#f92672">(</span>String ip<span style="color:#f92672">,</span>String start<span style="color:#f92672">,</span>String end<span style="color:#f92672">){</span>
-        String<span style="color:#f92672">[]</span> ips<span style="color:#f92672">=</span>ip<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\\\\.&#34;</span><span style="color:#f92672">);</span>
-        String<span style="color:#f92672">[]</span> starts<span style="color:#f92672">=</span>start<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\\\\.&#34;</span><span style="color:#f92672">);</span>
-        String<span style="color:#f92672">[]</span> ends<span style="color:#f92672">=</span>end<span style="color:#f92672">.</span><span style="color:#a6e22e">split</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;\\\\.&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#66d9ef">boolean</span> flags<span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">,</span>flage<span style="color:#f92672">=</span><span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>  <span style="color:#75715e">//flags为true代表ip已经符合start，不用判断；flage标记end
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span>0<span style="color:#f92672">;</span>
-        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(;</span> i <span style="color:#f92672">&lt;</span>ips<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span> i<span style="color:#f92672">++){</span>
-            <span style="color:#66d9ef">int</span> t_ip<span style="color:#f92672">=</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>ips<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
-            <span style="color:#66d9ef">int</span> t_start<span style="color:#f92672">=</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>starts<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
-            <span style="color:#66d9ef">int</span> t_end<span style="color:#f92672">=</span>Integer<span style="color:#f92672">.</span><span style="color:#a6e22e">parseInt</span><span style="color:#f92672">(</span>ends<span style="color:#f92672">[</span>i<span style="color:#f92672">]);</span>
-            <span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>flags<span style="color:#f92672">){</span>   
-                <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>t_ip<span style="color:#f92672">&gt;</span>t_start<span style="color:#f92672">){</span>
-                    flags<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>   <span style="color:#75715e">//说明start不用判断了
-</span><span style="color:#75715e"></span>                <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>t_ip<span style="color:#f92672">&lt;</span>t_start<span style="color:#f92672">){</span>
-                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>   <span style="color:#75715e">//说明ip小于start
-</span><span style="color:#75715e"></span>                <span style="color:#f92672">}</span>
-            <span style="color:#f92672">}</span>
-            <span style="color:#66d9ef">if</span><span style="color:#f92672">(!</span>flage<span style="color:#f92672">){</span>
-                <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>t_ip<span style="color:#f92672">&lt;</span>t_end<span style="color:#f92672">){</span>
-                    flage<span style="color:#f92672">=</span><span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-                <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>t_ip<span style="color:#f92672">&gt;</span>t_end<span style="color:#f92672">){</span>
-                    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">;</span>
-                <span style="color:#f92672">}</span>
-            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">return</span> <span style="color:#f92672">(</span>flags<span style="color:#f92672">&amp;&amp;</span>flage<span style="color:#f92672">)||</span>i<span style="color:#f92672">==</span>ips<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">;</span>  <span style="color:#75715e">//i==ips.length为true代表ip从头判断到尾，说明ip与某个边界相等。
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>ipInRange<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;192.168.215.253&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;192.168.215.1&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;192.168.215.252&#34;</span><span style="color:#f92672">));</span>
-    <span style="color:#f92672">}</span>
-</code></pre></div>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E8%87%AA%E5%AE%9A%E4%B9%89hugo%E7%9A%84even%E4%B8%BB%E9%A2%98%E7%A6%81%E6%AD%A2%E5%A4%8D%E5%88%B6%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/">自定义hugo的even主题，禁止复制代码行数</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-13 23:18:11 </span>
-      <div class="post-category">
-          <a href="/categories/%E5%85%B6%E4%BB%96/"> 其他 </a>
-          </div>
-        <span class="more-meta"> 约 485 字 </span>
+        <span class="more-meta"> 约 242 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p><a href="https://lite.qwant.com/redirect/MjRlOWYxM2QzOTUyNzYyZGIzODdkMjg2NDBlNjlmZjQ3YzkzYzU2MDQ0MzU5ZGI3OTAxZjYwYjA1NmMyZGY5Yg==/aHR0cHMlM0ElMkYlMkZnb2h1Z28uaW8lMkY=?position=2&amp;serp_position=2&amp;t=web&amp;locale=zh_cn&amp;query=hugo&amp;ad=0&amp;uri=%2F%3Fq%3Dhugo&amp;cacheKey=z8f3764807dbcf0e2149a3d11eab2b164">hugo</a>是一个静态网站生成框架，基于go实现。</p>
-<p><a href="https://github.com/olOwOlo/hugo-theme-even">hugo-theme-even</a>是一个hugo的主题。</p>
-<p>因为even默认生成的代码存在代码行数，但是复制文章时会把代码行数也一并复制，所以特地对even的代码进行修改，让其复制时不复制代码行数。</p>
-<p>因为需要修改assets目录里面的文件，所以需要hugo extended版，可使用命令 <code>hugo</code>查看版本。</p>
-<p>even默认代码高亮为chroma，所以我们先禁用chroma，并启用highlight作为代码高亮。</p>
-<p>修改config.toml配置文件:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml"><span style="color:#75715e"># 将下面配置设置为false</span>
-<span style="color:#a6e22e">pygmentsCodefences</span> = <span style="color:#66d9ef">false</span>
-<span style="color:#a6e22e">pygmentsUseClasses</span> = <span style="color:#66d9ef">false</span>
-<span style="color:#a6e22e">pygmentsCodefencesGuessSyntax</span> = <span style="color:#66d9ef">false</span>
-
-<span style="color:#75715e">#将下面配置设置为true</span>
-<span style="color:#a6e22e">highlightInClient</span> = <span style="color:#66d9ef">true</span>
-</code></pre></div><p>然后修改assets\js目录下面的even.js文件，使得代码行数禁止复制：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">Even</span>.<span style="color:#a6e22e">highlight</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">blocks</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelectorAll</span>(<span style="color:#e6db74">&#39;pre code&#39;</span>);
-  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">blocks</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">block</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">blocks</span>[<span style="color:#a6e22e">i</span>];
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">rootElement</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">parentElement</span>;
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lineCodes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">innerHTML</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">/\\n/</span>);
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">lineCodes</span>[<span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;&#39;</span>) <span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">pop</span>();
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lineLength</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">length</span>;
-
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">codeLineHtml</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lineLength</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
-      <span style="color:#a6e22e">codeLineHtml</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&lt;div class=&#34;line&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/div&gt;`</span>;
-    }
-
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">codeHtml</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lineLength</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
-      <span style="color:#a6e22e">codeHtml</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&lt;div class=&#34;line&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">lineCodes</span>[<span style="color:#a6e22e">i</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/div&gt;`</span>;
-    }
-
-    <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39; highlight&#39;</span>;
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">figure</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;figure&#39;</span>);
-    <span style="color:#a6e22e">figure</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">className</span>;
-		<span style="color:#75715e">//修改该行代码，添加style=&#34;user-select:none&#34;
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">figure</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre style=&#34;user-select:none&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">codeLineHtml</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">codeHtml</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;`</span>;
-
-    <span style="color:#a6e22e">rootElement</span>.<span style="color:#a6e22e">parentElement</span>.<span style="color:#a6e22e">replaceChild</span>(<span style="color:#a6e22e">figure</span>, <span style="color:#a6e22e">rootElement</span>);
-  }
-};
-</code></pre></div><p>重新编译，能看到复制代码时不再复制代码行数。</p>
+      <p>我的配置文件为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># application.yml</span>
+<span style="color:#f92672">server</span>:  
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>  
+<span style="color:#f92672">spring</span>:  
+  <span style="color:#f92672">application</span>:  
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test  </span>
+    <span style="color:#f92672">cloud</span>:  
+      <span style="color:#f92672">nacos</span>:  
+        <span style="color:#f92672">discovery</span>:  
+          <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
+</code></pre></div><p>设置了 <code>server.port</code>不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配置，所以删掉nacos的配置即可。</p>
+<p>修改后的配置文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># application.yml</span>
+<span style="color:#f92672">server</span>:  
+  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>  
+<span style="color:#f92672">spring</span>:  
+  <span style="color:#f92672">application</span>:  
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test </span>
+</code></pre></div><p>如果需要使用nacos，在application.yml文件中配置<code>server.port</code>的话，会发现配置不生效。这个时候需要新建一个空白的application.properties文件，来使的application.yml文件中的<code>server.port</code>配置生效。原因未知。</p>
     </div>
     <div class="read-more">
-      <a href="/post/%E8%87%AA%E5%AE%9A%E4%B9%89hugo%E7%9A%84even%E4%B8%BB%E9%A2%98%E7%A6%81%E6%AD%A2%E5%A4%8D%E5%88%B6%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/" class="read-more-link">阅读更多</a>
+      <a href="/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/elk-stackelasticsearchkibanabeats-%E5%92%8C-logstash%E6%90%AD%E5%BB%BA/">ELK Stack(Elasticsearch、Kibana、Beats 和 Logstash)搭建日志收集系统</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/">RestTemplate发起HTTPS请求</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2021-10-11 23:59:00 </span>
+      <span class="post-time"> 2022-02-13 14:29:11 </span>
       <div class="post-category">
-          <a href="/categories/%E8%BF%90%E7%BB%B4/"> 运维 </a>
+          <a href="/categories/java/"> Java </a>
           </div>
-        <span class="more-meta"> 约 5799 字 </span>
-        <span class="more-meta"> 预计阅读 12 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>Elasticsearch用于搜索、分析数据。</p>
-<p>Kibana用于展示数据。</p>
-<p>Beats用于收集数据。</p>
-<p>Logstash用于集中、转换和存储数据。</p>
-<p>日志的主要处理流程为下图：</p>
-<p><img src="/media/ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled.png" alt="ELK%20Stack(Elasticsearch%E3%80%81Kibana%E3%80%81Beats%20%E5%92%8C%20Logstash)%E6%90%AD%E5%BB%BA%208aaac5c86012479a8765cbad898592c3/Untitled.png"></p>
-    </div>
-    <div class="read-more">
-      <a href="/post/elk-stackelasticsearchkibanabeats-%E5%92%8C-logstash%E6%90%AD%E5%BB%BA/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAgo%E9%A1%B9%E7%9B%AE/">自动化构建一个Go项目</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-11 23:58:53 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%BF%90%E7%BB%B4/"> 运维 </a>
-          <a href="/categories/go/"> Go </a>
-          </div>
-        <span class="more-meta"> 约 1000 字 </span>
+        <span class="more-meta"> 约 555 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>承接上文，本文使用jenkins和gitlab来实现Go项目的自动化部署。</p>
-<h1 id="安装go">安装Go</h1>
-<p>因为国内网络原因，无法直接通过jenkins从golang.org上直接下载安装go，这里使用自定义下载go安装包。</p>
-<p>首先在jenkins安装go插件 <code>Go Plugin</code>。</p>
-<p>然后去全局工具配置，配置go。选择</p>
-<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled.png" alt="Untitled"></p>
-<p>别名这里选择填go，也可以别的。</p>
-<p>标签可以不填。</p>
-<p>压缩包(二进制)的下载URL填了：<a href="https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz">https://golang.google.cn/dl/go1.17.1.linux-amd64.tar.gz</a>，这是go国内的下载方式。</p>
-<p>解压目录选择了默认目录：/var/jenkins_home/tools/org.jenkinsci.plugins.golang.GolangInstallation</p>
-<p>最后go会安装在 <code>解压目录/go/别名/</code> 下。</p>
-<p><img src="/media/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAGo%E9%A1%B9%E7%9B%AE%20a33f3d749c6b498590233d83b22e797b/Untitled%201.png" alt="Untitled"></p>
+      <p>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。</p>
+<p>在此我采用的是忽略证书的校验。</p>
+<p>首先使用 <code>RestTemplateBuilder</code>来构建一个 <code>RestTemplate</code>，而非使用默认。<code>requestFactory()</code>方法用来设置 <code>ClientHttpRequestFactory</code>。<code>SimpleClientHttpRequestFactory</code>是Spring内置的默认实现，实现了 <code>ClientHttpRequestFactory</code>接口，我们需要重写其 <code>prepareConnection()</code>方法，在此方法里实现对 <code>HttpURLConnection</code>的重新处理，忽略对证书的校验。</p>
+<p>代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HttpsClientHttpRequestFactory</span> <span style="color:#66d9ef">extends</span> SimpleClientHttpRequestFactory <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>HttpURLConnection connection<span style="color:#f92672">,</span> String httpMethod<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>connection <span style="color:#66d9ef">instanceof</span> HttpsURLConnection<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">// https协议，修改协议版本
+</span><span style="color:#75715e"></span>                KeyStore trustStore <span style="color:#f92672">=</span> KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span>KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefaultType</span><span style="color:#f92672">());</span>
+                <span style="color:#75715e">// 信任任何链接,忽略对证书的校验
+</span><span style="color:#75715e"></span>                TrustStrategy anyTrustStrategy <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>x509Certificates<span style="color:#f92672">,</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+                <span style="color:#75715e">//自定义SSLContext
+</span><span style="color:#75715e"></span>                SSLContext ctx <span style="color:#f92672">=</span> SSLContexts<span style="color:#f92672">.</span><span style="color:#a6e22e">custom</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadTrustMaterial</span><span style="color:#f92672">(</span>trustStore<span style="color:#f92672">,</span> anyTrustStrategy<span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+                <span style="color:#75715e">// ssl问题
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setSSLSocketFactory</span><span style="color:#f92672">(</span>ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getSocketFactory</span><span style="color:#f92672">());</span>
+                <span style="color:#75715e">//解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setHostnameVerifier</span><span style="color:#f92672">((</span>s<span style="color:#f92672">,</span> sslSession<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+                HttpsURLConnection httpsConnection <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>httpsConnection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// http协议
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    
+String url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://xxx.xxx.xxx&#34;</span><span style="color:#f92672">;</span>
+RestTemplate restTemplate <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RestTemplateBuilder<span style="color:#f92672">()</span>
+		<span style="color:#f92672">.</span><span style="color:#a6e22e">requestFactory</span><span style="color:#f92672">(</span>HttpsClientHttpRequestFactory<span style="color:#f92672">::</span><span style="color:#66d9ef">new</span><span style="color:#f92672">)</span>
+		<span style="color:#75715e">//basic认证
+</span><span style="color:#75715e"></span>		<span style="color:#f92672">.</span><span style="color:#a6e22e">basicAuthentication</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">)</span>
+		<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+HttpHeaders headers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpHeaders<span style="color:#f92672">();</span>
+HttpEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> entity <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpEntity<span style="color:#f92672">&lt;&gt;(</span>headers<span style="color:#f92672">);</span>
+ResponseEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> response <span style="color:#f92672">=</span> restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">exchange</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> HttpMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">,</span> entity<span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+String str <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">getBody</span><span style="color:#f92672">();</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+    
+</code></pre></div><p>注：</p>
+<ol>
+<li><code>RestTemplateBuilder</code> 需要直接构建成 <code>RestTemplate</code>对象，而不能中间生成 <code>RestTemplateBuilder</code>对象。</li>
+</ol>
     </div>
     <div class="read-more">
-      <a href="/post/%E8%87%AA%E5%8A%A8%E5%8C%96%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AAgo%E9%A1%B9%E7%9B%AE/" class="read-more-link">阅读更多</a>
+      <a href="/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/gitlabjenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4/">gitlab、jenkins搭建自动化运维</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/java%E9%9B%86%E5%90%88-%E6%A0%88/">Java集合-栈</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2021-10-11 23:56:56 </span>
+      <span class="post-time"> 2022-01-28 23:16:39 </span>
       <div class="post-category">
-          <a href="/categories/%E8%BF%90%E7%BB%B4/"> 运维 </a>
+          <a href="/categories/java/"> Java </a>
           </div>
-        <span class="more-meta"> 约 2860 字 </span>
-        <span class="more-meta"> 预计阅读 6 分钟 </span>
+        <span class="more-meta"> 约 210 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>gitlab是一个代码管理项目，使用git作为管理工具。其实gitlab本身就集成了一套CI/CD流程，但是这里选择搭配更为简单的jenkins作为CI/CD。</p>
-<p>jenkins是一个支持自动化构建、部署和测试的软件，并且提供了众多的插件。jenkins可以选择多种方式安装，这里选择使用docker。</p>
-<p>服务器地址分别为：</p>
-<p>gitlab: 192.168.1.0:9080</p>
-<p>jenkins: 192.168.1.0:9081</p>
-<p>部署机器: 192.168.1.1</p>
+      <p>栈是一种先进后出的数据结构，在Java中对应的接口为 <code>Deque</code>，<code>Stack</code>接口已经不建议使用。<code>Deque</code>接口继承自<code>Queue</code>接口，实则为双端队列，支持两端元素的插入、删除与访问。
+<code>Deque</code>的方法有:</p>
+<p>首端操作：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>抛出异常</th>
+<th>返回特殊值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看</td>
+<td>getFirst()</td>
+<td>peekFrist()</td>
+</tr>
+<tr>
+<td>插入</td>
+<td>addFirst()</td>
+<td>offerFirst()</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>removeFirst()</td>
+<td>pollFirst()</td>
+</tr>
+</tbody>
+</table>
+<p>尾端操作：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>抛出异常</th>
+<th>返回特殊值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看</td>
+<td>getLast()</td>
+<td>peekLast()</td>
+</tr>
+<tr>
+<td>插入</td>
+<td>addLast()</td>
+<td>offerLast()</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>removeLast()</td>
+<td>pollLast()</td>
+</tr>
+</tbody>
+</table>
+<p>栈方法对应的 <code>Deque</code>方法：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>栈方法</th>
+<th>Deque方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看</td>
+<td>peek()</td>
+<td>peekFirst()</td>
+</tr>
+<tr>
+<td>插入</td>
+<td>push()</td>
+<td>addFirst()</td>
+</tr>
+<tr>
+<td>删除</td>
+<td>pop()</td>
+<td>removeFirst()</td>
+</tr>
+</tbody>
+</table>
+<p><code>Deque</code>主要实现类有：
+<img src="Deque%E5%AE%9E%E7%8E%B0%E7%B1%BB.png" alt=""></p>
+<p>使用例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Deque<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> deque<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;&gt;();</span>
+deque<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+deque<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">();</span>
+deque<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
+</code></pre></div>
     </div>
     <div class="read-more">
-      <a href="/post/gitlabjenkins%E6%90%AD%E5%BB%BA%E8%87%AA%E5%8A%A8%E5%8C%96%E8%BF%90%E7%BB%B4/" class="read-more-link">阅读更多</a>
+      <a href="/post/java%E9%9B%86%E5%90%88-%E6%A0%88/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-01-24 14:23:34 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> Java </a>
+          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
+          </div>
+        <span class="more-meta"> 约 862 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>Java的位运算主要有：按位与(<code>&amp;</code>)、按位或(<code>|</code>)、按位取反(<code>~</code>)、按位异或(<code>^</code>)、左移(<code>&lt;&lt;</code>)、带符号右移(<code>&gt;&gt;</code>)、无符号右移(<code>&gt;&gt;&gt;</code>)</p>
+<h2 id="按位与">按位与(&amp;)</h2>
+<p>当相同位上的两个数字都为1时，结果为1；否则为0</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">1<span style="color:#f92672">&amp;</span>1<span style="color:#f92672">=</span>1 
+1<span style="color:#f92672">&amp;</span>0<span style="color:#f92672">=</span>0
+0<span style="color:#f92672">&amp;</span>1<span style="color:#f92672">=</span>0 
+0<span style="color:#f92672">&amp;</span>0<span style="color:#f92672">=</span>0 
+</code></pre></div><h2 id="按位或">按位或(|)</h2>
+<p>当相同位上的数字至少有一个为1时，结果为1；否则为0</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> 1<span style="color:#f92672">|</span>1<span style="color:#f92672">=</span>1 
+ 1<span style="color:#f92672">|</span>0<span style="color:#f92672">=</span>1 
+ 0<span style="color:#f92672">|</span>1<span style="color:#f92672">=</span>1 
+ 0<span style="color:#f92672">|</span>0<span style="color:#f92672">=</span>0
+</code></pre></div><h2 id="按位取反">按位取反(~)</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">^</span>1<span style="color:#f92672">=</span>0
+<span style="color:#f92672">^</span>0<span style="color:#f92672">=</span>1
+</code></pre></div><h2 id="按位异或">按位异或(^)</h2>
+<p>当相同位上的两个数字不同时，结果为1；相同时为0</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">1<span style="color:#f92672">^</span>1<span style="color:#f92672">=</span>0 
+1<span style="color:#f92672">^</span>0<span style="color:#f92672">=</span>1 
+0<span style="color:#f92672">^</span>1<span style="color:#f92672">=</span>1 
+0<span style="color:#f92672">^</span>0<span style="color:#f92672">=</span>0
+</code></pre></div><h2 id="左移">左移(&laquo;)</h2>
+<p>将二进制数字向左移动，移动几位就在最右侧补多少个0。
+例如 <code>3&lt;&lt;1</code>，因为3的二进制表示形式为11，向左移动一位后变为110，所以 <code>3&lt;&lt;1=6</code>。
+左移n位相当于乘上2的n次方。</p>
+<h2 id="带符号右移">带符号右移(&raquo;)</h2>
+<p>将二进制数字向右移动，移动几位就在最右侧消去多少个比特位，并最左侧填充符号位。
+例如 <code>3&gt;&gt;1</code>，因为3的二进制表示形式为011，所以向右移动一位后变为001，所以 <code>3&gt;&gt;1=1</code>。
+例如 <code>-3&gt;&gt;1</code>，因为-3的二进制补码表示为11111111111111111111111111111101<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>，所以带符号向右移动一位后变为11111111111111111111111111111110，对应的数字为-2，所以 <code>-3&gt;&gt;1=-2</code>。
+1左移一位会变成0，0左移依旧为0。</p>
+<h2 id="无符号右移">无符号右移(&raquo;&gt;)</h2>
+<p>将二进制数字向右移动，移动几位就在最右侧消去多少个比特位，并最左侧填充0。
+例如 <code>-3&gt;&gt;&gt;1</code>，因为-3的二进制补码表示为11111111111111111111111111111101，所以无符号向右移动一位后变为01111111111111111111111111111110，对应的数字为2147483646，所以 <code>-3&gt;&gt;&gt;1=2147483646</code></p>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E4%BD%8D%E8%BF%90%E7%AE%97/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/">Java集合-队列</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-01-23 15:07:00 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> Java </a>
+          </div>
+        <span class="more-meta"> 约 294 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>Java中对应的队列接口为 <code>Queue</code>，是一个先进先出(FIFO)队列。新元素会被插入到队列尾端，移除元素时会先移除队列首端的元素。</p>
+<p><code>Queue</code>主要方法有：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>抛出错误</th>
+<th>返回特殊值(null或false)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>插入</td>
+<td>add()</td>
+<td>offer()</td>
+</tr>
+<tr>
+<td>移除</td>
+<td>remove()</td>
+<td>poll()</td>
+</tr>
+<tr>
+<td>查看</td>
+<td>element()</td>
+<td>peek()</td>
+</tr>
+</tbody>
+</table>
+<p>通常情况下，推荐使用 <code>offer()</code>、<code>poll()</code>、<code>peek()</code>，这三个方法。</p>
+<p>当插入的新元素已经存在于队列时，<code>offer()</code>方法返回<code>false</code>；当队列为空时，<code>poll()</code>和<code>peek()</code>方法返回 <code>null</code>。</p>
+<p><code>Queue</code>主要实现类有：
+![[Queue主要实现类.png]]</p>
+<p>我们平常使用的实现类为 <code>LinkedList</code>，该类为 <code>Queue</code>和 <code>Deque</code>的双向链表实现类。</p>
+<p>例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Queue<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> queue<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;&gt;();</span>
+queue<span style="color:#f92672">.</span><span style="color:#a6e22e">offer</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
+queue<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">();</span>
+queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span><span style="color:#f92672">();</span>
+</code></pre></div>
+    </div>
+    <div class="read-more">
+      <a href="/post/java%E9%9B%86%E5%90%88-%E9%98%9F%E5%88%97/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

@@ -122,193 +122,141 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/">Mock的使用</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/">使用idea撤销git中间的提交</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2022-07-02 22:33:53 </span>
+      <span class="post-time"> 2023-02-14 09:17:46 </span>
       <div class="post-category">
-          <a href="/categories/java/"> Java </a>
+          <a href="/categories/git/"> git </a>
           </div>
-        <span class="more-meta"> 约 1796 字 </span>
-        <span class="more-meta"> 预计阅读 4 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。</p>
-<p>Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">HashMap1.8 的源码解析</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-05-29 17:58:26 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> Java </a>
-          </div>
-        <span class="more-meta"> 约 2620 字 </span>
-        <span class="more-meta"> 预计阅读 6 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <h1 id="结构">结构</h1>
-<p>HashMap的结构为数组+链表+红黑树。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//对象数组
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">transient</span> Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;[]</span> table<span style="color:#f92672">;</span> 
-<span style="color:#75715e">// 链表节点
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> Map<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> hash<span style="color:#f92672">;</span> <span style="color:#75715e">//哈希值
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">final</span> K key<span style="color:#f92672">;</span> <span style="color:#75715e">//建
-</span><span style="color:#75715e"></span>        V value<span style="color:#f92672">;</span> <span style="color:#75715e">//值
-</span><span style="color:#75715e"></span>        Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> next<span style="color:#f92672">;</span>  <span style="color:#75715e">//下一个节点
-</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
-<span style="color:#75715e">//红黑树节点
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TreeNode</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span> LinkedHashMap<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> parent<span style="color:#f92672">;</span>  <span style="color:#75715e">// red-black tree links
-</span><span style="color:#75715e"></span>        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> left<span style="color:#f92672">;</span>
-        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> right<span style="color:#f92672">;</span>
-        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> prev<span style="color:#f92672">;</span>    <span style="color:#75715e">// needed to unlink next upon deletion
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">boolean</span> red<span style="color:#f92672">;</span>
-<span style="color:#f92672">}</span>
-</code></pre></div>
-    </div>
-    <div class="read-more">
-      <a href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/">后端接收表单方式上传的文件和数据</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-04-14 22:38:44 </span>
-      <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
-          </div>
-        <span class="more-meta"> 约 343 字 </span>
+        <span class="more-meta"> 约 431 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>通过 Postman 上传多个文件和数据，后端接收文件和数据。</p>
-<h2 id="后端">后端</h2>
-<p>因为 Postman 是通过表单方式上传，所以需要通过 <code>@RequestParam</code> 注解接收文件，<code>value</code> 属性定义请求参数，<code>required</code> 定义该参数是否必须，默认为 <code>true</code>。
-上传文件需要使用 <code>MultipartFile</code> 对象来接收，因为允许上传多个文件，所以使用了数组的形式。</p>
+      <p>在平时的开发中，经常会碰到提交的代码需要撤销，但是又有别人提交了代码，这种时候我们需要只撤销中间的提交，不影响前后提交的代码，可以用命令 <code>git revert</code> 撤销，也可以使用 idea 可视化撤销，这里介绍使用 idea 操作。
+例子是三次提交的内容。</p>
     </div>
     <div class="read-more">
-      <a href="/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/" class="read-more-link">阅读更多</a>
+      <a href="/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/">系统集成Nacos和Feign</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/arthas%E6%89%A7%E8%A1%8C%E5%9C%A8%E7%BA%BF%E4%BB%A3%E7%A0%81/">Arthas执行在线代码</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2022-02-27 16:12:44 </span>
+      <span class="post-time"> 2022-12-04 10:17:51 </span>
       <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
+          <a href="/categories/java/"> Java </a>
           </div>
-        <span class="more-meta"> 约 925 字 </span>
+        <span class="more-meta"> 约 773 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。</p>
-<p>Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。</p>
-<h1 id="引入依赖">引入依赖</h1>
-<p>因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。</p>
-<p>因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- pom.xml --&gt;</span>
-<span style="color:#f92672">&lt;properties&gt;</span>
-	<span style="color:#f92672">&lt;java.version&gt;</span>1.8<span style="color:#f92672">&lt;/java.version&gt;</span>
-	<span style="color:#f92672">&lt;spring.boot.version&gt;</span>2.4.2<span style="color:#f92672">&lt;/spring.boot.version&gt;</span>
-	<span style="color:#f92672">&lt;spring.cloud.version&gt;</span>3.0.1<span style="color:#f92672">&lt;/spring.cloud.version&gt;</span>
-<span style="color:#f92672">&lt;/properties&gt;</span>
-<span style="color:#f92672">&lt;dependencies&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>${spring.boot.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>com.alibaba.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>2021.1<span style="color:#f92672">&lt;/version&gt;</span>
-		<span style="color:#f92672">&lt;exclusions&gt;</span>
-			<span style="color:#75715e">&lt;!--//丢弃ribbon--&gt;</span>
-			<span style="color:#f92672">&lt;exclusion&gt;</span>
-				<span style="color:#f92672">&lt;groupId&gt;</span>com.netflix.ribbon<span style="color:#f92672">&lt;/groupId&gt;</span>
-				<span style="color:#f92672">&lt;artifactId&gt;</span>ribbon<span style="color:#f92672">&lt;/artifactId&gt;</span>
-			<span style="color:#f92672">&lt;/exclusion&gt;</span>
-		<span style="color:#f92672">&lt;/exclusions&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-openfeign<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-bootstrap<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-loadbalancer<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-<span style="color:#f92672">&lt;/dependencies&gt;</span>
-</code></pre></div><p>在使用nacos时需要注意nacos及其依赖的版本。</p>
-<ol>
-<li>通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。</li>
-<li>因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">版本说明</a></li>
-</ol>
+      <p>arthas 是阿里巴巴开源的一款监控诊断的神器，能实时监测应用内存、gc、线程的状态信息，并查看方法调用的出入参、异常，监测方法执行耗时等信息<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。这篇文章中我们将借助 arthas 提供的 ognl 命令来执行在线代码。</p>
     </div>
     <div class="read-more">
-      <a href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/" class="read-more-link">阅读更多</a>
+      <a href="/post/arthas%E6%89%A7%E8%A1%8C%E5%9C%A8%E7%BA%BF%E4%BB%A3%E7%A0%81/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/">集成nacos和feign时报错java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/clion-%E4%BD%BF%E7%94%A8-wsl/">CLion 使用 WSL</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2022-02-16 11:35:36 </span>
+      <span class="post-time"> 2022-09-25 17:23:45 </span>
       <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
+          <a href="/categories/c/"> C </a>
           </div>
-        <span class="more-meta"> 约 416 字 </span>
+        <span class="more-meta"> 约 367 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>今天在尝试集成nacos和feign时，报错：
-<code>java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties</code>。</p>
-<p>通过idea的Add Maven dependency功能，发现这个类位于 <code>spring-cloud-commons</code>包内。</p>
-<p><img src="/media/Pasted%20image%2020220216113850.png" alt=""></p>
-<p>但是通过解压所引入的<code>spring-cloud-commons</code>的jar包，发现是存在该类的。</p>
-<p><img src="/media/Pasted%20image%2020220216115557.png" alt=""></p>
-<p>所以猜测可能是版本问题。</p>
+      <p>CLion 在安装时会自带 MinGW，MinGW 是 gcc 在 Window 上的版本，支持 C 语言在 Window 平台的编译。但由于跟 posix 标准不完全一致，如果所运行的 C 语言程序中包含了 socket.h 等库，MinGW 则没办法编译。所以我们可以改为通过使用 WSL 来进行编译。</p>
     </div>
     <div class="read-more">
-      <a href="/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/" class="read-more-link">阅读更多</a>
+      <a href="/post/clion-%E4%BD%BF%E7%94%A8-wsl/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/">使用 switch 时碰到的一个坑</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-09-14 22:23:30 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> java </a>
+          </div>
+        <span class="more-meta"> 约 329 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>首先看一段程序。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> type<span style="color:#f92672">=</span>2<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>type<span style="color:#f92672">){</span>  
+    <span style="color:#66d9ef">case</span> 1<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">case</span> 2<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">case</span> 3<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>3<span style="color:#f92672">);</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><p>踩过这个坑或者仔细看过 switch 语法的人都知道，上面的程序会打印出：23 ，而不是 2。因为 switch 语句会从相匹配的 case 开始执行，直到遇到 break 语句，或者执行整一个 switch 语句。如果没加 break ，则会将 2 和 3 的 case 都执行，而不是只执行匹配的 case ，所以在使用 switch 时，一定要注意加 break ，或者在 case 里 return，否则很容易出现程序错误。</p>
+<p>在编程时，我们可以通过一些插件来提醒我们这些的错误的发生，例如 SonarLint 、Alibaba Java Coding Guidelines。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">bean的创建过程分析</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-08-14 16:08:23 </span>
+      <div class="post-category">
+          <a href="/categories/spring/"> Spring </a>
+          </div>
+        <span class="more-meta"> 约 5148 字 </span>
+        <span class="more-meta"> 预计阅读 11 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>既然是源码分析，那最好的办法还是编写一个测试用例，然后 debug 来看程序是怎样运行的。
+测试例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+    ApplicationContext context<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> AnnotationConfigApplicationContext<span style="color:#f92672">(</span>TestConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>  
+    TestBean tb<span style="color:#f92672">=</span> <span style="color:#f92672">(</span>TestBean<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testBean&#34;</span><span style="color:#f92672">);</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Configuration</span>  
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestConfiguration</span> <span style="color:#f92672">{</span>  
+    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testBean&#34;</span><span style="color:#f92672">)</span>  
+    <span style="color:#a6e22e">@Scope</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;prototype&#34;</span><span style="color:#f92672">)</span>  
+    <span style="color:#66d9ef">public</span> TestBean <span style="color:#a6e22e">testBean</span><span style="color:#f92672">(){</span>  
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> TestBean<span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div>
+    </div>
+    <div class="read-more">
+      <a href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

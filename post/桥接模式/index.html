@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>桥接模式 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="定义：将抽象和实现解耦，使得两者可以独立地变化。
+桥接模式可以将一系列密切关联的类拆分成抽象与实现两个独立的层次，以实现抽象与实现的解耦，抽象和实现可以独立变化，而不会相互影响。抽象与实现一般通过组合实现。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="桥接模式" />
+<meta property="og:description" content="定义：将抽象和实现解耦，使得两者可以独立地变化。
+桥接模式可以将一系列密切关联的类拆分成抽象与实现两个独立的层次，以实现抽象与实现的解耦，抽象和实现可以独立变化，而不会相互影响。抽象与实现一般通过组合实现。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-04-16T17:16:19+08:00" />
+<meta property="article:modified_time" content="2023-04-16T17:45:19+08:00" />
+
+<meta itemprop="name" content="桥接模式">
+<meta itemprop="description" content="定义：将抽象和实现解耦，使得两者可以独立地变化。
+桥接模式可以将一系列密切关联的类拆分成抽象与实现两个独立的层次，以实现抽象与实现的解耦，抽象和实现可以独立变化，而不会相互影响。抽象与实现一般通过组合实现。"><meta itemprop="datePublished" content="2023-04-16T17:16:19+08:00" />
+<meta itemprop="dateModified" content="2023-04-16T17:45:19+08:00" />
+<meta itemprop="wordCount" content="488">
+<meta itemprop="keywords" content="设计模式," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="桥接模式"/>
+<meta name="twitter:description" content="定义：将抽象和实现解耦，使得两者可以独立地变化。
+桥接模式可以将一系列密切关联的类拆分成抽象与实现两个独立的层次，以实现抽象与实现的解耦，抽象和实现可以独立变化，而不会相互影响。抽象与实现一般通过组合实现。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">桥接模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-04-16 17:16:19 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+            </div>
+          <span class="more-meta"> 约 488 字 </span>
+          <span class="more-meta"> 预计阅读 1 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>定义：将抽象和实现解耦，使得两者可以独立地变化。</p>
+<p>桥接模式可以将一系列密切关联的类拆分成抽象与实现两个独立的层次，以实现抽象与实现的解耦，抽象和实现可以独立变化，而不会相互影响。抽象与实现一般通过组合实现。</p>
+<p>桥接模式包含4类对象：</p>
+<ol>
+<li>抽象对象：提供通用控制逻辑</li>
+<li>具体抽象对象：控制逻辑的具体实现</li>
+<li>实现对象：实现的通用接口</li>
+<li>具体实现对象：实现的具体实现代码</li>
+</ol>
+<p><img src="/media/Pasted%20image%2020230416173353.png" alt=""></p>
+<p>代码实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 实现对象：sim卡通用接口  
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">SIMCard</span> <span style="color:#f92672">{</span>  
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getSIMInfo</span><span style="color:#f92672">();</span>  
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">//具体实现对象：联通手机卡  
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UnicomSIMCard</span> <span style="color:#66d9ef">implements</span> SIMCard<span style="color:#f92672">{</span>  
+    <span style="color:#a6e22e">@Override</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">getSIMInfo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;联通手机卡&#34;</span><span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">//抽象对象：通用手机接口  
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Phone</span> <span style="color:#f92672">{</span>  
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setSimCard</span><span style="color:#f92672">(</span>SIMCard simCard<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">useSIMCard</span><span style="color:#f92672">();</span>  
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// 手机抽象类  
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">abstract</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BasicPhone</span> <span style="color:#66d9ef">implements</span> Phone<span style="color:#f92672">{</span>  
+  
+    <span style="color:#66d9ef">private</span> SIMCard simCard<span style="color:#f92672">;</span>  
+  
+    <span style="color:#a6e22e">@Override</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setSimCard</span><span style="color:#f92672">(</span>SIMCard simCard<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">simCard</span><span style="color:#f92672">=</span>simCard<span style="color:#f92672">;</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#a6e22e">@Override</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">useSIMCard</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">simCard</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getSIMInfo</span><span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">// 具体抽象对象：苹果手机  
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">iPhone</span> <span style="color:#66d9ef">extends</span> BasicPhone <span style="color:#f92672">{</span>  
+    <span style="color:#a6e22e">@Override</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">useSIMCard</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;苹果手机使用:&#34;</span><span style="color:#f92672">);</span>  
+        <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">useSIMCard</span><span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">//客户端代码
+</span><span style="color:#75715e"></span>SIMCard unicomSIMCard<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> UnicomSIMCard<span style="color:#f92672">();</span>  
+Phone iphone<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> iPhone<span style="color:#f92672">();</span>  
+iphone<span style="color:#f92672">.</span><span style="color:#a6e22e">setSimCard</span><span style="color:#f92672">(</span>unicomSIMCard<span style="color:#f92672">);</span>  
+iphone<span style="color:#f92672">.</span><span style="color:#a6e22e">useSIMCard</span><span style="color:#f92672">();</span>
+</code></pre></div><p>桥接模式的优点是：</p>
+<ol>
+<li>客户端仅需要了解高层的抽象接口，无需了解具体的实现细节。</li>
+<li>符合开闭原则。抽象与实现可以独立新增扩展。</li>
+<li>符合单一职责原则。高层抽象部分专注于逻辑，实现部分专注于实现细节。</li>
+<li>抽象与实现解耦。</li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-04-16 17:45:19
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/">
+            <span class="next-text nav-default">适配器模式</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -122,141 +122,130 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/">使用idea撤销git中间的提交</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/%E6%9E%84%E5%BB%BA%E5%99%A8%E6%A8%A1%E5%BC%8F/">构建器模式</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2023-02-14 09:17:46 </span>
+      <span class="post-time"> 2023-04-09 12:09:16 </span>
       <div class="post-category">
-          <a href="/categories/git/"> git </a>
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
           </div>
-        <span class="more-meta"> 约 431 字 </span>
+        <span class="more-meta"> 约 216 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>在平时的开发中，经常会碰到提交的代码需要撤销，但是又有别人提交了代码，这种时候我们需要只撤销中间的提交，不影响前后提交的代码，可以用命令 <code>git revert</code> 撤销，也可以使用 idea 可视化撤销，这里介绍使用 idea 操作。
-例子是三次提交的内容。</p>
+      <p>定义：将一个复杂对象的构建与它的表示分离，使得同样的构建过程可以创建不同的表示。</p>
+<p>该模式适合于：</p>
+<ol>
+<li>针对于构造复杂，或者构造函数参数很多的对象。</li>
+<li>通过复用相同的构造代码，生成不同的产品。</li>
+</ol>
     </div>
     <div class="read-more">
-      <a href="/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/" class="read-more-link">阅读更多</a>
+      <a href="/post/%E6%9E%84%E5%BB%BA%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/arthas%E6%89%A7%E8%A1%8C%E5%9C%A8%E7%BA%BF%E4%BB%A3%E7%A0%81/">Arthas执行在线代码</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/">单例模式</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2022-12-04 10:17:51 </span>
+      <span class="post-time"> 2023-04-08 11:03:58 </span>
       <div class="post-category">
-          <a href="/categories/java/"> Java </a>
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
           </div>
-        <span class="more-meta"> 约 773 字 </span>
+        <span class="more-meta"> 约 487 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>定义：确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。
+单例模式能保证一个类只有一个实例。实现方法是通过使用 <code>private static</code> 来保存实例变量，使用 <code>private</code> 修饰默认构造方法，避免通过 <code>new</code> 创建多个实例。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/">工厂模式</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-04-02 18:11:12 </span>
+      <div class="post-category">
+          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+          </div>
+        <span class="more-meta"> 约 624 字 </span>
         <span class="more-meta"> 预计阅读 2 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>arthas 是阿里巴巴开源的一款监控诊断的神器，能实时监测应用内存、gc、线程的状态信息，并查看方法调用的出入参、异常，监测方法执行耗时等信息<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。这篇文章中我们将借助 arthas 提供的 ognl 命令来执行在线代码。</p>
+      <p>对象统一由工厂返回一个抽象接口。子类通过实现工厂的抽象接口，实现具体的代码逻辑。
+作用：将对象的创建和使用分离解耦。</p>
     </div>
     <div class="read-more">
-      <a href="/post/arthas%E6%89%A7%E8%A1%8C%E5%9C%A8%E7%BA%BF%E4%BB%A3%E7%A0%81/" class="read-more-link">阅读更多</a>
+      <a href="/post/%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/clion-%E4%BD%BF%E7%94%A8-wsl/">CLion 使用 WSL</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/inputstream%E7%9A%84%E4%BA%86%E8%A7%A3%E4%B8%8E%E4%BD%BF%E7%94%A8/">InputStream的了解与使用</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2022-09-25 17:23:45 </span>
-      <div class="post-category">
-          <a href="/categories/c/"> C </a>
-          </div>
-        <span class="more-meta"> 约 367 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>CLion 在安装时会自带 MinGW，MinGW 是 gcc 在 Window 上的版本，支持 C 语言在 Window 平台的编译。但由于跟 posix 标准不完全一致，如果所运行的 C 语言程序中包含了 socket.h 等库，MinGW 则没办法编译。所以我们可以改为通过使用 WSL 来进行编译。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/clion-%E4%BD%BF%E7%94%A8-wsl/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/">使用 switch 时碰到的一个坑</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-09-14 22:23:30 </span>
+      <span class="post-time"> 2023-03-19 21:17:54 </span>
       <div class="post-category">
           <a href="/categories/java/"> java </a>
           </div>
-        <span class="more-meta"> 约 329 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
+        <span class="more-meta"> 约 638 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>首先看一段程序。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> type<span style="color:#f92672">=</span>2<span style="color:#f92672">;</span>  
-<span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>type<span style="color:#f92672">){</span>  
-    <span style="color:#66d9ef">case</span> 1<span style="color:#f92672">:</span>  
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>  
-    <span style="color:#66d9ef">case</span> 2<span style="color:#f92672">:</span>  
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>  
-    <span style="color:#66d9ef">case</span> 3<span style="color:#f92672">:</span>  
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>3<span style="color:#f92672">);</span>  
-<span style="color:#f92672">}</span>
-</code></pre></div><p>踩过这个坑或者仔细看过 switch 语法的人都知道，上面的程序会打印出：23 ，而不是 2。因为 switch 语句会从相匹配的 case 开始执行，直到遇到 break 语句，或者执行整一个 switch 语句。如果没加 break ，则会将 2 和 3 的 case 都执行，而不是只执行匹配的 case ，所以在使用 switch 时，一定要注意加 break ，或者在 case 里 return，否则很容易出现程序错误。</p>
-<p>在编程时，我们可以通过一些插件来提醒我们这些的错误的发生，例如 SonarLint 、Alibaba Java Coding Guidelines。</p>
+      <p><code>InputStream</code> 是一个字节输入流的抽象类，常用到的实现类有：</p>
+<ol>
+<li>BufferedInputStream</li>
+<li>ByteArrayInputStream 字节数组输入流</li>
+<li>DataInputStream</li>
+<li>FilterInputStream</li>
+<li>PushbackInputStream</li>
+<li>FileInputStream 文件输入流</li>
+</ol>
     </div>
     <div class="read-more">
-      <a href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/" class="read-more-link">阅读更多</a>
+      <a href="/post/inputstream%E7%9A%84%E4%BA%86%E8%A7%A3%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
 
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">bean的创建过程分析</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/">Idea插件开发</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2022-08-14 16:08:23 </span>
+      <span class="post-time"> 2023-03-11 11:22:15 </span>
       <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
+          <a href="/categories/%E5%85%B6%E4%BB%96/"> 其他 </a>
           </div>
-        <span class="more-meta"> 约 5148 字 </span>
-        <span class="more-meta"> 预计阅读 11 分钟 </span>
+        <span class="more-meta"> 约 946 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>既然是源码分析，那最好的办法还是编写一个测试用例，然后 debug 来看程序是怎样运行的。
-测试例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-    ApplicationContext context<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> AnnotationConfigApplicationContext<span style="color:#f92672">(</span>TestConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>  
-    TestBean tb<span style="color:#f92672">=</span> <span style="color:#f92672">(</span>TestBean<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testBean&#34;</span><span style="color:#f92672">);</span>  
-<span style="color:#f92672">}</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Configuration</span>  
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestConfiguration</span> <span style="color:#f92672">{</span>  
-    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testBean&#34;</span><span style="color:#f92672">)</span>  
-    <span style="color:#a6e22e">@Scope</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;prototype&#34;</span><span style="color:#f92672">)</span>  
-    <span style="color:#66d9ef">public</span> TestBean <span style="color:#a6e22e">testBean</span><span style="color:#f92672">(){</span>  
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> TestBean<span style="color:#f92672">();</span>  
-    <span style="color:#f92672">}</span>  
-<span style="color:#f92672">}</span>
-</code></pre></div>
+      <p>首先新建一个 idea 插件项目，在新建的地方，选择 IDE Plugin，JDK 需要 11 以上。</p>
     </div>
     <div class="read-more">
-      <a href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" class="read-more-link">阅读更多</a>
+      <a href="/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
