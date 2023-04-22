@@ -6,7 +6,27 @@
     <description>Recent content in 设计模式 on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Apr 2023 17:16:19 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Apr 2023 11:35:08 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>组合模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 22 Apr 2023 11:35:08 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：将对象组合成树形结构以表示“部分 - 整体”的层次结构，使得用户对单个对象和组合对象的使用具有一致性。&lt;/p&gt;
+&lt;p&gt;组合模式适合于树形数据结构，使用时可以应用多态或者递归处理树形数据结构。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>装饰器模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 22 Apr 2023 10:27:55 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：动态地给一个对象添加一些额外的职责。就增加功能来说，装饰模式相比生成子类更为灵活。&lt;/p&gt;
+&lt;p&gt;本质上来说，是通过组合或聚合，将对象包含于装饰类里，从而增添新的行为。装饰类实现了与对象相同的接口。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>桥接模式</title>
       <link>https://wutongsuimeng.github.io/post/%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F/</link>

@@ -122,6 +122,60 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/inputstream%E7%9A%84%E4%BA%86%E8%A7%A3%E4%B8%8E%E4%BD%BF%E7%94%A8/">InputStream的了解与使用</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-03-19 21:17:54 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> java </a>
+          </div>
+        <span class="more-meta"> 约 638 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p><code>InputStream</code> 是一个字节输入流的抽象类，常用到的实现类有：</p>
+<ol>
+<li>BufferedInputStream</li>
+<li>ByteArrayInputStream 字节数组输入流</li>
+<li>DataInputStream</li>
+<li>FilterInputStream</li>
+<li>PushbackInputStream</li>
+<li>FileInputStream 文件输入流</li>
+</ol>
+    </div>
+    <div class="read-more">
+      <a href="/post/inputstream%E7%9A%84%E4%BA%86%E8%A7%A3%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/">Idea插件开发</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-03-11 11:22:15 </span>
+      <div class="post-category">
+          <a href="/categories/%E5%85%B6%E4%BB%96/"> 其他 </a>
+          </div>
+        <span class="more-meta"> 约 946 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>首先新建一个 idea 插件项目，在新建的地方，选择 IDE Plugin，JDK 需要 11 以上。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/idea%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/">使用idea撤销git中间的提交</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2023-02-14 09:17:46 </span>
@@ -186,77 +240,6 @@
     </div>
     <div class="read-more">
       <a href="/post/clion-%E4%BD%BF%E7%94%A8-wsl/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/">使用 switch 时碰到的一个坑</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-09-14 22:23:30 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> java </a>
-          </div>
-        <span class="more-meta"> 约 329 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>首先看一段程序。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> type<span style="color:#f92672">=</span>2<span style="color:#f92672">;</span>  
-<span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>type<span style="color:#f92672">){</span>  
-    <span style="color:#66d9ef">case</span> 1<span style="color:#f92672">:</span>  
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>  
-    <span style="color:#66d9ef">case</span> 2<span style="color:#f92672">:</span>  
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>  
-    <span style="color:#66d9ef">case</span> 3<span style="color:#f92672">:</span>  
-        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>3<span style="color:#f92672">);</span>  
-<span style="color:#f92672">}</span>
-</code></pre></div><p>踩过这个坑或者仔细看过 switch 语法的人都知道，上面的程序会打印出：23 ，而不是 2。因为 switch 语句会从相匹配的 case 开始执行，直到遇到 break 语句，或者执行整一个 switch 语句。如果没加 break ，则会将 2 和 3 的 case 都执行，而不是只执行匹配的 case ，所以在使用 switch 时，一定要注意加 break ，或者在 case 里 return，否则很容易出现程序错误。</p>
-<p>在编程时，我们可以通过一些插件来提醒我们这些的错误的发生，例如 SonarLint 、Alibaba Java Coding Guidelines。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">bean的创建过程分析</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-08-14 16:08:23 </span>
-      <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
-          </div>
-        <span class="more-meta"> 约 5148 字 </span>
-        <span class="more-meta"> 预计阅读 11 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>既然是源码分析，那最好的办法还是编写一个测试用例，然后 debug 来看程序是怎样运行的。
-测试例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
-    ApplicationContext context<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> AnnotationConfigApplicationContext<span style="color:#f92672">(</span>TestConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>  
-    TestBean tb<span style="color:#f92672">=</span> <span style="color:#f92672">(</span>TestBean<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testBean&#34;</span><span style="color:#f92672">);</span>  
-<span style="color:#f92672">}</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Configuration</span>  
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestConfiguration</span> <span style="color:#f92672">{</span>  
-    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testBean&#34;</span><span style="color:#f92672">)</span>  
-    <span style="color:#a6e22e">@Scope</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;prototype&#34;</span><span style="color:#f92672">)</span>  
-    <span style="color:#66d9ef">public</span> TestBean <span style="color:#a6e22e">testBean</span><span style="color:#f92672">(){</span>  
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> TestBean<span style="color:#f92672">();</span>  
-    <span style="color:#f92672">}</span>  
-<span style="color:#f92672">}</span>
-</code></pre></div>
-    </div>
-    <div class="read-more">
-      <a href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
