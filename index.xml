@@ -6,7 +6,27 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Apr 2023 11:35:08 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 29 Apr 2023 10:33:35 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>享元模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 29 Apr 2023 10:33:35 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：使用共享对象可有效地支持大量的细粒度的对象。&lt;/p&gt;
+&lt;p&gt;其实就是通过共享相同的对象来减少内存的使用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>外观模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 29 Apr 2023 09:54:56 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;定义：要求一个子系统的外部与其内部的通信必须通过一个统一的对象进行。外观模式提供了一个高层次的接口，使得子系统更易于使用。&lt;/p&gt;
+&lt;p&gt;简单来说就是外观模式能为程序库、 框架或其他复杂类提供一个简单的接口，客户端仅通过这个接口与子系统进行交互。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>组合模式</title>
       <link>https://wutongsuimeng.github.io/post/%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F/</link>
