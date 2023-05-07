@@ -114,12 +114,86 @@
   </ul>
 </nav>
 
+
     </header>
 
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
           <section id="posts" class="posts">
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub-rescue%E7%9A%84%E9%97%AE%E9%A2%98/">修复进入grub rescue的问题</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2021-03-21 17:37:56 </span>
+      <div class="post-category">
+          <a href="/categories/linux/"> linux </a>
+          </div>
+        <span class="more-meta"> 约 193 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>重装window后，突然就进去不了linux系统，在命令行窗口下提示</p>
+<p><code>error :file '/boot/grub/x86_64-efi/normal.mod' not found</code></p>
+<p><img src="/media/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg" alt="%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub%20rescue%E7%9A%84%E9%97%AE%E9%A2%98%2011bbc9f7d5d64a24b0ab2176cb0f373c/IMG_20210320_160256.jpg"></p>
+<p>解决办法:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 列出所有磁盘</span>
+&gt; ls
+&gt; <span style="color:#f92672">(</span>hd0,gpt1<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>hd0,gpt2<span style="color:#f92672">)</span>
+<span style="color:#75715e"># 一个一个查看磁盘里面的内容,找到grub所在位置,如果有提示/boot,/grub,即很有可能便是grub的位置</span>
+&gt; ls <span style="color:#f92672">(</span>hd0,gpt2<span style="color:#f92672">)</span>/
+&gt; ./ ../ boot/ dev/ 
+<span style="color:#75715e"># 设置为启动分区</span>
+&gt; set prefix<span style="color:#f92672">=(</span>hd0,gpt2<span style="color:#f92672">)</span>/boot/grub
+&gt; set root<span style="color:#f92672">=</span>hd0,gpt5
+&gt; insmod normal
+&gt; normal
+</code></pre></div><p>之后便会重启系统</p>
+<p>进入到系统之后,重新安装grub</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 查看/boot/efi的挂载点</span>
+&gt; df
+<span style="color:#75715e"># 安装grub</span>
+&gt; sudo grub-install /dev/sda1
+</code></pre></div>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E4%BF%AE%E5%A4%8D%E8%BF%9B%E5%85%A5grub-rescue%E7%9A%84%E9%97%AE%E9%A2%98/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85/">Mysql压缩版的安装</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2021-03-13 20:11:46 </span>
+      <div class="post-category">
+          <a href="/categories/mysql/"> Mysql </a>
+          </div>
+        <span class="more-meta"> 约 295 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <h2 id="下载mysql">下载mysql</h2>
+<p>下载地址：<a href="https://dev.mysql.com/downloads/mysql/">https://dev.mysql.com/downloads/mysql/</a></p>
+<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled.png"></p>
+<p>把下载好的压缩文件解压放到一个不含中文路径的目录下</p>
+<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%201.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%201.png"></p>
+<p>用管理员模式打开cmd，打开到mysql的bin目录：</p>
+<p><img src="/media/Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%202.png" alt="Mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85%20631c9bc4745d4f0ca9a9c612886ca896/Untitled%202.png"></p>
+    </div>
+    <div class="read-more">
+      <a href="/post/mysql%E5%8E%8B%E7%BC%A9%E7%89%88%E7%9A%84%E5%AE%89%E8%A3%85/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
     <article class="post">
   <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/">物理机访问虚拟机内的web服务器</a></h1>
