@@ -123,119 +123,30 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">访问者模式</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/">启动容器失败</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2023-05-13 11:09:16 </span>
+      <span class="post-time"> 2021-03-08 13:58:09 </span>
       <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+          <a href="/categories/docker/"> Docker </a>
           </div>
-        <span class="more-meta"> 约 495 字 </span>
+        <span class="more-meta"> 约 109 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>访问者模式的定义：封装一些作用于某种数据结构中的各元素的操作，它可以在不改变数据结构的前提下定义作用于这些元素的新的操作。</p>
-<p>简单来说就是，就是将算法与其所作用的对象隔离开来，在不对原有类做出太多改动的情况下将新的行为封装到访问者中。在此模式中，不变的是原有类的结构，变的是功能。</p>
+      <p>报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &ldquo;/mysql&rdquo; is already in use by container &ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&rdquo;. You have to remove (or rename) that container to be able to reuse that name.</p>
+<p><img src="/media/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/Snipaste_2021-03-08_10-18-49.png" alt="/media启动容器失败/Snipaste_2021-03-08_10-18-49.png"></p>
+<p>解决：</p>
+<p>因为之前强行停止的容器没有完全停止及清理，所以要对之前启动的容器进行清理及完全停止：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker rm -f <span style="color:#66d9ef">$(</span>docker ps -a -q<span style="color:#66d9ef">)</span>
+</code></pre></div><p>重启docker：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo service docker restart
+</code></pre></div>
     </div>
     <div class="read-more">
-      <a href="/post/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/">模板方法模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-05-13 09:35:57 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 370 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>模板方法的定义是：定义一个操作中的算法的框架，而将一些步骤延迟到子类中。使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。</p>
-<p>简单来说，就是定义好一个算法的骨架，算法的具体实现由子类去实现。在这个算法中，不变的是算法的结构，变化的是算法的具体实现。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/">迭代器模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-05-07 11:22:34 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 330 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>迭代器模式的定义：它提供一种方法访问一个容器对象中各个元素，而又不需暴露该对象的内部细节。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">策略模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-05-07 10:33:01 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 517 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>策略模式的定义是：定义一组算法，将每个算法都封装起来，并且使它们之间可以互换。</p>
-<p>策略模式通过将不同的实现算法抽取到不同的策略类中，并定义一个通用的策略接口。在上下文类中会通过全局变量存储每个策略的引用，当客户端调用上下文方法时，上下文会将工作委派给实际上的策略去执行。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/">享元模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-04-29 10:33:35 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 219 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>定义：使用共享对象可有效地支持大量的细粒度的对象。</p>
-<p>其实就是通过共享相同的对象来减少内存的使用。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
+      <a href="/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
@@ -243,11 +154,11 @@
     </section>
   
   <nav class="pagination">
-    
-    <a class="next" href="/page/2/">
-        <span class="next-text">下一页</span>
-        <i class="iconfont icon-right"></i>
+    <a class="prev" href="/page/9/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text">上一页</span>
       </a>
+    
   </nav>
         </div>
         

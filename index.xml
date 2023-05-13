@@ -6,7 +6,27 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 07 May 2023 11:22:34 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 13 May 2023 11:09:16 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>访问者模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 13 May 2023 11:09:16 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;访问者模式的定义：封装一些作用于某种数据结构中的各元素的操作，它可以在不改变数据结构的前提下定义作用于这些元素的新的操作。&lt;/p&gt;
+&lt;p&gt;简单来说就是，就是将算法与其所作用的对象隔离开来，在不对原有类做出太多改动的情况下将新的行为封装到访问者中。在此模式中，不变的是原有类的结构，变的是功能。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>模板方法模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sat, 13 May 2023 09:35:57 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E6%A8%A1%E6%9D%BF%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;模板方法的定义是：定义一个操作中的算法的框架，而将一些步骤延迟到子类中。使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。&lt;/p&gt;
+&lt;p&gt;简单来说，就是定义好一个算法的骨架，算法的具体实现由子类去实现。在这个算法中，不变的是算法的结构，变化的是算法的具体实现。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>迭代器模式</title>
       <link>https://wutongsuimeng.github.io/post/%E8%BF%AD%E4%BB%A3%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
