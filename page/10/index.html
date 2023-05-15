@@ -123,6 +123,43 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/">物理机访问虚拟机内的web服务器</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2021-03-08 19:52:06 </span>
+      <div class="post-category">
+          <a href="/categories/linux/"> Linux </a>
+          </div>
+        <span class="more-meta"> 约 66 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <ol>
+<li>
+<p>更改虚拟机的网络模式为桥接模式</p>
+<p><img src="/media/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/Untitled.png" alt="/media/物理机访问虚拟机内的web服务器/Untitled.png"></p>
+</li>
+<li>
+<p>关闭防火墙</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">service iptables stop
+</code></pre></div></li>
+<li>
+<p>重启虚拟机，使用命令查看当前ip</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ifconfig
+</code></pre></div><p>使用该ip在物理机访问即可访问到虚拟机的web服务。</p>
+</li>
+</ol>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E7%89%A9%E7%90%86%E6%9C%BA%E8%AE%BF%E9%97%AE%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%86%85%E7%9A%84web%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/">启动容器失败</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2021-03-08 13:58:09 </span>

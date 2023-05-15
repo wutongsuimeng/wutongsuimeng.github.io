@@ -6,7 +6,17 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 13 May 2023 11:09:16 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 15 May 2023 20:55:54 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>给Hugo添加Mermaid支持</title>
+      <link>https://wutongsuimeng.github.io/post/%E7%BB%99hugo%E6%B7%BB%E5%8A%A0mermaid%E6%94%AF%E6%8C%81/</link>
+      <pubDate>Mon, 15 May 2023 20:55:54 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E7%BB%99hugo%E6%B7%BB%E5%8A%A0mermaid%E6%94%AF%E6%8C%81/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; 是一款搭建个人博客的框架，支持使用 Markdown 格式的文件生成 HTML 文件。&lt;a href=&#34;https://github.com/olOwOlo/hugo-theme-even&#34;&gt;hugo-theme-even&lt;/a&gt; 则是 Hugo 的一个主题。&lt;a href=&#34;https://mermaid.js.org/&#34;&gt;Mermaid&lt;/a&gt; 则是一个支持在 Markdown 下生成图表的工具。&lt;/p&gt;
+&lt;p&gt;因为 Hugo 并不原生支持 Mermaid ，所以本文的目的是，基于 hugo-theme-even 主题，通过修改 Hugo 的配置文件，引用 Mermaid 文件，使得 Hugo 生成的博客也能使用 Mermaid 生成的图表。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>访问者模式</title>
       <link>https://wutongsuimeng.github.io/post/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/</link>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>给Hugo添加Mermaid支持 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="Hugo 是一款搭建个人博客的框架，支持使用 Markdown 格式的文件生成 HTML 文件。hugo-theme-even 则是 Hugo 的一个主题。Mermaid 则是一个支持在 Markdown 下生成图表的工具。
+因为 Hugo 并不原生支持 Mermaid ，所以本文的目的是，基于 hugo-theme-even 主题，通过修改 Hugo 的配置文件，引用 Mermaid 文件，使得 Hugo 生成的博客也能使用 Mermaid 生成的图表。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/%E7%BB%99hugo%E6%B7%BB%E5%8A%A0mermaid%E6%94%AF%E6%8C%81/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="给Hugo添加Mermaid支持" />
+<meta property="og:description" content="Hugo 是一款搭建个人博客的框架，支持使用 Markdown 格式的文件生成 HTML 文件。hugo-theme-even 则是 Hugo 的一个主题。Mermaid 则是一个支持在 Markdown 下生成图表的工具。
+因为 Hugo 并不原生支持 Mermaid ，所以本文的目的是，基于 hugo-theme-even 主题，通过修改 Hugo 的配置文件，引用 Mermaid 文件，使得 Hugo 生成的博客也能使用 Mermaid 生成的图表。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/%E7%BB%99hugo%E6%B7%BB%E5%8A%A0mermaid%E6%94%AF%E6%8C%81/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-15T20:55:54+08:00" />
+<meta property="article:modified_time" content="2023-05-15T21:31:04+08:00" />
+
+<meta itemprop="name" content="给Hugo添加Mermaid支持">
+<meta itemprop="description" content="Hugo 是一款搭建个人博客的框架，支持使用 Markdown 格式的文件生成 HTML 文件。hugo-theme-even 则是 Hugo 的一个主题。Mermaid 则是一个支持在 Markdown 下生成图表的工具。
+因为 Hugo 并不原生支持 Mermaid ，所以本文的目的是，基于 hugo-theme-even 主题，通过修改 Hugo 的配置文件，引用 Mermaid 文件，使得 Hugo 生成的博客也能使用 Mermaid 生成的图表。"><meta itemprop="datePublished" content="2023-05-15T20:55:54+08:00" />
+<meta itemprop="dateModified" content="2023-05-15T21:31:04+08:00" />
+<meta itemprop="wordCount" content="521">
+<meta itemprop="keywords" content="Hugo,Mermaid,even," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="给Hugo添加Mermaid支持"/>
+<meta name="twitter:description" content="Hugo 是一款搭建个人博客的框架，支持使用 Markdown 格式的文件生成 HTML 文件。hugo-theme-even 则是 Hugo 的一个主题。Mermaid 则是一个支持在 Markdown 下生成图表的工具。
+因为 Hugo 并不原生支持 Mermaid ，所以本文的目的是，基于 hugo-theme-even 主题，通过修改 Hugo 的配置文件，引用 Mermaid 文件，使得 Hugo 生成的博客也能使用 Mermaid 生成的图表。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">给Hugo添加Mermaid支持</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-05-15 20:55:54 </span>
+        <div class="post-category">
+            <a href="/categories/%E5%B7%A5%E5%85%B7/"> 工具 </a>
+            </div>
+          <span class="more-meta"> 约 521 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><a href="https://gohugo.io/">Hugo</a> 是一款搭建个人博客的框架，支持使用 Markdown 格式的文件生成 HTML 文件。<a href="https://github.com/olOwOlo/hugo-theme-even">hugo-theme-even</a> 则是 Hugo 的一个主题。<a href="https://mermaid.js.org/">Mermaid</a> 则是一个支持在 Markdown 下生成图表的工具。</p>
+<p>因为 Hugo 并不原生支持 Mermaid ，所以本文的目的是，基于 hugo-theme-even 主题，通过修改 Hugo 的配置文件，引用 Mermaid 文件，使得 Hugo 生成的博客也能使用 Mermaid 生成的图表。</p>
+<p>首先在根目录的 <code>\layouts\partials</code> 下新建文件 mermaid.html，没有 partials 目录的话，需要新建。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- mermaid.html --&gt;</span>
+
+{{ if .Params.mermaid }}  <span style="color:#75715e">&lt;!-- 判断是否开启 --&gt;</span>
+&lt;<span style="color:#f92672">script</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;module&#34;</span>&gt;  
+    <span style="color:#66d9ef">import</span> <span style="color:#a6e22e">mermaid</span> <span style="color:#a6e22e">from</span> <span style="color:#e6db74">&#39;https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs&#39;</span>; 
+    <span style="color:#a6e22e">mermaid</span>.<span style="color:#a6e22e">initialize</span>({ <span style="color:#a6e22e">startOnLoad</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span> });  
+&lt;/<span style="color:#f92672">script</span>&gt;  
+&lt;<span style="color:#f92672">script</span>&gt;  
+    <span style="color:#75715e">// Replace mermaid pre.code to div  
+</span><span style="color:#75715e"></span>    Array.<span style="color:#a6e22e">from</span>(document.<span style="color:#a6e22e">getElementsByClassName</span>(<span style="color:#e6db74">&#34;language-mermaid&#34;</span>)).<span style="color:#a6e22e">forEach</span>(  
+        (<span style="color:#a6e22e">el</span>) =&gt; {  
+            <span style="color:#a6e22e">el</span>.<span style="color:#a6e22e">parentElement</span>.<span style="color:#a6e22e">outerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`&lt;div class=&#34;mermaid&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">el</span>.<span style="color:#a6e22e">innerHTML</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/div&gt;`</span>;  
+        }  
+    );  
+&lt;/<span style="color:#f92672">script</span>&gt;  
+&lt;<span style="color:#f92672">style</span>&gt;  
+    <span style="color:#75715e">/* Set svg to center */</span>  
+    .<span style="color:#a6e22e">mermaid</span> <span style="color:#f92672">svg</span> {  
+        <span style="color:#66d9ef">display</span>: <span style="color:#66d9ef">block</span>;  
+        <span style="color:#66d9ef">margin</span>: <span style="color:#66d9ef">auto</span>;  
+    }  
+&lt;/<span style="color:#f92672">style</span>&gt;  
+{{ end }}
+</code></pre></div><p><code>el.innerHTML</code> 用于获取元素的 HTML 标记， <code>el.innerText</code> 用户获取元素渲染的文本内容。使用 <code>el.innerHTML</code> 提取 Mermaid 代码，而不是 <code>el.innerText</code>，是因为如果代码中存在 <code>&lt;&lt;interface&gt;&gt;</code>（类图中会存在），<code>el.innerText</code> 会将其忽略掉，会导致 Mermaid 渲染失败。</p>
+<p>然后在主题的 <code>layouts\post\single.html</code> 文件中引入 mermaid.html 文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- mermaid --&gt;</span>  
+{{- partial &#34;mermaid.html&#34; . -}}
+</code></pre></div><p>在文章中使用的话，需要先在 <code>Front-matter</code> 中使用以下方式开启。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">---
+mermaid: true
+---
+</code></pre></div><p>Mermaid 渲染的例子是：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">	```mermaid
+	classDiagram
+	class A{
+		&lt;&lt;interface&gt;&gt;
+	}
+	
+	class B{
+		&lt;&lt;interface&gt;&gt;
+	}
+	
+	A --&gt; B
+	```
+</code></pre></div><p>渲染的结果为：</p>
+<pre><code class="language-mermaid" data-lang="mermaid">classDiagram
+class A{
+	&lt;&lt;interface&gt;&gt;
+}
+
+class B{
+	&lt;&lt;interface&gt;&gt;
+}
+
+A --&gt; B
+</code></pre><p>参考：1. <a href="https://note.qidong.name/2020/07/mermaid/">使用Mermaid在hugo的Markdown中绘制UML · 零壹軒·笔记</a></p>
+<ol start="2">
+<li>
+<p><a href="https://mermaid.js.org/intro/n00b-gettingStarted.html#_3-calling-the-javascript-api">A Mermaid User-Guide for Beginners | Calling the JavaScript API</a></p>
+</li>
+<li>
+<p><a href="https://www.jsdelivr.com/package/npm/mermaid">mermaid CDN by jsDelivr - A CDN for npm and GitHub</a></p>
+</li>
+</ol>
+    </div>
+
+    
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+</script>
+<script>
+    
+    Array.from(document.getElementsByClassName("language-mermaid")).forEach(
+        (el) => {
+            el.parentElement.outerHTML = `<div class="mermaid">${el.innerHTML}</div>`;
+        }
+    );
+</script>
+<style>
+     
+    .mermaid svg {
+        display: block;
+        margin: auto;
+    }
+</style>
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-05-15 21:31:04
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/hugo/">Hugo</a>
+          <a href="/tags/mermaid/">Mermaid</a>
+          <a href="/tags/even/">even</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">
+            <span class="next-text nav-default">访问者模式</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
