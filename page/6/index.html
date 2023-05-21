@@ -123,6 +123,67 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">bean的创建过程分析</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-08-14 16:08:23 </span>
+      <div class="post-category">
+          <a href="/categories/spring/"> Spring </a>
+          </div>
+        <span class="more-meta"> 约 5148 字 </span>
+        <span class="more-meta"> 预计阅读 11 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>既然是源码分析，那最好的办法还是编写一个测试用例，然后 debug 来看程序是怎样运行的。
+测试例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+    ApplicationContext context<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> AnnotationConfigApplicationContext<span style="color:#f92672">(</span>TestConfiguration<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>  
+    TestBean tb<span style="color:#f92672">=</span> <span style="color:#f92672">(</span>TestBean<span style="color:#f92672">)</span> context<span style="color:#f92672">.</span><span style="color:#a6e22e">getBean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testBean&#34;</span><span style="color:#f92672">);</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a6e22e">@Configuration</span>  
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestConfiguration</span> <span style="color:#f92672">{</span>  
+    <span style="color:#a6e22e">@Bean</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;testBean&#34;</span><span style="color:#f92672">)</span>  
+    <span style="color:#a6e22e">@Scope</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;prototype&#34;</span><span style="color:#f92672">)</span>  
+    <span style="color:#66d9ef">public</span> TestBean <span style="color:#a6e22e">testBean</span><span style="color:#f92672">(){</span>  
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> TestBean<span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div>
+    </div>
+    <div class="read-more">
+      <a href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/">Mock的使用</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-07-02 22:33:53 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> Java </a>
+          </div>
+        <span class="more-meta"> 约 1796 字 </span>
+        <span class="more-meta"> 预计阅读 4 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。</p>
+<p>Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">HashMap1.8 的源码解析</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-05-29 17:58:26 </span>
@@ -257,77 +318,6 @@
     </div>
     <div class="read-more">
       <a href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/">集成nacos和feign时报错java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-02-16 11:35:36 </span>
-      <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
-          </div>
-        <span class="more-meta"> 约 416 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>今天在尝试集成nacos和feign时，报错：
-<code>java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties</code>。</p>
-<p>通过idea的Add Maven dependency功能，发现这个类位于 <code>spring-cloud-commons</code>包内。</p>
-<p><img src="/media/Pasted%20image%2020220216113850.png" alt=""></p>
-<p>但是通过解压所引入的<code>spring-cloud-commons</code>的jar包，发现是存在该类的。</p>
-<p><img src="/media/Pasted%20image%2020220216115557.png" alt=""></p>
-<p>所以猜测可能是版本问题。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/">SpringBoot项目的配置文件中设置server.port不生效</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-02-15 14:15:03 </span>
-      <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
-          </div>
-        <span class="more-meta"> 约 242 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>我的配置文件为：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># application.yml</span>
-<span style="color:#f92672">server</span>:  
-  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>  
-<span style="color:#f92672">spring</span>:  
-  <span style="color:#f92672">application</span>:  
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test  </span>
-    <span style="color:#f92672">cloud</span>:  
-      <span style="color:#f92672">nacos</span>:  
-        <span style="color:#f92672">discovery</span>:  
-          <span style="color:#f92672">server-addr</span>: <span style="color:#ae81ff">http://localhost:8848</span>
-</code></pre></div><p>设置了 <code>server.port</code>不生效的原因是因为没有引入nacos依赖，但是却写上了nacos的配置，所以删掉nacos的配置即可。</p>
-<p>修改后的配置文件：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e"># application.yml</span>
-<span style="color:#f92672">server</span>:  
-  <span style="color:#f92672">port</span>: <span style="color:#ae81ff">8081</span>  
-<span style="color:#f92672">spring</span>:  
-  <span style="color:#f92672">application</span>:  
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">test </span>
-</code></pre></div><p>如果需要使用nacos，在application.yml文件中配置<code>server.port</code>的话，会发现配置不生效。这个时候需要新建一个空白的application.properties文件，来使的application.yml文件中的<code>server.port</code>配置生效。原因未知。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

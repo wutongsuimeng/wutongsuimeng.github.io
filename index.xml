@@ -6,7 +6,28 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 15 May 2023 20:55:54 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 21 May 2023 14:24:34 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>中介者模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 21 May 2023 14:24:34 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;中介者模式的定义是：用一个中介对象封装一系列的对象交互，中介者使各对象不需要显式地相互作用，从而使其耦合松散，而且可以独立地改变它
+们之间的交互。&lt;/p&gt;
+&lt;p&gt;中介者模式适合于组件之间过于耦合而不方便修改的情况。因为中介者模式强制组件之间只通过中介者交互，而不是组件之间直接交互，避免组件之间相互依赖紧密耦合，方便于修改。类所拥有的依赖关系越少， 就越易于修改、 扩展或复用。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>责任链模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 21 May 2023 13:41:47 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;责任链模式的定义是：使多个对象都有机会处理请求，从而避免了请求的发送者和接受者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有对象处理它为止。&lt;/p&gt;
+&lt;p&gt;责任链模式适合于请求需要经过多个处理器，并被其中一个或多个处理器执行。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>给Hugo添加Mermaid支持</title>
       <link>https://wutongsuimeng.github.io/post/%E7%BB%99hugo%E6%B7%BB%E5%8A%A0mermaid%E6%94%AF%E6%8C%81/</link>
