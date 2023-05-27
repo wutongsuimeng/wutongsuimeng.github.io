@@ -6,7 +6,17 @@
     <description>Recent content in 设计模式 on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 21 May 2023 14:24:34 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 28 May 2023 00:23:43 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>备忘录模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 28 May 2023 00:23:43 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;备忘录模式的定义是：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。&lt;/p&gt;
+&lt;p&gt;该模式允许生成对象状态的快照和将其还原，主要用于撤销与重做功能的实现。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>中介者模式</title>
       <link>https://wutongsuimeng.github.io/post/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/</link>

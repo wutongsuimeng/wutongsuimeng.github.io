@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>备忘录模式 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="备忘录模式的定义是：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。
+该模式允许生成对象状态的快照和将其还原，主要用于撤销与重做功能的实现。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="备忘录模式" />
+<meta property="og:description" content="备忘录模式的定义是：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。
+该模式允许生成对象状态的快照和将其还原，主要用于撤销与重做功能的实现。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-05-28T00:23:43+08:00" />
+<meta property="article:modified_time" content="2023-05-28T00:37:20+08:00" />
+
+<meta itemprop="name" content="备忘录模式">
+<meta itemprop="description" content="备忘录模式的定义是：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。
+该模式允许生成对象状态的快照和将其还原，主要用于撤销与重做功能的实现。"><meta itemprop="datePublished" content="2023-05-28T00:23:43+08:00" />
+<meta itemprop="dateModified" content="2023-05-28T00:37:20+08:00" />
+<meta itemprop="wordCount" content="484">
+<meta itemprop="keywords" content="设计模式," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="备忘录模式"/>
+<meta name="twitter:description" content="备忘录模式的定义是：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。
+该模式允许生成对象状态的快照和将其还原，主要用于撤销与重做功能的实现。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">备忘录模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-05-28 00:23:43 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+            </div>
+          <span class="more-meta"> 约 484 字 </span>
+          <span class="more-meta"> 预计阅读 1 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>备忘录模式的定义是：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。</p>
+<p>该模式允许生成对象状态的快照和将其还原，主要用于撤销与重做功能的实现。</p>
+<p>该模式存在 3 类角色：</p>
+<ol>
+<li>Originator 原始对象：创建和恢复备忘录</li>
+<li>Memento 备忘录对象</li>
+<li>Caretaker 负责人：保存备忘录</li>
+</ol>
+<pre><code class="language-mermaid" data-lang="mermaid">classDiagram
+class Originator{
+	- state
+	+ backup()
+	+ restore(m:Memento)
+}
+class Memento{
+	- state
+	+ Memento(state)
+	+ getState()
+}
+class Caretaker{
+	- history:Memento[]
+	+ undo()
+	+ redo()
+}
+Originator ..&gt; Memento
+Caretaker &lt;|..&gt; Memento
+</code></pre><p>代码实现：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//数据对象  
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@AllArgsConstructor</span>  
+<span style="color:#a6e22e">@Data</span>  
+<span style="color:#a6e22e">@ToString</span>  
+<span style="color:#a6e22e">@NoArgsConstructor</span>  
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Text</span> <span style="color:#f92672">{</span>  
+    <span style="color:#66d9ef">private</span> String title<span style="color:#f92672">;</span>  
+    <span style="color:#66d9ef">private</span> String content<span style="color:#f92672">;</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//Originator原始对象  
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Editor</span> <span style="color:#f92672">{</span>  
+    <span style="color:#66d9ef">private</span> Text text<span style="color:#f92672">;</span>  
+    <span style="color:#66d9ef">private</span> History history<span style="color:#f92672">;</span>  
+  
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Editor</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">history</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> History<span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+    <span style="color:#66d9ef">public</span> Text <span style="color:#a6e22e">getText</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">return</span> text<span style="color:#f92672">;</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">// 撤销  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">undo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        history<span style="color:#f92672">.</span><span style="color:#a6e22e">undo</span><span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">// 重做  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">redo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        history<span style="color:#f92672">.</span><span style="color:#a6e22e">redo</span><span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">// 恢复  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">restore</span><span style="color:#f92672">(</span>String data<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        text <span style="color:#f92672">=</span> JSON<span style="color:#f92672">.</span><span style="color:#a6e22e">parseObject</span><span style="color:#f92672">(</span>data<span style="color:#f92672">,</span> Text<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">//备份  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">backup</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">return</span> JSON<span style="color:#f92672">.</span><span style="color:#a6e22e">toJSONString</span><span style="color:#f92672">(</span>text<span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doAction</span><span style="color:#f92672">(</span>String title<span style="color:#f92672">,</span> String content<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        text <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Text<span style="color:#f92672">(</span>title<span style="color:#f92672">,</span> content<span style="color:#f92672">);</span>  
+        history<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> Memento<span style="color:#f92672">(</span><span style="color:#66d9ef">this</span><span style="color:#f92672">));</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//Caretaker负责人  
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">History</span> <span style="color:#f92672">{</span>  
+    List<span style="color:#f92672">&lt;</span>Memento<span style="color:#f92672">&gt;</span> mementos <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ArrayList<span style="color:#f92672">&lt;&gt;();</span>  
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> curIndex<span style="color:#f92672">;</span>  
+  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>Memento memento<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>curIndex <span style="color:#f92672">+</span> 1 <span style="color:#f92672">!=</span> mementos<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>  
+            mementos <span style="color:#f92672">=</span> mementos<span style="color:#f92672">.</span><span style="color:#a6e22e">subList</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> curIndex<span style="color:#f92672">);</span>  
+        <span style="color:#f92672">}</span>  
+        mementos<span style="color:#f92672">.</span><span style="color:#a6e22e">add</span><span style="color:#f92672">(</span>memento<span style="color:#f92672">);</span>  
+        curIndex <span style="color:#f92672">=</span> mementos<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">()</span> <span style="color:#f92672">-</span> 1<span style="color:#f92672">;</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">// 撤销  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">undo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        curIndex <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">max</span><span style="color:#f92672">(</span>0<span style="color:#f92672">,</span> curIndex <span style="color:#f92672">-</span> 1<span style="color:#f92672">);</span>  
+        Memento memento <span style="color:#f92672">=</span> mementos<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>curIndex<span style="color:#f92672">);</span>  
+        memento<span style="color:#f92672">.</span><span style="color:#a6e22e">restore</span><span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">// 重做  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">redo</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        curIndex <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">min</span><span style="color:#f92672">(</span>mementos<span style="color:#f92672">.</span><span style="color:#a6e22e">size</span><span style="color:#f92672">(),</span> curIndex <span style="color:#f92672">+</span> 1<span style="color:#f92672">);</span>  
+        Memento memento <span style="color:#f92672">=</span> mementos<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>curIndex<span style="color:#f92672">);</span>  
+        memento<span style="color:#f92672">.</span><span style="color:#a6e22e">restore</span><span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">// 备忘录对象  
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">@Data</span>  
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Memento</span> <span style="color:#f92672">{</span>  
+    <span style="color:#75715e">//值对象，存储数据  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> String state<span style="color:#f92672">;</span>  
+    <span style="color:#66d9ef">private</span> Editor editor<span style="color:#f92672">;</span>  
+  
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Memento</span><span style="color:#f92672">(</span>Editor editor<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">editor</span> <span style="color:#f92672">=</span> editor<span style="color:#f92672">;</span>  
+        <span style="color:#75715e">// 备份  
+</span><span style="color:#75715e"></span>        state<span style="color:#f92672">=</span><span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">editor</span><span style="color:#f92672">.</span><span style="color:#a6e22e">backup</span><span style="color:#f92672">();</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">restore</span><span style="color:#f92672">(){</span>  
+        editor<span style="color:#f92672">.</span><span style="color:#a6e22e">restore</span><span style="color:#f92672">(</span>state<span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Editor editor<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Editor<span style="color:#f92672">();</span>  
+editor<span style="color:#f92672">.</span><span style="color:#a6e22e">doAction</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">);</span>  
+editor<span style="color:#f92672">.</span><span style="color:#a6e22e">doAction</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">,</span><span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">);</span>  
+editor<span style="color:#f92672">.</span><span style="color:#a6e22e">undo</span><span style="color:#f92672">();</span>  
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>editor<span style="color:#f92672">.</span><span style="color:#a6e22e">getText</span><span style="color:#f92672">());</span>  
+editor<span style="color:#f92672">.</span><span style="color:#a6e22e">redo</span><span style="color:#f92672">();</span>  
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>editor<span style="color:#f92672">.</span><span style="color:#a6e22e">getText</span><span style="color:#f92672">());</span>
+<span style="color:#75715e">// 结果是：
+</span><span style="color:#75715e">//Text(title=1, content=1)
+</span><span style="color:#75715e">//Text(title=2, content=2)
+</span></code></pre></div><p>备忘录模式的优点是能在不破坏封装性的前提下创建对象的快照。</p>
+    </div>
+
+    
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+</script>
+<script>
+    
+    Array.from(document.getElementsByClassName("language-mermaid")).forEach(
+        (el) => {
+            el.parentElement.outerHTML = `<div class="mermaid">${el.innerHTML}</div>`;
+        }
+    );
+</script>
+<style>
+     
+    .mermaid svg {
+        display: block;
+        margin: auto;
+    }
+</style>
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-05-28 00:37:20
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/">
+            <span class="next-text nav-default">中介者模式</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
