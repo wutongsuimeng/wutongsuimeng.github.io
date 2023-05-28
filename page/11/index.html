@@ -123,121 +123,30 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">状态模式</a></h1>
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/">启动容器失败</a></h1>
     <div class="post-meta">
-      <span class="post-time"> 2023-05-28 10:56:52 </span>
+      <span class="post-time"> 2021-03-08 13:58:09 </span>
       <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+          <a href="/categories/docker/"> Docker </a>
           </div>
-        <span class="more-meta"> 约 586 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>状态模式的定义是：当一个对象内在状态改变时允许其改变行为，这个对象看起来像是改变了自身所属的类。</p>
-<p>该模式适合于对象具有有限的状态，并且在状态之间相互切换。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/">备忘录模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-05-28 00:23:43 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 484 字 </span>
+        <span class="more-meta"> 约 109 字 </span>
         <span class="more-meta"> 预计阅读 1 分钟 </span>
     </div>
   </header>
   
   <div class="post-content">
     <div class="post-summary">
-      <p>备忘录模式的定义是：在不破坏封装性的前提下，捕获一个对象的内部状态，并在该对象之外保存这个状态。这样以后就可将该对象恢复到原先保存的状态。</p>
-<p>该模式允许生成对象状态的快照和将其还原，主要用于撤销与重做功能的实现。</p>
+      <p>报错：ERROR: for mysql Cannot create container for service mysql: Conflict. The container name &ldquo;/mysql&rdquo; is already in use by container &ldquo;2f6a654382410c6f381e6a03b8be39f0eeb87becd17d4d0117859f4c23e5681b&rdquo;. You have to remove (or rename) that container to be able to reuse that name.</p>
+<p><img src="/media/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/Snipaste_2021-03-08_10-18-49.png" alt="/media启动容器失败/Snipaste_2021-03-08_10-18-49.png"></p>
+<p>解决：</p>
+<p>因为之前强行停止的容器没有完全停止及清理，所以要对之前启动的容器进行清理及完全停止：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">docker rm -f <span style="color:#66d9ef">$(</span>docker ps -a -q<span style="color:#66d9ef">)</span>
+</code></pre></div><p>重启docker：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo service docker restart
+</code></pre></div>
     </div>
     <div class="read-more">
-      <a href="/post/%E5%A4%87%E5%BF%98%E5%BD%95%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/">中介者模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-05-21 14:24:34 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 595 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>中介者模式的定义是：用一个中介对象封装一系列的对象交互，中介者使各对象不需要显式地相互作用，从而使其耦合松散，而且可以独立地改变它
-们之间的交互。</p>
-<p>中介者模式适合于组件之间过于耦合而不方便修改的情况。因为中介者模式强制组件之间只通过中介者交互，而不是组件之间直接交互，避免组件之间相互依赖紧密耦合，方便于修改。类所拥有的依赖关系越少， 就越易于修改、 扩展或复用。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E4%B8%AD%E4%BB%8B%E8%80%85%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/">责任链模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-05-21 13:41:47 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 519 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>责任链模式的定义是：使多个对象都有机会处理请求，从而避免了请求的发送者和接受者之间的耦合关系。将这些对象连成一条链，并沿着这条链传递该请求，直到有对象处理它为止。</p>
-<p>责任链模式适合于请求需要经过多个处理器，并被其中一个或多个处理器执行。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E7%BB%99hugo%E6%B7%BB%E5%8A%A0mermaid%E6%94%AF%E6%8C%81/">给Hugo添加Mermaid支持</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-05-15 20:55:54 </span>
-      <div class="post-category">
-          <a href="/categories/%E5%B7%A5%E5%85%B7/"> 工具 </a>
-          </div>
-        <span class="more-meta"> 约 521 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p><a href="https://gohugo.io/">Hugo</a> 是一款搭建个人博客的框架，支持使用 Markdown 格式的文件生成 HTML 文件。<a href="https://github.com/olOwOlo/hugo-theme-even">hugo-theme-even</a> 则是 Hugo 的一个主题。<a href="https://mermaid.js.org/">Mermaid</a> 则是一个支持在 Markdown 下生成图表的工具。</p>
-<p>因为 Hugo 并不原生支持 Mermaid ，所以本文的目的是，基于 hugo-theme-even 主题，通过修改 Hugo 的配置文件，引用 Mermaid 文件，使得 Hugo 生成的博客也能使用 Mermaid 生成的图表。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E7%BB%99hugo%E6%B7%BB%E5%8A%A0mermaid%E6%94%AF%E6%8C%81/" class="read-more-link">阅读更多</a>
+      <a href="/post/%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8%E5%A4%B1%E8%B4%A5/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
@@ -245,11 +154,11 @@
     </section>
   
   <nav class="pagination">
-    
-    <a class="next" href="/page/2/">
-        <span class="next-text">下一页</span>
-        <i class="iconfont icon-right"></i>
+    <a class="prev" href="/page/10/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text">上一页</span>
       </a>
+    
   </nav>
         </div>
         

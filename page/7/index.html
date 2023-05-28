@@ -123,6 +123,32 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/">后端接收表单方式上传的文件和数据</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-04-14 22:38:44 </span>
+      <div class="post-category">
+          <a href="/categories/spring/"> Spring </a>
+          </div>
+        <span class="more-meta"> 约 343 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>通过 Postman 上传多个文件和数据，后端接收文件和数据。</p>
+<h2 id="后端">后端</h2>
+<p>因为 Postman 是通过表单方式上传，所以需要通过 <code>@RequestParam</code> 注解接收文件，<code>value</code> 属性定义请求参数，<code>required</code> 定义该参数是否必须，默认为 <code>true</code>。
+上传文件需要使用 <code>MultipartFile</code> 对象来接收，因为允许上传多个文件，所以使用了数组的形式。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/">系统集成Nacos和Feign</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-02-27 16:12:44 </span>
@@ -327,119 +353,6 @@ System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span>
     </div>
     <div class="read-more">
       <a href="/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/java%E9%9B%86%E5%90%88-%E6%A0%88/">Java集合-栈</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-01-28 23:16:39 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> Java </a>
-          </div>
-        <span class="more-meta"> 约 210 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>栈是一种先进后出的数据结构，在Java中对应的接口为 <code>Deque</code>，<code>Stack</code>接口已经不建议使用。<code>Deque</code>接口继承自<code>Queue</code>接口，实则为双端队列，支持两端元素的插入、删除与访问。
-<code>Deque</code>的方法有:</p>
-<p>首端操作：</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>抛出异常</th>
-<th>返回特殊值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>查看</td>
-<td>getFirst()</td>
-<td>peekFrist()</td>
-</tr>
-<tr>
-<td>插入</td>
-<td>addFirst()</td>
-<td>offerFirst()</td>
-</tr>
-<tr>
-<td>删除</td>
-<td>removeFirst()</td>
-<td>pollFirst()</td>
-</tr>
-</tbody>
-</table>
-<p>尾端操作：</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>抛出异常</th>
-<th>返回特殊值</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>查看</td>
-<td>getLast()</td>
-<td>peekLast()</td>
-</tr>
-<tr>
-<td>插入</td>
-<td>addLast()</td>
-<td>offerLast()</td>
-</tr>
-<tr>
-<td>删除</td>
-<td>removeLast()</td>
-<td>pollLast()</td>
-</tr>
-</tbody>
-</table>
-<p>栈方法对应的 <code>Deque</code>方法：</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>栈方法</th>
-<th>Deque方法</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>查看</td>
-<td>peek()</td>
-<td>peekFirst()</td>
-</tr>
-<tr>
-<td>插入</td>
-<td>push()</td>
-<td>addFirst()</td>
-</tr>
-<tr>
-<td>删除</td>
-<td>pop()</td>
-<td>removeFirst()</td>
-</tr>
-</tbody>
-</table>
-<p><code>Deque</code>主要实现类有：
-<img src="Deque%E5%AE%9E%E7%8E%B0%E7%B1%BB.png" alt=""></p>
-<p>使用例子：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">Deque<span style="color:#f92672">&lt;</span>Integer<span style="color:#f92672">&gt;</span> deque<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> LinkedList<span style="color:#f92672">&lt;&gt;();</span>
-deque<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>
-deque<span style="color:#f92672">.</span><span style="color:#a6e22e">peek</span><span style="color:#f92672">();</span>
-deque<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">();</span>
-</code></pre></div>
-    </div>
-    <div class="read-more">
-      <a href="/post/java%E9%9B%86%E5%90%88-%E6%A0%88/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
