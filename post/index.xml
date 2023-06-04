@@ -6,7 +6,17 @@
     <description>Recent content in Posts on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 28 May 2023 10:56:52 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 04 Jun 2023 17:28:46 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>代理模式</title>
+      <link>https://wutongsuimeng.github.io/post/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 04 Jun 2023 17:28:46 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;代理模式的定义是：为其他对象提供一种代理以控制对这个对象的访问。&lt;/p&gt;
+&lt;p&gt;因为代理类与服务类实现同样的接口，所以代理类能代替服务类提供给客户端。当客户端使用代理类时，代理类能对请求进行处理（例如增加访问控制、缓存请求结果、隐藏对服务类的网络请求、日志记录等），并将请求转发给服务类来处理。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>状态模式</title>
       <link>https://wutongsuimeng.github.io/post/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</link>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>代理模式 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="代理模式的定义是：为其他对象提供一种代理以控制对这个对象的访问。
+因为代理类与服务类实现同样的接口，所以代理类能代替服务类提供给客户端。当客户端使用代理类时，代理类能对请求进行处理（例如增加访问控制、缓存请求结果、隐藏对服务类的网络请求、日志记录等），并将请求转发给服务类来处理。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="代理模式" />
+<meta property="og:description" content="代理模式的定义是：为其他对象提供一种代理以控制对这个对象的访问。
+因为代理类与服务类实现同样的接口，所以代理类能代替服务类提供给客户端。当客户端使用代理类时，代理类能对请求进行处理（例如增加访问控制、缓存请求结果、隐藏对服务类的网络请求、日志记录等），并将请求转发给服务类来处理。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-06-04T17:28:46+08:00" />
+<meta property="article:modified_time" content="2023-06-04T20:55:04+08:00" />
+
+<meta itemprop="name" content="代理模式">
+<meta itemprop="description" content="代理模式的定义是：为其他对象提供一种代理以控制对这个对象的访问。
+因为代理类与服务类实现同样的接口，所以代理类能代替服务类提供给客户端。当客户端使用代理类时，代理类能对请求进行处理（例如增加访问控制、缓存请求结果、隐藏对服务类的网络请求、日志记录等），并将请求转发给服务类来处理。"><meta itemprop="datePublished" content="2023-06-04T17:28:46+08:00" />
+<meta itemprop="dateModified" content="2023-06-04T20:55:04+08:00" />
+<meta itemprop="wordCount" content="871">
+<meta itemprop="keywords" content="设计模式," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="代理模式"/>
+<meta name="twitter:description" content="代理模式的定义是：为其他对象提供一种代理以控制对这个对象的访问。
+因为代理类与服务类实现同样的接口，所以代理类能代替服务类提供给客户端。当客户端使用代理类时，代理类能对请求进行处理（例如增加访问控制、缓存请求结果、隐藏对服务类的网络请求、日志记录等），并将请求转发给服务类来处理。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">代理模式</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-06-04 17:28:46 </span>
+        <div class="post-category">
+            <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
+            </div>
+          <span class="more-meta"> 约 871 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>代理模式的定义是：为其他对象提供一种代理以控制对这个对象的访问。</p>
+<p>因为代理类与服务类实现同样的接口，所以代理类能代替服务类提供给客户端。当客户端使用代理类时，代理类能对请求进行处理（例如增加访问控制、缓存请求结果、隐藏对服务类的网络请求、日志记录等），并将请求转发给服务类来处理。</p>
+<p>该模式存在 3 类角色：</p>
+<ol>
+<li>服务接口：定义被代理的服务类接口</li>
+<li>服务类：提供实际的逻辑</li>
+<li>代理：持有服务类的引用，能对请求进行访问控制，并将请求转发给服务类进行处理</li>
+</ol>
+<pre><code class="language-mermaid" data-lang="mermaid">classDiagram
+class ServiceInterface{
+	+ operation()
+}
+class Proxy{
+	- Service
+	+ Proxy(Service)
+	+ operation()
+}
+class Service{
+	+ operation()
+}
+
+Proxy ..|&gt; ServiceInterface
+Service ..|&gt; ServiceInterface
+Proxy o--&gt; Service
+</code></pre><p>在 Java 存在两种代理的实现方法，一种是静态代理，通过继承或组合的方式实现；另一种是动态代理，使用反射的方式实现。</p>
+<p>静态代理方式的代码实现为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//服务接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IGame</span> <span style="color:#f92672">{</span>  
+    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">play</span><span style="color:#f92672">();</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//被代理对象
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Game</span> <span style="color:#66d9ef">implements</span> IGame<span style="color:#f92672">{</span>  
+    <span style="color:#a6e22e">@Override</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">play</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;打游戏&#34;</span><span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//代理类
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameProxy</span> <span style="color:#66d9ef">implements</span> IGame<span style="color:#f92672">{</span>  
+    <span style="color:#75715e">//被代理对象的引用  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> IGame game<span style="color:#f92672">;</span>  
+  
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">GameProxy</span><span style="color:#f92672">(</span>IGame game<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">game</span> <span style="color:#f92672">=</span> game<span style="color:#f92672">;</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#a6e22e">@Override</span>  
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">play</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+	    <span style="color:#75715e">//在被代理方法前后增加自定义操作
+</span><span style="color:#75715e"></span>        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;打游戏之前&#34;</span><span style="color:#f92672">);</span>  
+        game<span style="color:#f92672">.</span><span style="color:#a6e22e">play</span><span style="color:#f92672">();</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;打游戏之后&#34;</span><span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">IGame game<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Game<span style="color:#f92672">();</span>  
+IGame proxy<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> GameProxy<span style="color:#f92672">(</span>game<span style="color:#f92672">);</span>  
+proxy<span style="color:#f92672">.</span><span style="color:#a6e22e">play</span><span style="color:#f92672">();</span>
+<span style="color:#75715e">//运行结果
+</span><span style="color:#75715e">//打游戏之前
+</span><span style="color:#75715e">//打游戏
+</span><span style="color:#75715e">//打游戏之后
+</span></code></pre></div><p>动态代理又分为 JDK 动态代理和 CGLIB 动态代理，JDK 动态代理通过 JDK 提供的 <code>InvocationHandler</code> 类和 <code>Proxy</code> 类实现， CGLIB 动态代理则是通过第三方字节码生成库。因为本文主要是介绍代理模式，关键还是在于模式的实现思路，反射只是 Java 提供的语法功能，所以这里只是稍微介绍一下 JDK 动态代理的实现代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//实现InvocationHandler接口
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameProxy2</span> <span style="color:#66d9ef">implements</span> InvocationHandler <span style="color:#f92672">{</span>  
+    <span style="color:#75715e">//被代理对象的引用  
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">private</span> Object obj<span style="color:#f92672">;</span>  
+  
+    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">GameProxy2</span><span style="color:#f92672">(</span>Object obj<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">this</span><span style="color:#f92672">.</span><span style="color:#a6e22e">obj</span> <span style="color:#f92672">=</span> obj<span style="color:#f92672">;</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#a6e22e">@Override</span>  
+    <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>Object proxy<span style="color:#f92672">,</span> Method method<span style="color:#f92672">,</span> Object<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Throwable <span style="color:#f92672">{</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;打游戏之前&#34;</span><span style="color:#f92672">);</span>  
+        <span style="color:#75715e">//调用被代理对象的方法
+</span><span style="color:#75715e"></span>        Object result <span style="color:#f92672">=</span> method<span style="color:#f92672">.</span><span style="color:#a6e22e">invoke</span><span style="color:#f92672">(</span>obj<span style="color:#f92672">,</span> args<span style="color:#f92672">);</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;打游戏之后&#34;</span><span style="color:#f92672">);</span>  
+        <span style="color:#66d9ef">return</span> result<span style="color:#f92672">;</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">IGame game<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Game<span style="color:#f92672">();</span>  
+GameProxy2 proxy<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> GameProxy2<span style="color:#f92672">(</span>game<span style="color:#f92672">);</span>  
+IGame proxyGame <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>IGame<span style="color:#f92672">)</span> Proxy<span style="color:#f92672">.</span><span style="color:#a6e22e">newProxyInstance</span><span style="color:#f92672">(</span>game<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getClassLoader</span><span style="color:#f92672">(),</span> game<span style="color:#f92672">.</span><span style="color:#a6e22e">getClass</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getInterfaces</span><span style="color:#f92672">(),</span> proxy<span style="color:#f92672">);</span>  
+proxyGame<span style="color:#f92672">.</span><span style="color:#a6e22e">play</span><span style="color:#f92672">();</span>
+</code></pre></div><p>代理模式的优点：在不需要修改服务类的基础上，对服务类进行访问控制。</p>
+<p>缺点：使得代码复杂化。</p>
+    </div>
+
+    
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+</script>
+<script>
+    
+    Array.from(document.getElementsByClassName("language-mermaid")).forEach(
+        (el) => {
+            el.parentElement.outerHTML = `<div class="mermaid">${el.innerHTML}</div>`;
+        }
+    );
+</script>
+<style>
+     
+    .mermaid svg {
+        display: block;
+        margin: auto;
+    }
+</style>
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-06-04 20:55:04
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">
+            <span class="next-text nav-default">状态模式</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

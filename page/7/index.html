@@ -123,6 +123,48 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">HashMap1.8 的源码解析</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-05-29 17:58:26 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> Java </a>
+          </div>
+        <span class="more-meta"> 约 2620 字 </span>
+        <span class="more-meta"> 预计阅读 6 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <h1 id="结构">结构</h1>
+<p>HashMap的结构为数组+链表+红黑树。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//对象数组
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">transient</span> Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;[]</span> table<span style="color:#f92672">;</span> 
+<span style="color:#75715e">// 链表节点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> Map<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> hash<span style="color:#f92672">;</span> <span style="color:#75715e">//哈希值
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">final</span> K key<span style="color:#f92672">;</span> <span style="color:#75715e">//建
+</span><span style="color:#75715e"></span>        V value<span style="color:#f92672">;</span> <span style="color:#75715e">//值
+</span><span style="color:#75715e"></span>        Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> next<span style="color:#f92672">;</span>  <span style="color:#75715e">//下一个节点
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+<span style="color:#75715e">//红黑树节点
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TreeNode</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span> LinkedHashMap<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
+        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> parent<span style="color:#f92672">;</span>  <span style="color:#75715e">// red-black tree links
+</span><span style="color:#75715e"></span>        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> left<span style="color:#f92672">;</span>
+        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> right<span style="color:#f92672">;</span>
+        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> prev<span style="color:#f92672">;</span>    <span style="color:#75715e">// needed to unlink next upon deletion
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">boolean</span> red<span style="color:#f92672">;</span>
+<span style="color:#f92672">}</span>
+</code></pre></div>
+    </div>
+    <div class="read-more">
+      <a href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/">后端接收表单方式上传的文件和数据</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-04-14 22:38:44 </span>
@@ -286,73 +328,6 @@
     </div>
     <div class="read-more">
       <a href="/post/springboot%E9%A1%B9%E7%9B%AE%E7%9A%84%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E8%AE%BE%E7%BD%AEserver.port%E4%B8%8D%E7%94%9F%E6%95%88/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/">RestTemplate发起HTTPS请求</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-02-13 14:29:11 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> Java </a>
-          </div>
-        <span class="more-meta"> 约 555 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。</p>
-<p>在此我采用的是忽略证书的校验。</p>
-<p>首先使用 <code>RestTemplateBuilder</code>来构建一个 <code>RestTemplate</code>，而非使用默认。<code>requestFactory()</code>方法用来设置 <code>ClientHttpRequestFactory</code>。<code>SimpleClientHttpRequestFactory</code>是Spring内置的默认实现，实现了 <code>ClientHttpRequestFactory</code>接口，我们需要重写其 <code>prepareConnection()</code>方法，在此方法里实现对 <code>HttpURLConnection</code>的重新处理，忽略对证书的校验。</p>
-<p>代码：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HttpsClientHttpRequestFactory</span> <span style="color:#66d9ef">extends</span> SimpleClientHttpRequestFactory <span style="color:#f92672">{</span>
-    <span style="color:#a6e22e">@Override</span>
-    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>HttpURLConnection connection<span style="color:#f92672">,</span> String httpMethod<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>connection <span style="color:#66d9ef">instanceof</span> HttpsURLConnection<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">// https协议，修改协议版本
-</span><span style="color:#75715e"></span>                KeyStore trustStore <span style="color:#f92672">=</span> KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span>KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefaultType</span><span style="color:#f92672">());</span>
-                <span style="color:#75715e">// 信任任何链接,忽略对证书的校验
-</span><span style="color:#75715e"></span>                TrustStrategy anyTrustStrategy <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>x509Certificates<span style="color:#f92672">,</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
-                <span style="color:#75715e">//自定义SSLContext
-</span><span style="color:#75715e"></span>                SSLContext ctx <span style="color:#f92672">=</span> SSLContexts<span style="color:#f92672">.</span><span style="color:#a6e22e">custom</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadTrustMaterial</span><span style="color:#f92672">(</span>trustStore<span style="color:#f92672">,</span> anyTrustStrategy<span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
-                <span style="color:#75715e">// ssl问题
-</span><span style="color:#75715e"></span>                <span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setSSLSocketFactory</span><span style="color:#f92672">(</span>ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getSocketFactory</span><span style="color:#f92672">());</span>
-                <span style="color:#75715e">//解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
-</span><span style="color:#75715e"></span>                <span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setHostnameVerifier</span><span style="color:#f92672">((</span>s<span style="color:#f92672">,</span> sslSession<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
-                HttpsURLConnection httpsConnection <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">;</span>
-                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>httpsConnection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
-            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// http协议
-</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
-            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    
-String url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://xxx.xxx.xxx&#34;</span><span style="color:#f92672">;</span>
-RestTemplate restTemplate <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RestTemplateBuilder<span style="color:#f92672">()</span>
-		<span style="color:#f92672">.</span><span style="color:#a6e22e">requestFactory</span><span style="color:#f92672">(</span>HttpsClientHttpRequestFactory<span style="color:#f92672">::</span><span style="color:#66d9ef">new</span><span style="color:#f92672">)</span>
-		<span style="color:#75715e">//basic认证
-</span><span style="color:#75715e"></span>		<span style="color:#f92672">.</span><span style="color:#a6e22e">basicAuthentication</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">)</span>
-		<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
-HttpHeaders headers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpHeaders<span style="color:#f92672">();</span>
-HttpEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> entity <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpEntity<span style="color:#f92672">&lt;&gt;(</span>headers<span style="color:#f92672">);</span>
-ResponseEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> response <span style="color:#f92672">=</span> restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">exchange</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> HttpMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">,</span> entity<span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
-String str <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">getBody</span><span style="color:#f92672">();</span>
-System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
-    
-</code></pre></div><p>注：</p>
-<ol>
-<li><code>RestTemplateBuilder</code> 需要直接构建成 <code>RestTemplate</code>对象，而不能中间生成 <code>RestTemplateBuilder</code>对象。</li>
-</ol>
-    </div>
-    <div class="read-more">
-      <a href="/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
