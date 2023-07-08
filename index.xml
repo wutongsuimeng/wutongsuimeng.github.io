@@ -6,7 +6,16 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 04 Jun 2023 17:28:46 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Jul 2023 22:50:14 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>23种设计模式总结</title>
+      <link>https://wutongsuimeng.github.io/post/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Sun, 02 Jul 2023 22:50:14 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/</guid>
+      <description>设计模式的本质是：“找到变化，封装变化” 设计模式的类型分为： 创建型：负责提供创建对象的机制 结构型：将对象或类组合成更大的结构，同时保持对外结</description>
+    </item>
+    
     <item>
       <title>代理模式</title>
       <link>https://wutongsuimeng.github.io/post/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</link>
