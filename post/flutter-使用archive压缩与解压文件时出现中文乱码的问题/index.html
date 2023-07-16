@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>flutter 使用archive压缩与解压文件时出现中文乱码的问题 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="archive 是 flutter 上的一个文件压缩与解压的类库，支持 zip,tar,zlip,gzip,zip2,xz 格式的压缩与解压。
+archive 的使用 archive 主要通过 Archive，ArchiveFile，ZipEncoder，ZipDecoder 三个类来实现文件的压缩和解压。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/flutter-%E4%BD%BF%E7%94%A8archive%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E6%97%B6%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="flutter 使用archive压缩与解压文件时出现中文乱码的问题" />
+<meta property="og:description" content="archive 是 flutter 上的一个文件压缩与解压的类库，支持 zip,tar,zlip,gzip,zip2,xz 格式的压缩与解压。
+archive 的使用
+archive 主要通过 Archive，ArchiveFile，ZipEncoder，ZipDecoder 三个类来实现文件的压缩和解压。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/flutter-%E4%BD%BF%E7%94%A8archive%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E6%97%B6%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-07-15T18:23:25+08:00" />
+<meta property="article:modified_time" content="2023-07-16T10:39:42+08:00" />
+
+<meta itemprop="name" content="flutter 使用archive压缩与解压文件时出现中文乱码的问题">
+<meta itemprop="description" content="archive 是 flutter 上的一个文件压缩与解压的类库，支持 zip,tar,zlip,gzip,zip2,xz 格式的压缩与解压。
+archive 的使用
+archive 主要通过 Archive，ArchiveFile，ZipEncoder，ZipDecoder 三个类来实现文件的压缩和解压。"><meta itemprop="datePublished" content="2023-07-15T18:23:25+08:00" />
+<meta itemprop="dateModified" content="2023-07-16T10:39:42+08:00" />
+<meta itemprop="wordCount" content="1162">
+<meta itemprop="keywords" content="flutter,文件压缩与解压,archive,中文乱码," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="flutter 使用archive压缩与解压文件时出现中文乱码的问题"/>
+<meta name="twitter:description" content="archive 是 flutter 上的一个文件压缩与解压的类库，支持 zip,tar,zlip,gzip,zip2,xz 格式的压缩与解压。
+archive 的使用
+archive 主要通过 Archive，ArchiveFile，ZipEncoder，ZipDecoder 三个类来实现文件的压缩和解压。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">flutter 使用archive压缩与解压文件时出现中文乱码的问题</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-07-15 18:23:25 </span>
+        <div class="post-category">
+            <a href="/categories/flutter/"> flutter </a>
+            </div>
+          <span class="more-meta"> 约 1162 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#archive-的使用">archive 的使用</a></li>
+    <li><a href="#乱码分析">乱码分析</a></li>
+    <li><a href="#解决办法">解决办法</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><a href="https://pub.dev/packages/archive">archive</a> 是 flutter 上的一个文件压缩与解压的类库，支持 zip,tar,zlip,gzip,zip2,xz 格式的压缩与解压。</p>
+<h1 id="archive-的使用">archive 的使用</h1>
+<p>archive 主要通过 Archive，ArchiveFile，ZipEncoder，ZipDecoder 三个类来实现文件的压缩和解压。</p>
+<p>ArchiveFile 表示压缩包内的一个文件。</p>
+<p>Archive 表示一个压缩包。</p>
+<p>ZipEncoder 表示 zip 编码器。</p>
+<p>ZipDecoder 表示 zip 解码器。</p>
+<p>文件压缩：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">final</span> zipFile <span style="color:#f92672">=</span> File(<span style="color:#e6db74">&#34;text.zip&#34;</span>);   
+<span style="color:#66d9ef">final</span> archive <span style="color:#f92672">=</span> Archive();  
+<span style="color:#66d9ef">var</span> str<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;中文&#34;</span>;
+<span style="color:#66d9ef">final</span> archiveFile<span style="color:#f92672">=</span>ArchiveFile.string(<span style="color:#e6db74">&#34;test.txt&#34;</span>, str); <span style="color:#75715e">//将压缩内容添加到ArchiveFile
+</span><span style="color:#75715e"></span>archive.addFile(archiveFile);  <span style="color:#75715e">//将ArchiveFile添加到Archive
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> zipData <span style="color:#f92672">=</span> ZipEncoder().encode(archive);  <span style="color:#75715e">//使用zip编码
+</span><span style="color:#75715e"></span>zipFile.writeAsBytesSync(zipData<span style="color:#f92672">!</span>);  <span style="color:#75715e">//写入到压缩文件
+</span></code></pre></div><p>文件解压：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">final</span> zipFile <span style="color:#f92672">=</span> File(<span style="color:#e6db74">&#34;text.zip&#34;</span>);
+<span style="color:#66d9ef">var</span> archive<span style="color:#f92672">=</span>ZipDecoder().decodeBytes(zipFile.readAsBytesSync()); <span style="color:#75715e">//读取文件内容，使用ZipDecoder解码
+</span><span style="color:#75715e"></span>ArchiveFile<span style="color:#f92672">?</span> f<span style="color:#f92672">=</span>archive.findFile(<span style="color:#e6db74">&#34;test.txt&#34;</span>);  <span style="color:#75715e">//从压缩包内寻找文件
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> content<span style="color:#f92672">=</span>f<span style="color:#f92672">?</span>.content;  <span style="color:#75715e">//获取内容
+</span></code></pre></div><h1 id="乱码分析">乱码分析</h1>
+<p>对于非中文内容来说，直接使用以上代码来实现压缩和解压是不会导致乱码，但是对于中文来说却会导致乱码。</p>
+<p>首先来分析 <code>ArchiveFile.string()</code> 方法做了什么。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">ArchiveFile.string(<span style="color:#66d9ef">this</span>.name, <span style="color:#66d9ef">String</span> content,  
+    [<span style="color:#66d9ef">this</span>._compressionType <span style="color:#f92672">=</span> STORE]) {  
+  size <span style="color:#f92672">=</span> content.length;  
+  _content <span style="color:#f92672">=</span> Uint8List.fromList(content.codeUnits);  
+  _rawContent <span style="color:#f92672">=</span> InputStream(_content);  
+}
+</code></pre></div><p>能看到，该方法首先获取传入字符串的 utf-16 编码的列表，再将其转为 uint8 列表。uint8 在 flutter 中表示 8 位比特（bit）的无符号数，范围为 <code>[0,256)</code>。因为文件就是按字节（Byte）存储的，一个字节由 8 位比特组成，范围跟 uint8 一致。</p>
+<p>但是对于中文来说，大小是超过 256 的，所以当使用 <code>Uint8List.fromList()</code> 将中文从 utf-16 强转为 uint8，会导致其被截断，从而导致乱码。</p>
+<p>从下面测试例子中也能看出来：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#66d9ef">String</span> str<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;中文&#34;</span>;  
+<span style="color:#66d9ef">var</span> list<span style="color:#f92672">=</span>str.codeUnits;  
+print(list);  
+<span style="color:#66d9ef">var</span> list2<span style="color:#f92672">=</span>Uint8List.fromList(list);  
+print(list2);
+
+<span style="color:#75715e">//运行结果为：
+</span><span style="color:#75715e"></span>[<span style="color:#ae81ff">20013</span>, <span style="color:#ae81ff">25991</span>]
+[<span style="color:#ae81ff">45</span>, <span style="color:#ae81ff">135</span>]
+</code></pre></div><p>所以对于中文来说，并不能直接强制为 uint8，需要对其进行编码再进行存储，中文编码方式存在 utf-8，gbk 等，而 flutter 支持 utf-8 编码，但不支持 gbk 编码。对于 utf-8 编码来说，中文需要 3 个字节来存储。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">utf8.encode(); <span style="color:#75715e">//编码
+</span><span style="color:#75715e"></span>utf8.decode(); <span style="color:#75715e">//解码
+</span></code></pre></div><p>我们再来看，<code>ArchiveFile</code> 的构造方法除了 <code>ArchiveFile.string()</code> 外，还有</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart">ArchiveFile(<span style="color:#66d9ef">this</span>.name, <span style="color:#66d9ef">this</span>.size, <span style="color:#66d9ef">dynamic</span> content,  
+    [<span style="color:#66d9ef">this</span>._compressionType <span style="color:#f92672">=</span> STORE]) {  
+  name <span style="color:#f92672">=</span> name.replaceAll(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">&#39;/&#39;</span>);  
+  <span style="color:#66d9ef">if</span> (content <span style="color:#66d9ef">is</span> Uint8List) {  
+    _content <span style="color:#f92672">=</span> content;  
+    _rawContent <span style="color:#f92672">=</span> InputStream(_content);  
+    <span style="color:#66d9ef">if</span> (size <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {  
+      size <span style="color:#f92672">=</span> content.length;  
+    }  
+  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (content <span style="color:#66d9ef">is</span> InputStream) {  
+    _rawContent <span style="color:#f92672">=</span> InputStream.from(content);  
+    <span style="color:#66d9ef">if</span> (size <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {  
+      size <span style="color:#f92672">=</span> content.length;  
+    }  
+  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (content <span style="color:#66d9ef">is</span> InputStreamBase) {  
+    _rawContent <span style="color:#f92672">=</span> content;  
+    <span style="color:#66d9ef">if</span> (size <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {  
+      size <span style="color:#f92672">=</span> content.length;  
+    }  
+  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (content <span style="color:#66d9ef">is</span> TypedData) {  
+    _content <span style="color:#f92672">=</span> Uint8List.view(content.buffer);  
+    _rawContent <span style="color:#f92672">=</span> InputStream(_content);  
+    <span style="color:#66d9ef">if</span> (size <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {  
+      size <span style="color:#f92672">=</span> (_content <span style="color:#f92672">as</span> Uint8List).length;  
+    }  
+  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (content <span style="color:#66d9ef">is</span> <span style="color:#66d9ef">String</span>) {  
+    _content <span style="color:#f92672">=</span> content.codeUnits;  
+    _rawContent <span style="color:#f92672">=</span> InputStream(_content);  
+    <span style="color:#66d9ef">if</span> (size <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {  
+      size <span style="color:#f92672">=</span> content.codeUnits.length <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;  
+    }  
+  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (content <span style="color:#66d9ef">is</span> List<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>) {  
+    <span style="color:#75715e">// Legacy  
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// This expects the list to be a list of bytes, with values [0, 255].  
+</span><span style="color:#75715e"></span>    _content <span style="color:#f92672">=</span> content;  
+    _rawContent <span style="color:#f92672">=</span> InputStream(_content);  
+    <span style="color:#66d9ef">if</span> (size <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) {  
+      size <span style="color:#f92672">=</span> content.length;  
+    }  
+  } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (content <span style="color:#66d9ef">is</span> FileContent) {  
+    _content <span style="color:#f92672">=</span> content;  
+  }  
+}
+</code></pre></div><p>当传入的 <code>content</code> 类型为 <code>List&lt;int&gt;</code> 时，直接赋值为 <code>_content</code>，没有进行额外的操作。另外该方法还有另外一个参数 <code>_compressionType</code>，该参数需要传入 <code>ArchiveFile.STORE</code>，否则在进行解压时，<code>archiveFile.content</code> 会报错：<code>Unhandled Exception: RangeError: Value not in range: -6128</code></p>
+<h1 id="解决办法">解决办法</h1>
+<p>所以最后处理中文乱码的解决办法就是先对其进行 utf-8 编码，再压缩。解压后，对其进行 utf-8 解码，获取中文内容。</p>
+<p>代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dart" data-lang="dart"><span style="color:#75715e">//压缩
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> zipFile <span style="color:#f92672">=</span> File(<span style="color:#e6db74">&#34;text.zip&#34;</span>);  
+<span style="color:#66d9ef">final</span> archive <span style="color:#f92672">=</span> Archive();  
+<span style="color:#66d9ef">var</span> str<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;中文&#34;</span>;
+<span style="color:#75715e">//这步是必须的
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> encodeStr<span style="color:#f92672">=</span>utf8.encode(str);   
+<span style="color:#75715e">//必须要为ArchiveFile.STORE
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">final</span> archiveFile<span style="color:#f92672">=</span>ArchiveFile(<span style="color:#e6db74">&#34;test.txt&#34;</span>,str.length,encodeStr,ArchiveFile.STORE); 
+archive.addFile(archiveFile);  
+<span style="color:#66d9ef">final</span> zipData <span style="color:#f92672">=</span>  ZipEncoder().encode(archive);  
+zipFile.writeAsBytesSync(zipData<span style="color:#f92672">!</span>);  
+
+<span style="color:#75715e">//解压
+</span><span style="color:#75715e"></span>ArchiveFile<span style="color:#f92672">?</span> 
+f<span style="color:#f92672">=</span>ZipDecoder().decodeBytes(zipFile.readAsBytesSync()).findFile(<span style="color:#e6db74">&#34;test.txt&#34;</span>);  
+<span style="color:#66d9ef">var</span> content<span style="color:#f92672">=</span>f<span style="color:#f92672">?</span>.content;  
+<span style="color:#75715e">// 解码
+</span><span style="color:#75715e"></span>print(utf8.decode(content));
+</code></pre></div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-07-16 10:39:42
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/flutter/">flutter</a>
+          <a href="/tags/%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/">文件压缩与解压</a>
+          <a href="/tags/archive/">archive</a>
+          <a href="/tags/%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/">中文乱码</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/">
+            <span class="next-text nav-default">23种设计模式总结</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

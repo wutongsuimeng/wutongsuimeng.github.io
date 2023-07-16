@@ -2,35 +2,77 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://wutongsuimeng.github.io/post/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/</loc>
-    <lastmod>2023-07-08T16:37:46+08:00</lastmod>
+    <loc>https://wutongsuimeng.github.io/tags/archive/</loc>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://wutongsuimeng.github.io/categories/</loc>
-    <lastmod>2023-07-08T16:37:46+08:00</lastmod>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/flutter/</loc>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/categories/flutter/</loc>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/post/flutter-%E4%BD%BF%E7%94%A8archive%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E6%97%B6%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://wutongsuimeng.github.io/post/</loc>
-    <lastmod>2023-07-08T16:37:46+08:00</lastmod>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://wutongsuimeng.github.io/tags/</loc>
-    <lastmod>2023-07-08T16:37:46+08:00</lastmod>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81/</loc>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/tags/%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/</loc>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://wutongsuimeng.github.io/</loc>
+    <lastmod>2023-07-16T10:39:42+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://wutongsuimeng.github.io/post/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/</loc>
     <lastmod>2023-07-08T16:37:46+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

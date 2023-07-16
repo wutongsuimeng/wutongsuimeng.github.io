@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>flutter on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/categories/flutter/</link>
+    <description>Recent content in flutter on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 15 Jul 2023 18:23:25 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>flutter 使用archive压缩与解压文件时出现中文乱码的问题</title>
+      <link>https://wutongsuimeng.github.io/post/flutter-%E4%BD%BF%E7%94%A8archive%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E6%97%B6%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sat, 15 Jul 2023 18:23:25 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/flutter-%E4%BD%BF%E7%94%A8archive%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E6%97%B6%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pub.dev/packages/archive&#34;&gt;archive&lt;/a&gt; 是 flutter 上的一个文件压缩与解压的类库，支持 zip,tar,zlip,gzip,zip2,xz 格式的压缩与解压。&lt;/p&gt;
+&lt;h1 id=&#34;archive-的使用&#34;&gt;archive 的使用&lt;/h1&gt;
+&lt;p&gt;archive 主要通过 Archive，ArchiveFile，ZipEncoder，ZipDecoder 三个类来实现文件的压缩和解压。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
