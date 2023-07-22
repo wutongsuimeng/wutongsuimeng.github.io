@@ -6,7 +6,24 @@
     <description>Recent content in Java on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 19 Mar 2023 21:17:54 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Jul 2023 17:26:35 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从JVM指令看String对象的比较</title>
+      <link>https://wutongsuimeng.github.io/post/%E4%BB%8Ejvm%E6%8C%87%E4%BB%A4%E7%9C%8Bstring%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%94%E8%BE%83/</link>
+      <pubDate>Sat, 22 Jul 2023 17:26:35 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E4%BB%8Ejvm%E6%8C%87%E4%BB%A4%E7%9C%8Bstring%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%94%E8%BE%83/</guid>
+      <description>&lt;p&gt;在翻看各类 java 知识中，总会提到如下知识：比较 String 对象，例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;String a1&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; String&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;10&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt;
+String a2&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;10&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+String a3&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+
+&lt;span style=&#34;color:#75715e&#34;&gt;//结果
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;System&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;a1&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;a2&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//false
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;System&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;a2&lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt;a3&lt;span style=&#34;color:#f92672&#34;&gt;);&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//true
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>InputStream的了解与使用</title>
       <link>https://wutongsuimeng.github.io/post/inputstream%E7%9A%84%E4%BA%86%E8%A7%A3%E4%B8%8E%E4%BD%BF%E7%94%A8/</link>
