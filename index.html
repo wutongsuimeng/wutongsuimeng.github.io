@@ -123,6 +123,31 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/aqs%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">AQS源码解析</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-07-30 17:18:20 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> java </a>
+          </div>
+        <span class="more-meta"> 约 4677 字 </span>
+        <span class="more-meta"> 预计阅读 10 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>关于 AQS，网上已经有无数的文章阐述 AQS 的使用及其源码，所以多这么一篇文章也没啥所谓，还能总结一下研究过的源码。源码解析和某某的使用，大概是互联网上 Java 文章中写得最多的主题了。</p>
+<h1 id="aqs">AQS</h1>
+<p>AQS 是 AbstractQueuedSynchronizer 的缩写，中文翻译过来就是抽象队列同步器。<code>ReentrantLock</code>、<code>ReentrantReadWriteLock</code>、<code>Semaphore</code>、<code>CountDownLatch</code> 都是基于 AQS。AQS 的核心思想是，当线程请求获取资源时，如果资源空闲，则会将当前线程设置为资源的独占线程，成功获得锁；否则将获取锁失败的线程加入到排队队列中（CLH），并提供线程阻塞和线程唤醒机制。CLH 是一个虚拟的双向队列。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/aqs%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/%E4%BB%8Ejvm%E6%8C%87%E4%BB%A4%E7%9C%8Bstring%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%94%E8%BE%83/">从JVM指令看String对象的比较</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2023-07-22 17:26:35 </span>
@@ -220,30 +245,6 @@ String a3<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&
     </div>
     <div class="read-more">
       <a href="/post/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/">状态模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-05-28 10:56:52 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 586 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>状态模式的定义是：当一个对象内在状态改变时允许其改变行为，这个对象看起来像是改变了自身所属的类。</p>
-<p>该模式适合于对象具有有限的状态，并且在状态之间相互切换。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

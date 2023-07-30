@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Java on 梧桐碎梦</title>
+    <title>java on 梧桐碎梦</title>
     <link>https://wutongsuimeng.github.io/categories/java/</link>
-    <description>Recent content in Java on 梧桐碎梦</description>
+    <description>Recent content in java on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Jul 2023 17:26:35 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 30 Jul 2023 17:18:20 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AQS源码解析</title>
+      <link>https://wutongsuimeng.github.io/post/aqs%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Sun, 30 Jul 2023 17:18:20 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/aqs%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;p&gt;关于 AQS，网上已经有无数的文章阐述 AQS 的使用及其源码，所以多这么一篇文章也没啥所谓，还能总结一下研究过的源码。源码解析和某某的使用，大概是互联网上 Java 文章中写得最多的主题了。&lt;/p&gt;
+&lt;h1 id=&#34;aqs&#34;&gt;AQS&lt;/h1&gt;
+&lt;p&gt;AQS 是 AbstractQueuedSynchronizer 的缩写，中文翻译过来就是抽象队列同步器。&lt;code&gt;ReentrantLock&lt;/code&gt;、&lt;code&gt;ReentrantReadWriteLock&lt;/code&gt;、&lt;code&gt;Semaphore&lt;/code&gt;、&lt;code&gt;CountDownLatch&lt;/code&gt; 都是基于 AQS。AQS 的核心思想是，当线程请求获取资源时，如果资源空闲，则会将当前线程设置为资源的独占线程，成功获得锁；否则将获取锁失败的线程加入到排队队列中（CLH），并提供线程阻塞和线程唤醒机制。CLH 是一个虚拟的双向队列。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>从JVM指令看String对象的比较</title>
       <link>https://wutongsuimeng.github.io/post/%E4%BB%8Ejvm%E6%8C%87%E4%BB%A4%E7%9C%8Bstring%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%94%E8%BE%83/</link>
