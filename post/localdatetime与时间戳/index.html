@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>LocalDateTime与时间戳 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="众所周知，如果想把 LocalDateTime 转为时间戳，需要先指定时区，然后才能转为时间戳，例如：
+LocalDateTime localDateTime = LocalDateTime.now(); ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault()); long second = zonedDateTime.toEpochSecond(); 但是既然 LocalDateTime（本地时间）已经确定当前时间，为什么不能直接转为时间戳？
+因为时间戳指的是自 1970 年 1 月 1 日（00:00:00 UTC/GMT）以来的秒数，所以无论在哪个时区，同一时间获取的都是相同时间戳，可以用于跨时区。但是我们现实生活用到的本地时间是跟时区挂钩的，中国所在的时区是东八区，会比 UTC 时间快 8 个小时。时间戳是从 UTC 时间得来的，所以时间戳与本地时间的相互转换，需要根据时区来转换。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/localdatetime%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="LocalDateTime与时间戳" />
+<meta property="og:description" content="众所周知，如果想把 LocalDateTime 转为时间戳，需要先指定时区，然后才能转为时间戳，例如：
+LocalDateTime localDateTime = LocalDateTime.now();  
+ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());  
+long second = zonedDateTime.toEpochSecond();
+但是既然 LocalDateTime（本地时间）已经确定当前时间，为什么不能直接转为时间戳？
+因为时间戳指的是自 1970 年 1 月 1 日（00:00:00 UTC/GMT）以来的秒数，所以无论在哪个时区，同一时间获取的都是相同时间戳，可以用于跨时区。但是我们现实生活用到的本地时间是跟时区挂钩的，中国所在的时区是东八区，会比 UTC 时间快 8 个小时。时间戳是从 UTC 时间得来的，所以时间戳与本地时间的相互转换，需要根据时区来转换。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/localdatetime%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-10-15T21:13:19+08:00" />
+<meta property="article:modified_time" content="2023-10-15T22:58:47+08:00" />
+
+<meta itemprop="name" content="LocalDateTime与时间戳">
+<meta itemprop="description" content="众所周知，如果想把 LocalDateTime 转为时间戳，需要先指定时区，然后才能转为时间戳，例如：
+LocalDateTime localDateTime = LocalDateTime.now();  
+ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());  
+long second = zonedDateTime.toEpochSecond();
+但是既然 LocalDateTime（本地时间）已经确定当前时间，为什么不能直接转为时间戳？
+因为时间戳指的是自 1970 年 1 月 1 日（00:00:00 UTC/GMT）以来的秒数，所以无论在哪个时区，同一时间获取的都是相同时间戳，可以用于跨时区。但是我们现实生活用到的本地时间是跟时区挂钩的，中国所在的时区是东八区，会比 UTC 时间快 8 个小时。时间戳是从 UTC 时间得来的，所以时间戳与本地时间的相互转换，需要根据时区来转换。"><meta itemprop="datePublished" content="2023-10-15T21:13:19+08:00" />
+<meta itemprop="dateModified" content="2023-10-15T22:58:47+08:00" />
+<meta itemprop="wordCount" content="1062">
+<meta itemprop="keywords" content="java," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LocalDateTime与时间戳"/>
+<meta name="twitter:description" content="众所周知，如果想把 LocalDateTime 转为时间戳，需要先指定时区，然后才能转为时间戳，例如：
+LocalDateTime localDateTime = LocalDateTime.now();  
+ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.systemDefault());  
+long second = zonedDateTime.toEpochSecond();
+但是既然 LocalDateTime（本地时间）已经确定当前时间，为什么不能直接转为时间戳？
+因为时间戳指的是自 1970 年 1 月 1 日（00:00:00 UTC/GMT）以来的秒数，所以无论在哪个时区，同一时间获取的都是相同时间戳，可以用于跨时区。但是我们现实生活用到的本地时间是跟时区挂钩的，中国所在的时区是东八区，会比 UTC 时间快 8 个小时。时间戳是从 UTC 时间得来的，所以时间戳与本地时间的相互转换，需要根据时区来转换。"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">LocalDateTime与时间戳</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-10-15 21:13:19 </span>
+        <div class="post-category">
+            <a href="/categories/java/"> java </a>
+            </div>
+          <span class="more-meta"> 约 1062 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>众所周知，如果想把 LocalDateTime 转为时间戳，需要先指定时区，然后才能转为时间戳，例如：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime <span style="color:#f92672">=</span> LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">now</span><span style="color:#f92672">();</span>  
+ZonedDateTime zonedDateTime <span style="color:#f92672">=</span> localDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">atZone</span><span style="color:#f92672">(</span>ZoneId<span style="color:#f92672">.</span><span style="color:#a6e22e">systemDefault</span><span style="color:#f92672">());</span>  
+<span style="color:#66d9ef">long</span> second <span style="color:#f92672">=</span> zonedDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">toEpochSecond</span><span style="color:#f92672">();</span>
+</code></pre></div><p>但是既然 LocalDateTime（本地时间）已经确定当前时间，为什么不能直接转为时间戳？</p>
+<p>因为时间戳指的是自 1970 年 1 月 1 日（00:00:00 UTC/GMT）以来的秒数，所以无论在哪个时区，同一时间获取的都是相同时间戳，可以用于跨时区。但是我们现实生活用到的本地时间是跟时区挂钩的，中国所在的时区是东八区，会比 UTC 时间快 8 个小时。时间戳是从 UTC 时间得来的，所以时间戳与本地时间的相互转换，需要根据时区来转换。</p>
+<p>通过查看 LocalDateTime.now() 方法源码，也能看出会先获取系统默认时区，然后再时间戳和时区获得本地时间。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> LocalDateTime <span style="color:#a6e22e">now</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+    <span style="color:#66d9ef">return</span> now<span style="color:#f92672">(</span>Clock<span style="color:#f92672">.</span><span style="color:#a6e22e">systemDefaultZone</span><span style="color:#f92672">());</span>  <span style="color:#75715e">//先获取系统默认时区
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><p>从 <code>Clock.systemDefaultZone()</code> 方法一直往下走，到达获取系统默认时区的重要方法。首先获取 JVM 参数中的时区信息，如果不存在则获取操作系统的时区信息，否则默认使用 GMT。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//java.util.TimeZone#setDefaultZone
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">synchronized</span> TimeZone <span style="color:#a6e22e">setDefaultZone</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+    TimeZone tz<span style="color:#f92672">;</span>  
+    <span style="color:#75715e">// get the time zone ID from the system properties  
+</span><span style="color:#75715e"></span>    Properties props <span style="color:#f92672">=</span> GetPropertyAction<span style="color:#f92672">.</span><span style="color:#a6e22e">privilegedGetProperties</span><span style="color:#f92672">();</span>  
+    String zoneID <span style="color:#f92672">=</span> props<span style="color:#f92672">.</span><span style="color:#a6e22e">getProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;user.timezone&#34;</span><span style="color:#f92672">);</span>  <span style="color:#75715e">//通过JVM属性获取
+</span><span style="color:#75715e"></span>  
+    <span style="color:#75715e">// if the time zone ID is not set (yet), perform the  
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// platform to Java time zone ID mapping.   
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>zoneID <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span> <span style="color:#f92672">||</span> zoneID<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span>  
+        String javaHome <span style="color:#f92672">=</span> StaticProperty<span style="color:#f92672">.</span><span style="color:#a6e22e">javaHome</span><span style="color:#f92672">();</span>  
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>  
+            zoneID <span style="color:#f92672">=</span> getSystemTimeZoneID<span style="color:#f92672">(</span>javaHome<span style="color:#f92672">);</span>  <span style="color:#75715e">//获取操作系统时区
+</span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>zoneID <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+                zoneID <span style="color:#f92672">=</span> GMT_ID<span style="color:#f92672">;</span>  <span style="color:#75715e">//默认使用GMT
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">}</span>  
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>NullPointerException e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+            zoneID <span style="color:#f92672">=</span> GMT_ID<span style="color:#f92672">;</span>  
+        <span style="color:#f92672">}</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">// Get the time zone for zoneID. But not fall back to  
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// &#34;GMT&#34; here.   
+</span><span style="color:#75715e"></span>    tz <span style="color:#f92672">=</span> getTimeZone<span style="color:#f92672">(</span>zoneID<span style="color:#f92672">,</span> <span style="color:#66d9ef">false</span><span style="color:#f92672">);</span>   <span style="color:#75715e">//从默认的时区配置和java根目录下的/lib/tzdb.dat中根据时区id获取时区信息。
+</span><span style="color:#75715e"></span>  
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>tz <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        <span style="color:#75715e">// If the given zone ID is unknown in Java, try to  
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// get the GMT-offset-based time zone ID,        
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// a.k.a. custom time zone ID (e.g., &#34;GMT-08:00&#34;).        
+</span><span style="color:#75715e"></span>        String gmtOffsetID <span style="color:#f92672">=</span> getSystemGMTOffsetID<span style="color:#f92672">();</span>  
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>gmtOffsetID <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+            zoneID <span style="color:#f92672">=</span> gmtOffsetID<span style="color:#f92672">;</span>  
+        <span style="color:#f92672">}</span>  
+        tz <span style="color:#f92672">=</span> getTimeZone<span style="color:#f92672">(</span>zoneID<span style="color:#f92672">,</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+    <span style="color:#66d9ef">assert</span> tz <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>  
+  
+    <span style="color:#66d9ef">final</span> String id <span style="color:#f92672">=</span> zoneID<span style="color:#f92672">;</span>  
+    props<span style="color:#f92672">.</span><span style="color:#a6e22e">setProperty</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;user.timezone&#34;</span><span style="color:#f92672">,</span> id<span style="color:#f92672">);</span>  
+  
+    defaultTimeZone <span style="color:#f92672">=</span> tz<span style="color:#f92672">;</span>  
+    <span style="color:#66d9ef">return</span> tz<span style="color:#f92672">;</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><p><code>getSystemTimeZoneID()</code> 是一个 native 方法，根据不同操作系统，获取的方法不同。对于 window 系统，获取的是注册表里的时区信息。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//java.util.TimeZone#getSystemTimeZoneID
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">native</span> String <span style="color:#a6e22e">getSystemTimeZoneID</span><span style="color:#f92672">(</span>String javaHome<span style="color:#f92672">);</span>
+</code></pre></div><p>获取到系统默认时区后，通过获取 1970 年 1 月 1 日午夜至今的秒数和时区偏移量，计算出本地时间的秒数，借此创建 LocalDateTime 实例。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//java.time.LocalDateTime#now(java.time.Clock)
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> LocalDateTime <span style="color:#a6e22e">now</span><span style="color:#f92672">(</span>Clock clock<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+    Objects<span style="color:#f92672">.</span><span style="color:#a6e22e">requireNonNull</span><span style="color:#f92672">(</span>clock<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;clock&#34;</span><span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">final</span> Instant now <span style="color:#f92672">=</span> clock<span style="color:#f92672">.</span><span style="color:#a6e22e">instant</span><span style="color:#f92672">();</span>  <span style="color:#75715e">// called once   //获取1970 年 1 月 1 日午夜至今的秒数
+</span><span style="color:#75715e"></span>    ZoneOffset offset <span style="color:#f92672">=</span> clock<span style="color:#f92672">.</span><span style="color:#a6e22e">getZone</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getRules</span><span style="color:#f92672">().</span><span style="color:#a6e22e">getOffset</span><span style="color:#f92672">(</span>now<span style="color:#f92672">);</span>  <span style="color:#75715e">//获取时区偏移量
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> ofEpochSecond<span style="color:#f92672">(</span>now<span style="color:#f92672">.</span><span style="color:#a6e22e">getEpochSecond</span><span style="color:#f92672">(),</span> now<span style="color:#f92672">.</span><span style="color:#a6e22e">getNano</span><span style="color:#f92672">(),</span> offset<span style="color:#f92672">);</span>  
+<span style="color:#f92672">}</span>
+
+<span style="color:#75715e">//java.time.LocalDateTime#ofEpochSecond
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> LocalDateTime <span style="color:#a6e22e">ofEpochSecond</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> epochSecond<span style="color:#f92672">,</span> <span style="color:#66d9ef">int</span> nanoOfSecond<span style="color:#f92672">,</span> ZoneOffset offset<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+    Objects<span style="color:#f92672">.</span><span style="color:#a6e22e">requireNonNull</span><span style="color:#f92672">(</span>offset<span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;offset&#34;</span><span style="color:#f92672">);</span>  
+    NANO_OF_SECOND<span style="color:#f92672">.</span><span style="color:#a6e22e">checkValidValue</span><span style="color:#f92672">(</span>nanoOfSecond<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">long</span> localSecond <span style="color:#f92672">=</span> epochSecond <span style="color:#f92672">+</span> offset<span style="color:#f92672">.</span><span style="color:#a6e22e">getTotalSeconds</span><span style="color:#f92672">();</span>  <span style="color:#75715e">// overflow caught later  //将UTC时间下的秒数和时区偏移的秒数相加，获得本地时间的秒数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">long</span> localEpochDay <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">floorDiv</span><span style="color:#f92672">(</span>localSecond<span style="color:#f92672">,</span> SECONDS_PER_DAY<span style="color:#f92672">);</span>  <span style="color:#75715e">//将本地时间的秒数除以每天的秒数，得到天数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">int</span> secsOfDay <span style="color:#f92672">=</span> Math<span style="color:#f92672">.</span><span style="color:#a6e22e">floorMod</span><span style="color:#f92672">(</span>localSecond<span style="color:#f92672">,</span> SECONDS_PER_DAY<span style="color:#f92672">);</span>  <span style="color:#75715e">//将本地时间的秒数对每天的秒数取余，得到一天内剩下的秒数
+</span><span style="color:#75715e"></span>    LocalDate date <span style="color:#f92672">=</span> LocalDate<span style="color:#f92672">.</span><span style="color:#a6e22e">ofEpochDay</span><span style="color:#f92672">(</span>localEpochDay<span style="color:#f92672">);</span>  
+    LocalTime time <span style="color:#f92672">=</span> LocalTime<span style="color:#f92672">.</span><span style="color:#a6e22e">ofNanoOfDay</span><span style="color:#f92672">(</span>secsOfDay <span style="color:#f92672">*</span> NANOS_PER_SECOND <span style="color:#f92672">+</span> nanoOfSecond<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> LocalDateTime<span style="color:#f92672">(</span>date<span style="color:#f92672">,</span> time<span style="color:#f92672">);</span>  <span style="color:#75715e">//通过LocalDate和LocalTime创建LocalDateTime实例
+</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
+</code></pre></div><p>既然本地时间是根据 1970 年 1 月 1 日午夜至今的秒数加上时区偏移的秒数得到的，那么从 LocalDateTime 转换为时间戳也自然需要减去时区偏移的秒数。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//java.time.chrono.ChronoZonedDateTime#toEpochSecond
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">default</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">toEpochSecond</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+    <span style="color:#66d9ef">long</span> epochDay <span style="color:#f92672">=</span> toLocalDate<span style="color:#f92672">().</span><span style="color:#a6e22e">toEpochDay</span><span style="color:#f92672">();</span>  
+    <span style="color:#66d9ef">long</span> secs <span style="color:#f92672">=</span> epochDay <span style="color:#f92672">*</span> 86400 <span style="color:#f92672">+</span> toLocalTime<span style="color:#f92672">().</span><span style="color:#a6e22e">toSecondOfDay</span><span style="color:#f92672">();</span>  <span style="color:#75715e">//获取本地时间的秒数
+</span><span style="color:#75715e"></span>    secs <span style="color:#f92672">-=</span> getOffset<span style="color:#f92672">().</span><span style="color:#a6e22e">getTotalSeconds</span><span style="color:#f92672">();</span>  <span style="color:#75715e">//减去时区偏移的秒数
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> secs<span style="color:#f92672">;</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-10-15 22:58:47
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">java</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/netty%E7%B2%98%E5%8C%85%E4%B8%8E%E6%8B%86%E5%8C%85%E9%97%AE%E9%A2%98/">
+            <span class="next-text nav-default">Netty粘包与拆包问题</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

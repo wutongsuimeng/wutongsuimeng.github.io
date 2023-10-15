@@ -6,7 +6,21 @@
     <description>Recent content in Java on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 22 Jul 2023 17:26:35 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 15 Oct 2023 21:13:19 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LocalDateTime与时间戳</title>
+      <link>https://wutongsuimeng.github.io/post/localdatetime%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3/</link>
+      <pubDate>Sun, 15 Oct 2023 21:13:19 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/localdatetime%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3/</guid>
+      <description>&lt;p&gt;众所周知，如果想把 LocalDateTime 转为时间戳，需要先指定时区，然后才能转为时间戳，例如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;LocalDateTime localDateTime &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; LocalDateTime&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;now&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;  
+ZonedDateTime zonedDateTime &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; localDateTime&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;atZone&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ZoneId&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;systemDefault&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;());&lt;/span&gt;  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; second &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; zonedDateTime&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;toEpochSecond&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;();&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;但是既然 LocalDateTime（本地时间）已经确定当前时间，为什么不能直接转为时间戳？&lt;/p&gt;
+&lt;p&gt;因为时间戳指的是自 1970 年 1 月 1 日（00:00:00 UTC/GMT）以来的秒数，所以无论在哪个时区，同一时间获取的都是相同时间戳，可以用于跨时区。但是我们现实生活用到的本地时间是跟时区挂钩的，中国所在的时区是东八区，会比 UTC 时间快 8 个小时。时间戳是从 UTC 时间得来的，所以时间戳与本地时间的相互转换，需要根据时区来转换。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>从JVM指令看String对象的比较</title>
       <link>https://wutongsuimeng.github.io/post/%E4%BB%8Ejvm%E6%8C%87%E4%BB%A4%E7%9C%8Bstring%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%94%E8%BE%83/</link>

@@ -123,6 +123,53 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/">使用idea撤销git中间的提交</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-02-14 09:17:46 </span>
+      <div class="post-category">
+          <a href="/categories/git/"> git </a>
+          </div>
+        <span class="more-meta"> 约 431 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>在平时的开发中，经常会碰到提交的代码需要撤销，但是又有别人提交了代码，这种时候我们需要只撤销中间的提交，不影响前后提交的代码，可以用命令 <code>git revert</code> 撤销，也可以使用 idea 可视化撤销，这里介绍使用 idea 操作。
+例子是三次提交的内容。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E4%BD%BF%E7%94%A8idea%E6%92%A4%E9%94%80git%E4%B8%AD%E9%97%B4%E7%9A%84%E6%8F%90%E4%BA%A4/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/arthas%E6%89%A7%E8%A1%8C%E5%9C%A8%E7%BA%BF%E4%BB%A3%E7%A0%81/">Arthas执行在线代码</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-12-04 10:17:51 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> Java </a>
+          </div>
+        <span class="more-meta"> 约 773 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>arthas 是阿里巴巴开源的一款监控诊断的神器，能实时监测应用内存、gc、线程的状态信息，并查看方法调用的出入参、异常，监测方法执行耗时等信息<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。这篇文章中我们将借助 arthas 提供的 ognl 命令来执行在线代码。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/arthas%E6%89%A7%E8%A1%8C%E5%9C%A8%E7%BA%BF%E4%BB%A3%E7%A0%81/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/clion-%E4%BD%BF%E7%94%A8-wsl/">CLion 使用 WSL</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-09-25 17:23:45 </span>
@@ -211,72 +258,6 @@
     </div>
     <div class="read-more">
       <a href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/">Mock的使用</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-07-02 22:33:53 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> Java </a>
-          </div>
-        <span class="more-meta"> 约 1796 字 </span>
-        <span class="more-meta"> 预计阅读 4 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>Mock 常用于单元测试，用来模拟测试代码所依赖的外部类。因为我们所编写的代码往往存在大量复杂的外部依赖，或者依赖于特定的环境才能正常运行。这时我们可以选择使用 Mock 来构造这些外部依赖，使它们产生符合我们期待的行为（例如返回特定的值），但不需要真正地去构造外部依赖。需要注意的是，Mock 出来的对象并不会真实执行。</p>
-<p>Java 中常用的 Mock 框架为 Mockito 和 Powermock，Powermock 主要在 Mockito 上添加了 final、private、static 方法的支持，两者可以结合使用。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/mock%E7%9A%84%E4%BD%BF%E7%94%A8/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">HashMap1.8 的源码解析</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-05-29 17:58:26 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> Java </a>
-          </div>
-        <span class="more-meta"> 约 2620 字 </span>
-        <span class="more-meta"> 预计阅读 6 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <h1 id="结构">结构</h1>
-<p>HashMap的结构为数组+链表+红黑树。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#75715e">//对象数组
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">transient</span> Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;[]</span> table<span style="color:#f92672">;</span> 
-<span style="color:#75715e">// 链表节点
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">implements</span> Map<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> hash<span style="color:#f92672">;</span> <span style="color:#75715e">//哈希值
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">final</span> K key<span style="color:#f92672">;</span> <span style="color:#75715e">//建
-</span><span style="color:#75715e"></span>        V value<span style="color:#f92672">;</span> <span style="color:#75715e">//值
-</span><span style="color:#75715e"></span>        Node<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> next<span style="color:#f92672">;</span>  <span style="color:#75715e">//下一个节点
-</span><span style="color:#75715e"></span><span style="color:#f92672">}</span>
-<span style="color:#75715e">//红黑树节点
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TreeNode</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">extends</span> LinkedHashMap<span style="color:#f92672">.</span><span style="color:#a6e22e">Entry</span><span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> <span style="color:#f92672">{</span>
-        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> parent<span style="color:#f92672">;</span>  <span style="color:#75715e">// red-black tree links
-</span><span style="color:#75715e"></span>        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> left<span style="color:#f92672">;</span>
-        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> right<span style="color:#f92672">;</span>
-        TreeNode<span style="color:#f92672">&lt;</span>K<span style="color:#f92672">,</span>V<span style="color:#f92672">&gt;</span> prev<span style="color:#f92672">;</span>    <span style="color:#75715e">// needed to unlink next upon deletion
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">boolean</span> red<span style="color:#f92672">;</span>
-<span style="color:#f92672">}</span>
-</code></pre></div>
-    </div>
-    <div class="read-more">
-      <a href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
