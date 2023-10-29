@@ -123,6 +123,59 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/instantlocaldatelocaltimelocaldatetime%E5%92%8Czoneddatetime/">Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-10-21 21:23:47 </span>
+      <div class="post-category">
+          <a href="/categories//">  </a>
+          <a href="/categories/java/"> java </a>
+          </div>
+        <span class="more-meta"> 约 1357 字 </span>
+        <span class="more-meta"> 预计阅读 3 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <h1 id="instant">Instant</h1>
+<p>封装了从 1970-01-01T00:00:00Z 开始的秒数，相当于时间戳。</p>
+<p>主要有两个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> seconds<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> nanos<span style="color:#f92672">;</span>
+</code></pre></div><h1 id="localdate">LocalDate</h1>
+<p>用于表示日期，包括年、月、日，例如 2017-12-03。</p>
+<p>主要有三个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> year<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">short</span> month<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">short</span> day<span style="color:#f92672">;</span>
+</code></pre></div><h1 id="localtime">LocalTime</h1>
+<p>用于表示时间，包括时、分、秒，例如 10:15:30。</p>
+<p>主要有四个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">byte</span> hour<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">byte</span> minute<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">byte</span> second<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> nano<span style="color:#f92672">;</span>  <span style="color:#75715e">//纳秒
+</span></code></pre></div><h1 id="localdatetime">LocalDateTime</h1>
+<p>符合 ISO-8601 时间表示标准，用于表示日期和时间，包括年、月、日、时、分、秒，例如 2007-12-03T10:15:30。LocalDateTime 不包含时区信息。</p>
+<p>LocalDateTime 只有两个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LocalDate date<span style="color:#f92672">;</span>  <span style="color:#75715e">//日期
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LocalTime time<span style="color:#f92672">;</span>  <span style="color:#75715e">//时间
+</span></code></pre></div><h1 id="zoneddatetime">ZonedDateTime</h1>
+<p>包含日期、时间、时区信息，例如 2007-12-03T10:15:30+01:00 Europe/Paris</p>
+<p>主要有三个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LocalDateTime dateTime<span style="color:#f92672">;</span>  <span style="color:#75715e">//时间
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> ZoneOffset offset<span style="color:#f92672">;</span>  <span style="color:#75715e">//相对于UTC的偏移量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> ZoneId zone<span style="color:#f92672">;</span> <span style="color:#75715e">//时区
+</span></code></pre></div>
+    </div>
+    <div class="read-more">
+      <a href="/post/instantlocaldatelocaltimelocaldatetime%E5%92%8Czoneddatetime/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/localdatetime%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3/">LocalDateTime与时间戳</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2023-10-15 21:13:19 </span>
@@ -297,31 +350,6 @@ String a3<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&
     </div>
     <div class="read-more">
       <a href="/post/%E4%BB%8Ejvm%E6%8C%87%E4%BB%A4%E7%9C%8Bstring%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%94%E8%BE%83/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/flutter-%E4%BD%BF%E7%94%A8archive%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E6%97%B6%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/">flutter 使用archive压缩与解压文件时出现中文乱码的问题</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-07-15 18:23:25 </span>
-      <div class="post-category">
-          <a href="/categories/flutter/"> flutter </a>
-          </div>
-        <span class="more-meta"> 约 1162 字 </span>
-        <span class="more-meta"> 预计阅读 3 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p><a href="https://pub.dev/packages/archive">archive</a> 是 flutter 上的一个文件压缩与解压的类库，支持 zip,tar,zlip,gzip,zip2,xz 格式的压缩与解压。</p>
-<h1 id="archive-的使用">archive 的使用</h1>
-<p>archive 主要通过 Archive，ArchiveFile，ZipEncoder，ZipDecoder 三个类来实现文件的压缩和解压。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/flutter-%E4%BD%BF%E7%94%A8archive%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6%E6%97%B6%E5%87%BA%E7%8E%B0%E4%B8%AD%E6%96%87%E4%B9%B1%E7%A0%81%E7%9A%84%E9%97%AE%E9%A2%98/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="Instant 封装了从 1970-01-01T00:00:00Z 开始的秒数，相当于时间戳。
+主要有两个属性：
+private final long seconds; private final int nanos; LocalDate 用于表示日期，包括年、月、日，例如 2017-12-03。
+主要有三个属性：
+private final int year; private final short month; private final short day; LocalTime 用于表示时间，包括时、分、秒，例如 10:15:30。
+主要有四个属性：
+private final byte hour; private final byte minute; private final byte second; private final int nano; //纳秒 LocalDateTime 符合 ISO-8601 时间表示标准，用于表示日期和时间，包括年、月、日、时、分、秒，例如 2007-12-03T10:15:30。LocalDateTime 不包含时区信息。
+LocalDateTime 只有两个属性：
+private final LocalDate date; //日期 private final LocalTime time; //时间 ZonedDateTime 包含日期、时间、时区信息，例如 2007-12-03T10:15:30&#43;01:00 Europe/Paris
+主要有三个属性：
+private final LocalDateTime dateTime; //时间 private final ZoneOffset offset; //相对于UTC的偏移量 private final ZoneId zone; //时区 " /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/instantlocaldatelocaltimelocaldatetime%E5%92%8Czoneddatetime/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime" />
+<meta property="og:description" content="Instant
+封装了从 1970-01-01T00:00:00Z 开始的秒数，相当于时间戳。
+主要有两个属性：
+private final long seconds;  
+private final int nanos;
+LocalDate
+用于表示日期，包括年、月、日，例如 2017-12-03。
+主要有三个属性：
+private final int year;  
+private final short month;  
+private final short day;
+LocalTime
+用于表示时间，包括时、分、秒，例如 10:15:30。
+主要有四个属性：
+private final byte hour;  
+private final byte minute;  
+private final byte second;  
+private final int nano;  //纳秒
+LocalDateTime
+符合 ISO-8601 时间表示标准，用于表示日期和时间，包括年、月、日、时、分、秒，例如 2007-12-03T10:15:30。LocalDateTime 不包含时区信息。
+LocalDateTime 只有两个属性：
+private final LocalDate date;  //日期
+private final LocalTime time;  //时间
+ZonedDateTime
+包含日期、时间、时区信息，例如 2007-12-03T10:15:30&#43;01:00 Europe/Paris
+主要有三个属性：
+private final LocalDateTime dateTime;  //时间
+private final ZoneOffset offset;  //相对于UTC的偏移量
+private final ZoneId zone; //时区
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/instantlocaldatelocaltimelocaldatetime%E5%92%8Czoneddatetime/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-10-21T21:23:47+08:00" />
+<meta property="article:modified_time" content="2023-10-29T20:24:47+08:00" />
+
+<meta itemprop="name" content="Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime">
+<meta itemprop="description" content="Instant
+封装了从 1970-01-01T00:00:00Z 开始的秒数，相当于时间戳。
+主要有两个属性：
+private final long seconds;  
+private final int nanos;
+LocalDate
+用于表示日期，包括年、月、日，例如 2017-12-03。
+主要有三个属性：
+private final int year;  
+private final short month;  
+private final short day;
+LocalTime
+用于表示时间，包括时、分、秒，例如 10:15:30。
+主要有四个属性：
+private final byte hour;  
+private final byte minute;  
+private final byte second;  
+private final int nano;  //纳秒
+LocalDateTime
+符合 ISO-8601 时间表示标准，用于表示日期和时间，包括年、月、日、时、分、秒，例如 2007-12-03T10:15:30。LocalDateTime 不包含时区信息。
+LocalDateTime 只有两个属性：
+private final LocalDate date;  //日期
+private final LocalTime time;  //时间
+ZonedDateTime
+包含日期、时间、时区信息，例如 2007-12-03T10:15:30&#43;01:00 Europe/Paris
+主要有三个属性：
+private final LocalDateTime dateTime;  //时间
+private final ZoneOffset offset;  //相对于UTC的偏移量
+private final ZoneId zone; //时区
+"><meta itemprop="datePublished" content="2023-10-21T21:23:47+08:00" />
+<meta itemprop="dateModified" content="2023-10-29T20:24:47+08:00" />
+<meta itemprop="wordCount" content="1357">
+<meta itemprop="keywords" content="java," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime"/>
+<meta name="twitter:description" content="Instant
+封装了从 1970-01-01T00:00:00Z 开始的秒数，相当于时间戳。
+主要有两个属性：
+private final long seconds;  
+private final int nanos;
+LocalDate
+用于表示日期，包括年、月、日，例如 2017-12-03。
+主要有三个属性：
+private final int year;  
+private final short month;  
+private final short day;
+LocalTime
+用于表示时间，包括时、分、秒，例如 10:15:30。
+主要有四个属性：
+private final byte hour;  
+private final byte minute;  
+private final byte second;  
+private final int nano;  //纳秒
+LocalDateTime
+符合 ISO-8601 时间表示标准，用于表示日期和时间，包括年、月、日、时、分、秒，例如 2007-12-03T10:15:30。LocalDateTime 不包含时区信息。
+LocalDateTime 只有两个属性：
+private final LocalDate date;  //日期
+private final LocalTime time;  //时间
+ZonedDateTime
+包含日期、时间、时区信息，例如 2007-12-03T10:15:30&#43;01:00 Europe/Paris
+主要有三个属性：
+private final LocalDateTime dateTime;  //时间
+private final ZoneOffset offset;  //相对于UTC的偏移量
+private final ZoneId zone; //时区
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2023-10-21 21:23:47 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            <a href="/categories/java/"> java </a>
+            </div>
+          <span class="more-meta"> 约 1357 字 </span>
+          <span class="more-meta"> 预计阅读 3 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#instant">Instant</a></li>
+    <li><a href="#localdate">LocalDate</a></li>
+    <li><a href="#localtime">LocalTime</a></li>
+    <li><a href="#localdatetime">LocalDateTime</a></li>
+    <li><a href="#zoneddatetime">ZonedDateTime</a></li>
+    <li><a href="#关联">关联</a></li>
+    <li><a href="#共同方法">共同方法</a>
+      <ul>
+        <li><a href="#now">now()</a></li>
+        <li><a href="#of">of()</a></li>
+        <li><a href="#from">from()</a></li>
+        <li><a href="#parse">parse()</a></li>
+        <li><a href="#get">get()</a></li>
+        <li><a href="#with">with()</a></li>
+        <li><a href="#plus">plus()</a></li>
+        <li><a href="#minus">minus()</a></li>
+        <li><a href="#until">until()</a></li>
+        <li><a href="#format">format()</a></li>
+        <li><a href="#isafter">isAfter()</a></li>
+        <li><a href="#isbefore">isBefore()</a></li>
+        <li><a href="#isequal">isEqual()</a></li>
+      </ul>
+    </li>
+    <li><a href="#相互转换">相互转换</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="instant">Instant</h1>
+<p>封装了从 1970-01-01T00:00:00Z 开始的秒数，相当于时间戳。</p>
+<p>主要有两个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">long</span> seconds<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> nanos<span style="color:#f92672">;</span>
+</code></pre></div><h1 id="localdate">LocalDate</h1>
+<p>用于表示日期，包括年、月、日，例如 2017-12-03。</p>
+<p>主要有三个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> year<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">short</span> month<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">short</span> day<span style="color:#f92672">;</span>
+</code></pre></div><h1 id="localtime">LocalTime</h1>
+<p>用于表示时间，包括时、分、秒，例如 10:15:30。</p>
+<p>主要有四个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">byte</span> hour<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">byte</span> minute<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">byte</span> second<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> nano<span style="color:#f92672">;</span>  <span style="color:#75715e">//纳秒
+</span></code></pre></div><h1 id="localdatetime">LocalDateTime</h1>
+<p>符合 ISO-8601 时间表示标准，用于表示日期和时间，包括年、月、日、时、分、秒，例如 2007-12-03T10:15:30。LocalDateTime 不包含时区信息。</p>
+<p>LocalDateTime 只有两个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LocalDate date<span style="color:#f92672">;</span>  <span style="color:#75715e">//日期
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LocalTime time<span style="color:#f92672">;</span>  <span style="color:#75715e">//时间
+</span></code></pre></div><h1 id="zoneddatetime">ZonedDateTime</h1>
+<p>包含日期、时间、时区信息，例如 2007-12-03T10:15:30+01:00 Europe/Paris</p>
+<p>主要有三个属性：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> LocalDateTime dateTime<span style="color:#f92672">;</span>  <span style="color:#75715e">//时间
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> ZoneOffset offset<span style="color:#f92672">;</span>  <span style="color:#75715e">//相对于UTC的偏移量
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> ZoneId zone<span style="color:#f92672">;</span> <span style="color:#75715e">//时区
+</span></code></pre></div><h1 id="关联">关联</h1>
+<pre><code class="language-mermaid" data-lang="mermaid">flowchart BT
+纳秒--&gt;Instant
+秒--&gt;Instant
+
+纳秒--&gt;LocalTime
+秒--&gt;LocalTime
+分--&gt;LocalTime
+时--&gt;LocalTime
+
+天--&gt;LocalDate
+月--&gt;LocalDate
+年--&gt;LocalDate
+
+LocalTime--&gt;LocalDateTime
+LocalDate--&gt;LocalDateTime
+
+LocalDateTime--&gt;ZonedDateTime
+时区--&gt;ZonedDateTime
+时区偏移量--&gt;ZonedDateTime
+</code></pre><p>Instant,LocalDate,LocalTime,LocalDateTime 和 ZonedDateTime 共同的特征是，都是不可变和线程安全的。</p>
+<h1 id="共同方法">共同方法</h1>
+<h2 id="now">now()</h2>
+<p>获取当前时间。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime <span style="color:#f92672">=</span> LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">now</span><span style="color:#f92672">();</span>  <span style="color:#75715e">//2023-10-29T15:18:15.186459200
+</span><span style="color:#75715e"></span>LocalDate localDate <span style="color:#f92672">=</span> LocalDate<span style="color:#f92672">.</span><span style="color:#a6e22e">now</span><span style="color:#f92672">();</span> <span style="color:#75715e">//2023-10-29
+</span></code></pre></div><h2 id="of">of()</h2>
+<p>根据属性创建实例。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>10<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  <span style="color:#75715e">//2023-10-28T00:00
+</span></code></pre></div><h2 id="from">from()</h2>
+<p>从 temporal 创建实例。</p>
+<h2 id="parse">parse()</h2>
+<p>解析字符串创建实例。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime parse <span style="color:#f92672">=</span> LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">parse</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;2023-10-29T12:00:00&#34;</span><span style="color:#f92672">);</span> <span style="color:#75715e">//2023-10-29T12:00
+</span></code></pre></div><h2 id="get">get()</h2>
+<p>获取指定属性的数据，例如分钟。</p>
+<h2 id="with">with()</h2>
+<p>对日期时间进行调整，并返回调整后日期时间的副本。</p>
+<p>主要存在两个方法，一个是 <code>with(TemporalAdjuster adjuster)</code>，通过调整器进行调整。底层调用的是 <code>with(TemporalField field, long newValue)</code> 方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime with <span style="color:#f92672">=</span> localDateTime  
+        <span style="color:#f92672">.</span><span style="color:#a6e22e">with</span><span style="color:#f92672">(</span>Month<span style="color:#f92672">.</span><span style="color:#a6e22e">NOVEMBER</span><span style="color:#f92672">)</span>  <span style="color:#75715e">//先调整为11月
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">.</span><span style="color:#a6e22e">with</span><span style="color:#f92672">(</span>TemporalAdjusters<span style="color:#f92672">.</span><span style="color:#a6e22e">lastDayOfMonth</span><span style="color:#f92672">());</span> <span style="color:#75715e">//再调整为月底，结果为 2023-11-30T00:00
+</span></code></pre></div><p>二是 <code>with(TemporalField field, long newValue)</code>，通过将属性（年、月、日等）设置为新的值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>10<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  
+LocalDateTime with <span style="color:#f92672">=</span> localDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">with</span><span style="color:#f92672">(</span>ChronoField<span style="color:#f92672">.</span><span style="color:#a6e22e">MONTH_OF_YEAR</span><span style="color:#f92672">,</span> Month<span style="color:#f92672">.</span><span style="color:#a6e22e">NOVEMBER</span><span style="color:#f92672">.</span><span style="color:#a6e22e">getValue</span><span style="color:#f92672">());</span> <span style="color:#75715e">//将月设置为11月，结果为2023-11-28T00:00
+</span></code></pre></div><h2 id="plus">plus()</h2>
+<p>将日期时间加上指定值，并返回添加后的副本。</p>
+<p>主要存在两种方法，一是 <code>plus(TemporalAmount amountToAdd)</code>，参数通常为实现 <code>TemporalAmount</code> 接口的 <code>Duration</code> 和 <code>Period</code>,分别代表一段时间和一段日期。底层调用的是 <code>plus(long amountToAdd, TemporalUnit unit)</code> 方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>10<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  
+LocalDateTime plus <span style="color:#f92672">=</span> localDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">plus</span><span style="color:#f92672">(</span>Period<span style="color:#f92672">.</span><span style="color:#a6e22e">ofYears</span><span style="color:#f92672">(</span>1<span style="color:#f92672">));</span>  <span style="color:#75715e">//将日期加上1年，结果为2024-10-28T00:00
+</span></code></pre></div><p>二是 <code>plus(long amountToAdd, TemporalUnit unit)</code>，通过将属性直接加上指定值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>10<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  
+LocalDateTime plus <span style="color:#f92672">=</span> localDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">plus</span><span style="color:#f92672">(</span>1<span style="color:#f92672">,</span> ChronoUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">YEARS</span><span style="color:#f92672">);</span> <span style="color:#75715e">//将日期加上1年，结果为2024-10-28T00:00
+</span></code></pre></div><h2 id="minus">minus()</h2>
+<p>将日期时间减去指定值，底层调用的是 <code>plus(long amountToAdd, TemporalUnit unit)</code>。只是将 amountToAdd 改成了负数。</p>
+<h2 id="until">until()</h2>
+<p><code>long until(Temporal endExclusive, TemporalUnit unit)</code>，endExclusive 为结束时间。</p>
+<p>计算两个日期时间之间在某个属性方面的差值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>10<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  
+LocalDateTime localDateTime2<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>11<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  
+<span style="color:#66d9ef">long</span> until <span style="color:#f92672">=</span> localDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">until</span><span style="color:#f92672">(</span>localDateTime2<span style="color:#f92672">,</span> ChronoUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">MONTHS</span><span style="color:#f92672">);</span> <span style="color:#75715e">//两个时间相差了1个月
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">long</span> days <span style="color:#f92672">=</span> localDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">until</span><span style="color:#f92672">(</span>localDateTime2<span style="color:#f92672">,</span> ChronoUnit<span style="color:#f92672">.</span><span style="color:#a6e22e">DAYS</span><span style="color:#f92672">);</span> <span style="color:#75715e">//也等同于相差了31天
+</span></code></pre></div><h2 id="format">format()</h2>
+<p>对代码进行格式化。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>10<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  
+DateTimeFormatter dateTimeFormatter<span style="color:#f92672">=</span>DateTimeFormatter<span style="color:#f92672">.</span><span style="color:#a6e22e">ofPattern</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;yyyy-MM-dd&#34;</span><span style="color:#f92672">);</span>  
+String format <span style="color:#f92672">=</span> localDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">format</span><span style="color:#f92672">(</span>dateTimeFormatter<span style="color:#f92672">);</span>  <span style="color:#75715e">//结果为2023-10-28
+</span></code></pre></div><h2 id="isafter">isAfter()</h2>
+<p>判断当前时间是否晚于指定时间。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">LocalDateTime localDateTime<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>10<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  
+LocalDateTime localDateTime2<span style="color:#f92672">=</span>LocalDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">of</span><span style="color:#f92672">(</span>2023<span style="color:#f92672">,</span>11<span style="color:#f92672">,</span>28<span style="color:#f92672">,</span>0<span style="color:#f92672">,</span>0<span style="color:#f92672">);</span>  
+<span style="color:#66d9ef">boolean</span> after <span style="color:#f92672">=</span> localDateTime<span style="color:#f92672">.</span><span style="color:#a6e22e">isAfter</span><span style="color:#f92672">(</span>localDateTime2<span style="color:#f92672">);</span>  <span style="color:#75715e">//false
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">boolean</span> after1 <span style="color:#f92672">=</span> localDateTime2<span style="color:#f92672">.</span><span style="color:#a6e22e">isAfter</span><span style="color:#f92672">(</span>localDateTime<span style="color:#f92672">);</span>  <span style="color:#75715e">//true
+</span></code></pre></div><h2 id="isbefore">isBefore()</h2>
+<p>判断当前时间是否早于指定时间。</p>
+<h2 id="isequal">isEqual()</h2>
+<p>判断当前时间是否与指定时间相等。</p>
+<h1 id="相互转换">相互转换</h1>
+<pre><code class="language-mermaid" data-lang="mermaid">flowchart LR
+ZonedDateTime -- &quot;toLocalDateTime()&quot; --&gt;LocalDateTime
+ZonedDateTime -- &quot;toLocalDate()&quot; --&gt;LocalDate
+ZonedDateTime -- &quot;toLocalTime()&quot; --&gt;LocalTime
+ZonedDateTime -- &quot;toEpochSecond()&quot; --&gt;时间戳
+ZonedDateTime -- &quot;toInstant()&quot; --&gt;Instant
+
+LocalDateTime -- &quot;toLocalDate()&quot; --&gt;LocalDate
+LocalDateTime -- &quot;toLocalTime()&quot; --&gt;LocalTime
+LocalDateTime -- &quot;atZone(ZoneId)&quot; --&gt;ZonedDateTime
+LocalDateTime -- &quot;toEpochSecond(ZoneOffset)&quot; --&gt;时间戳
+LocalDateTime -- &quot;toInstant(ZoneOffset)&quot; --&gt;Instant
+
+LocalDate--&quot;atTime()&quot; --&gt;LocalDateTime
+LocalDate--&quot;toEpochSecond(LocalTime, ZoneOffset)&quot; --&gt;时间戳
+
+LocalTime--&quot;atDate(LocalDate)&quot;--&gt;LocalDateTime
+LocalTime--&quot;toEpochSecond(LocalDate, ZoneOffset)&quot;--&gt;时间戳
+
+Instant--&quot;atZone(ZoneId)&quot;--&gt;ZonedDateTime
+Instant--&quot;toEpochMilli()/1000&quot;--&gt;时间戳
+</code></pre><p>能看到转换方法主要以 <code>to</code>,<code>at</code> 为前缀，并且 <code>LocalDate</code>,<code>LocalTime</code>,<code>LocalDateTime</code> 需要先转换为 <code>ZonedDateTime</code> 再转换为时间戳。</p>
+    </div>
+
+    
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+</script>
+<script>
+    
+    Array.from(document.getElementsByClassName("language-mermaid")).forEach(
+        (el) => {
+            el.parentElement.outerHTML = `<div class="mermaid">${el.innerHTML}</div>`;
+        }
+    );
+</script>
+<style>
+     
+    .mermaid svg {
+        display: block;
+        margin: auto;
+    }
+</style>
+<div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2023-10-29 20:24:47
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">java</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/localdatetime%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3/">
+            <span class="next-text nav-default">LocalDateTime与时间戳</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2023<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -6,7 +6,45 @@
     <description>Recent content in Java on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 15 Oct 2023 21:13:19 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 21 Oct 2023 21:23:47 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime</title>
+      <link>https://wutongsuimeng.github.io/post/instantlocaldatelocaltimelocaldatetime%E5%92%8Czoneddatetime/</link>
+      <pubDate>Sat, 21 Oct 2023 21:23:47 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/instantlocaldatelocaltimelocaldatetime%E5%92%8Czoneddatetime/</guid>
+      <description>&lt;h1 id=&#34;instant&#34;&gt;Instant&lt;/h1&gt;
+&lt;p&gt;封装了从 1970-01-01T00:00:00Z 开始的秒数，相当于时间戳。&lt;/p&gt;
+&lt;p&gt;主要有两个属性：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;long&lt;/span&gt; seconds&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; nanos&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;localdate&#34;&gt;LocalDate&lt;/h1&gt;
+&lt;p&gt;用于表示日期，包括年、月、日，例如 2017-12-03。&lt;/p&gt;
+&lt;p&gt;主要有三个属性：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; year&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;short&lt;/span&gt; month&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;short&lt;/span&gt; day&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;localtime&#34;&gt;LocalTime&lt;/h1&gt;
+&lt;p&gt;用于表示时间，包括时、分、秒，例如 10:15:30。&lt;/p&gt;
+&lt;p&gt;主要有四个属性：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt; hour&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt; minute&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;byte&lt;/span&gt; second&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  
+&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;int&lt;/span&gt; nano&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//纳秒
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;localdatetime&#34;&gt;LocalDateTime&lt;/h1&gt;
+&lt;p&gt;符合 ISO-8601 时间表示标准，用于表示日期和时间，包括年、月、日、时、分、秒，例如 2007-12-03T10:15:30。LocalDateTime 不包含时区信息。&lt;/p&gt;
+&lt;p&gt;LocalDateTime 只有两个属性：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; LocalDate date&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//日期
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; LocalTime time&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//时间
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;zoneddatetime&#34;&gt;ZonedDateTime&lt;/h1&gt;
+&lt;p&gt;包含日期、时间、时区信息，例如 2007-12-03T10:15:30+01:00 Europe/Paris&lt;/p&gt;
+&lt;p&gt;主要有三个属性：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; LocalDateTime dateTime&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//时间
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; ZoneOffset offset&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//相对于UTC的偏移量
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;final&lt;/span&gt; ZoneId zone&lt;span style=&#34;color:#f92672&#34;&gt;;&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;//时区
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+    </item>
+    
     <item>
       <title>LocalDateTime与时间戳</title>
       <link>https://wutongsuimeng.github.io/post/localdatetime%E4%B8%8E%E6%97%B6%E9%97%B4%E6%88%B3/</link>
