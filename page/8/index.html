@@ -123,6 +123,63 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/clion-%E4%BD%BF%E7%94%A8-wsl/">CLion 使用 WSL</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-09-25 17:23:45 </span>
+      <div class="post-category">
+          <a href="/categories/c/"> C </a>
+          </div>
+        <span class="more-meta"> 约 367 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>CLion 在安装时会自带 MinGW，MinGW 是 gcc 在 Window 上的版本，支持 C 语言在 Window 平台的编译。但由于跟 posix 标准不完全一致，如果所运行的 C 语言程序中包含了 socket.h 等库，MinGW 则没办法编译。所以我们可以改为通过使用 WSL 来进行编译。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/clion-%E4%BD%BF%E7%94%A8-wsl/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/">使用 switch 时碰到的一个坑</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-09-14 22:23:30 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> java </a>
+          </div>
+        <span class="more-meta"> 约 329 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>首先看一段程序。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">int</span> type<span style="color:#f92672">=</span>2<span style="color:#f92672">;</span>  
+<span style="color:#66d9ef">switch</span> <span style="color:#f92672">(</span>type<span style="color:#f92672">){</span>  
+    <span style="color:#66d9ef">case</span> 1<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>1<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">case</span> 2<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>2<span style="color:#f92672">);</span>  
+    <span style="color:#66d9ef">case</span> 3<span style="color:#f92672">:</span>  
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">print</span><span style="color:#f92672">(</span>3<span style="color:#f92672">);</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><p>踩过这个坑或者仔细看过 switch 语法的人都知道，上面的程序会打印出：23 ，而不是 2。因为 switch 语句会从相匹配的 case 开始执行，直到遇到 break 语句，或者执行整一个 switch 语句。如果没加 break ，则会将 2 和 3 的 case 都执行，而不是只执行匹配的 case ，所以在使用 switch 时，一定要注意加 break ，或者在 case 里 return，否则很容易出现程序错误。</p>
+<p>在编程时，我们可以通过一些插件来提醒我们这些的错误的发生，例如 SonarLint 、Alibaba Java Coding Guidelines。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E4%BD%BF%E7%94%A8switch%E6%97%B6%E7%A2%B0%E5%88%B0%E7%9A%84%E4%B8%80%E4%B8%AA%E5%9D%91/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/bean%E7%9A%84%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90/">bean的创建过程分析</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-08-14 16:08:23 </span>
@@ -220,104 +277,6 @@
     </div>
     <div class="read-more">
       <a href="/post/hashmap1.8-%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/">后端接收表单方式上传的文件和数据</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-04-14 22:38:44 </span>
-      <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
-          </div>
-        <span class="more-meta"> 约 343 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>通过 Postman 上传多个文件和数据，后端接收文件和数据。</p>
-<h2 id="后端">后端</h2>
-<p>因为 Postman 是通过表单方式上传，所以需要通过 <code>@RequestParam</code> 注解接收文件，<code>value</code> 属性定义请求参数，<code>required</code> 定义该参数是否必须，默认为 <code>true</code>。
-上传文件需要使用 <code>MultipartFile</code> 对象来接收，因为允许上传多个文件，所以使用了数组的形式。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E5%90%8E%E7%AB%AF%E6%8E%A5%E6%94%B6%E8%A1%A8%E5%8D%95%E6%96%B9%E5%BC%8F%E4%B8%8A%E4%BC%A0%E7%9A%84%E6%96%87%E4%BB%B6%E5%92%8C%E6%95%B0%E6%8D%AE/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/">系统集成Nacos和Feign</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-02-27 16:12:44 </span>
-      <div class="post-category">
-          <a href="/categories/spring/"> Spring </a>
-          </div>
-        <span class="more-meta"> 约 925 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。</p>
-<p>Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。</p>
-<h1 id="引入依赖">引入依赖</h1>
-<p>因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。</p>
-<p>因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- pom.xml --&gt;</span>
-<span style="color:#f92672">&lt;properties&gt;</span>
-	<span style="color:#f92672">&lt;java.version&gt;</span>1.8<span style="color:#f92672">&lt;/java.version&gt;</span>
-	<span style="color:#f92672">&lt;spring.boot.version&gt;</span>2.4.2<span style="color:#f92672">&lt;/spring.boot.version&gt;</span>
-	<span style="color:#f92672">&lt;spring.cloud.version&gt;</span>3.0.1<span style="color:#f92672">&lt;/spring.cloud.version&gt;</span>
-<span style="color:#f92672">&lt;/properties&gt;</span>
-<span style="color:#f92672">&lt;dependencies&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>${spring.boot.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>com.alibaba.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>2021.1<span style="color:#f92672">&lt;/version&gt;</span>
-		<span style="color:#f92672">&lt;exclusions&gt;</span>
-			<span style="color:#75715e">&lt;!--//丢弃ribbon--&gt;</span>
-			<span style="color:#f92672">&lt;exclusion&gt;</span>
-				<span style="color:#f92672">&lt;groupId&gt;</span>com.netflix.ribbon<span style="color:#f92672">&lt;/groupId&gt;</span>
-				<span style="color:#f92672">&lt;artifactId&gt;</span>ribbon<span style="color:#f92672">&lt;/artifactId&gt;</span>
-			<span style="color:#f92672">&lt;/exclusion&gt;</span>
-		<span style="color:#f92672">&lt;/exclusions&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-openfeign<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-bootstrap<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-	<span style="color:#f92672">&lt;dependency&gt;</span>
-		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
-		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-loadbalancer<span style="color:#f92672">&lt;/artifactId&gt;</span>
-		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
-	<span style="color:#f92672">&lt;/dependency&gt;</span>
-<span style="color:#f92672">&lt;/dependencies&gt;</span>
-</code></pre></div><p>在使用nacos时需要注意nacos及其依赖的版本。</p>
-<ol>
-<li>通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。</li>
-<li>因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">版本说明</a></li>
-</ol>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

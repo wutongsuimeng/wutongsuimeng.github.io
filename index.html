@@ -123,6 +123,56 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/wsl%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">WSL登录时提示nsenter: cannot open /proc/320/ns/time: No such file or directory的解决办法</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-11-23 22:40:42 </span>
+      <div class="post-category">
+          <a href="/categories//">  </a>
+          </div>
+        <span class="more-meta"> 约 100 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>在登录 WSL 的 Ubuntu 时，不仅要求 root 权限，还登录失败，提示“nsenter: cannot open /proc/320/ns/time: No such file or directory”。</p>
+<p>解决办法是在 powershell 中执行 “wsl &ndash; sudo vi /etc/profile”命令，删除文件内容，保存便可成功登录。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/wsl%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E5%A6%82%E4%BD%95%E4%B8%8B%E8%BD%BDopenjdk%E5%8F%8A%E5%85%B6%E6%BA%90%E7%A0%81/">如何下载OpenJDK及其源码</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-11-18 23:43:28 </span>
+      <div class="post-category">
+          <a href="/categories//">  </a>
+          <a href="/categories/%E6%9D%82%E9%A1%B9/"> 杂项 </a>
+          </div>
+        <span class="more-meta"> 约 368 字 </span>
+        <span class="more-meta"> 预计阅读 1 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>如果想下载 OpenJDK，存在以下几种办法：
+最简单的办法是去 <a href="https://jdk.java.net/archive/"> OpenJDK 官网</a>，这里能下载 JDK9 及其以上的版本，还有 JDK 源码所在的 github 地址。
+<img src="../../..//media/OpenJDK.png" alt="|500"></p>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E5%A6%82%E4%BD%95%E4%B8%8B%E8%BD%BDopenjdk%E5%8F%8A%E5%85%B6%E6%BA%90%E7%A0%81/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/instantlocaldatelocaltimelocaldatetime%E5%92%8Czoneddatetime/">Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2023-10-21 21:23:47 </span>
@@ -294,62 +344,6 @@ ZonedDateTime zonedDateTime <span style="color:#f92672">=</span> localDateTime<s
     </div>
     <div class="read-more">
       <a href="/post/netty%E7%B2%98%E5%8C%85%E4%B8%8E%E6%8B%86%E5%8C%85%E9%97%AE%E9%A2%98/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/aqs%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">AQS源码解析</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-07-30 17:18:20 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> java </a>
-          </div>
-        <span class="more-meta"> 约 4677 字 </span>
-        <span class="more-meta"> 预计阅读 10 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>关于 AQS，网上已经有无数的文章阐述 AQS 的使用及其源码，所以多这么一篇文章也没啥所谓，还能总结一下研究过的源码。源码解析和某某的使用，大概是互联网上 Java 文章中写得最多的主题了。</p>
-<h1 id="aqs">AQS</h1>
-<p>AQS 是 AbstractQueuedSynchronizer 的缩写，中文翻译过来就是抽象队列同步器。<code>ReentrantLock</code>、<code>ReentrantReadWriteLock</code>、<code>Semaphore</code>、<code>CountDownLatch</code> 都是基于 AQS。AQS 的核心思想是，当线程请求获取资源时，如果资源空闲，则会将当前线程设置为资源的独占线程，成功获得锁；否则将获取锁失败的线程加入到排队队列中（CLH），并提供线程阻塞和线程唤醒机制。CLH 是一个虚拟的双向队列。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/aqs%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E4%BB%8Ejvm%E6%8C%87%E4%BB%A4%E7%9C%8Bstring%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%94%E8%BE%83/">从JVM指令看String对象的比较</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-07-22 17:26:35 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> java </a>
-          </div>
-        <span class="more-meta"> 约 717 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>在翻看各类 java 知识中，总会提到如下知识：比较 String 对象，例如：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">String a1<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;10&#34;</span><span style="color:#f92672">);</span>
-String a2<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;10&#34;</span><span style="color:#f92672">;</span>
-String a3<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&#34;</span><span style="color:#f92672">+</span><span style="color:#e6db74">&#34;0&#34;</span><span style="color:#f92672">;</span>
-
-<span style="color:#75715e">//结果
-</span><span style="color:#75715e"></span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>a1<span style="color:#f92672">==</span>a2<span style="color:#f92672">);</span> <span style="color:#75715e">//false
-</span><span style="color:#75715e"></span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>a2<span style="color:#f92672">==</span>a3<span style="color:#f92672">);</span> <span style="color:#75715e">//true
-</span></code></pre></div>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E4%BB%8Ejvm%E6%8C%87%E4%BB%A4%E7%9C%8Bstring%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%94%E8%BE%83/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

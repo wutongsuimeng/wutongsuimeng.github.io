@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>杂项 on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/categories/%E6%9D%82%E9%A1%B9/</link>
+    <description>Recent content in 杂项 on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 18 Nov 2023 23:43:28 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/categories/%E6%9D%82%E9%A1%B9/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>如何下载OpenJDK及其源码</title>
+      <link>https://wutongsuimeng.github.io/post/%E5%A6%82%E4%BD%95%E4%B8%8B%E8%BD%BDopenjdk%E5%8F%8A%E5%85%B6%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Sat, 18 Nov 2023 23:43:28 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E5%A6%82%E4%BD%95%E4%B8%8B%E8%BD%BDopenjdk%E5%8F%8A%E5%85%B6%E6%BA%90%E7%A0%81/</guid>
+      <description>&lt;p&gt;如果想下载 OpenJDK，存在以下几种办法：
+最简单的办法是去 &lt;a href=&#34;https://jdk.java.net/archive/&#34;&gt; OpenJDK 官网&lt;/a&gt;，这里能下载 JDK9 及其以上的版本，还有 JDK 源码所在的 github 地址。
+&lt;img src=&#34;../../..//media/OpenJDK.png&#34; alt=&#34;|500&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

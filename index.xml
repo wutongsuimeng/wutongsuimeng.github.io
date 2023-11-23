@@ -6,7 +6,28 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 21 Oct 2023 21:23:47 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 23 Nov 2023 22:40:42 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>WSL登录时提示nsenter: cannot open /proc/320/ns/time: No such file or directory的解决办法</title>
+      <link>https://wutongsuimeng.github.io/post/wsl%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</link>
+      <pubDate>Thu, 23 Nov 2023 22:40:42 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/wsl%E7%99%BB%E5%BD%95%E5%A4%B1%E8%B4%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</guid>
+      <description>&lt;p&gt;在登录 WSL 的 Ubuntu 时，不仅要求 root 权限，还登录失败，提示“nsenter: cannot open /proc/320/ns/time: No such file or directory”。&lt;/p&gt;
+&lt;p&gt;解决办法是在 powershell 中执行 “wsl &amp;ndash; sudo vi /etc/profile”命令，删除文件内容，保存便可成功登录。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>如何下载OpenJDK及其源码</title>
+      <link>https://wutongsuimeng.github.io/post/%E5%A6%82%E4%BD%95%E4%B8%8B%E8%BD%BDopenjdk%E5%8F%8A%E5%85%B6%E6%BA%90%E7%A0%81/</link>
+      <pubDate>Sat, 18 Nov 2023 23:43:28 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E5%A6%82%E4%BD%95%E4%B8%8B%E8%BD%BDopenjdk%E5%8F%8A%E5%85%B6%E6%BA%90%E7%A0%81/</guid>
+      <description>&lt;p&gt;如果想下载 OpenJDK，存在以下几种办法：
+最简单的办法是去 &lt;a href=&#34;https://jdk.java.net/archive/&#34;&gt; OpenJDK 官网&lt;/a&gt;，这里能下载 JDK9 及其以上的版本，还有 JDK 源码所在的 github 地址。
+&lt;img src=&#34;../../..//media/OpenJDK.png&#34; alt=&#34;|500&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Instant,LocalDate,LocalTime,LocalDateTime和ZonedDateTime</title>
       <link>https://wutongsuimeng.github.io/post/instantlocaldatelocaltimelocaldatetime%E5%92%8Czoneddatetime/</link>
