@@ -123,6 +123,102 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/netty%E7%B2%98%E5%8C%85%E4%B8%8E%E6%8B%86%E5%8C%85%E9%97%AE%E9%A2%98/">Netty粘包与拆包问题</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2023-09-25 22:47:10 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> Java </a>
+          </div>
+        <span class="more-meta"> 约 1109 字 </span>
+        <span class="more-meta"> 预计阅读 3 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>先看一下下面的例子：</p>
+<p>服务端代码为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TimeServer</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
+        EventLoopGroup bossGroup<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> NioEventLoopGroup<span style="color:#f92672">();</span>
+        EventLoopGroup workerGroup<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> NioEventLoopGroup<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            ServerBootstrap b<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ServerBootstrap<span style="color:#f92672">();</span>
+            b<span style="color:#f92672">.</span><span style="color:#a6e22e">group</span><span style="color:#f92672">(</span>bossGroup<span style="color:#f92672">,</span>workerGroup<span style="color:#f92672">)</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">channel</span><span style="color:#f92672">(</span>NioServerSocketChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">option</span><span style="color:#f92672">(</span>ChannelOption<span style="color:#f92672">.</span><span style="color:#a6e22e">SO_BACKLOG</span><span style="color:#f92672">,</span>1024<span style="color:#f92672">)</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">childHandler</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> ChannelInitializer<span style="color:#f92672">&lt;</span>SocketChannel<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+                        <span style="color:#a6e22e">@Override</span>
+                        <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">initChannel</span><span style="color:#f92672">(</span>SocketChannel channel<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+                            channel<span style="color:#f92672">.</span><span style="color:#a6e22e">pipeline</span><span style="color:#f92672">().</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TimeServerHandler<span style="color:#f92672">());</span>
+                        <span style="color:#f92672">}</span>
+                    <span style="color:#f92672">});</span>
+            ChannelFuture f<span style="color:#f92672">=</span>b<span style="color:#f92672">.</span><span style="color:#a6e22e">bind</span><span style="color:#f92672">(</span>8081<span style="color:#f92672">).</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">();</span>
+            f<span style="color:#f92672">.</span><span style="color:#a6e22e">channel</span><span style="color:#f92672">().</span><span style="color:#a6e22e">closeFuture</span><span style="color:#f92672">().</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+            bossGroup<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdownGracefully</span><span style="color:#f92672">();</span>
+            workerGroup<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdownGracefully</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TimeServerHandler</span> <span style="color:#66d9ef">extends</span> SimpleChannelInboundHandler <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> counter<span style="color:#f92672">;</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">channelRead0</span><span style="color:#f92672">(</span>ChannelHandlerContext ctx<span style="color:#f92672">,</span> Object msg<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> Exception <span style="color:#f92672">{</span>
+        ByteBuf buf<span style="color:#f92672">=(</span>ByteBuf<span style="color:#f92672">)</span>msg<span style="color:#f92672">;</span>
+        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> req<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> <span style="color:#66d9ef">byte</span><span style="color:#f92672">[</span>buf<span style="color:#f92672">.</span><span style="color:#a6e22e">readableBytes</span><span style="color:#f92672">()];</span>
+        buf<span style="color:#f92672">.</span><span style="color:#a6e22e">readBytes</span><span style="color:#f92672">(</span>req<span style="color:#f92672">);</span>
+        String body<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> String<span style="color:#f92672">(</span>req<span style="color:#f92672">,</span> StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">);</span>
+        System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>body<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;,counter:&#34;</span><span style="color:#f92672">+</span> <span style="color:#f92672">(++</span>counter<span style="color:#f92672">));</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>客户端代码为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TimeClient</span> <span style="color:#f92672">{</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span><span style="color:#f92672">(</span>String<span style="color:#f92672">[]</span> args<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> InterruptedException <span style="color:#f92672">{</span>
+        EventLoopGroup group<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> NioEventLoopGroup<span style="color:#f92672">();</span>
+        <span style="color:#66d9ef">try</span><span style="color:#f92672">{</span>
+            Bootstrap b<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> Bootstrap<span style="color:#f92672">();</span>
+            b<span style="color:#f92672">.</span><span style="color:#a6e22e">group</span><span style="color:#f92672">(</span>group<span style="color:#f92672">).</span><span style="color:#a6e22e">channel</span><span style="color:#f92672">(</span>NioSocketChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">option</span><span style="color:#f92672">(</span>ChannelOption<span style="color:#f92672">.</span><span style="color:#a6e22e">TCP_NODELAY</span><span style="color:#f92672">,</span><span style="color:#66d9ef">true</span><span style="color:#f92672">)</span>
+                    <span style="color:#f92672">.</span><span style="color:#a6e22e">handler</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> ChannelInitializer<span style="color:#f92672">&lt;</span>SocketChannel<span style="color:#f92672">&gt;()</span> <span style="color:#f92672">{</span>
+                        <span style="color:#a6e22e">@Override</span>
+                        <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">initChannel</span><span style="color:#f92672">(</span>SocketChannel socketChannel<span style="color:#f92672">){</span>
+                            socketChannel<span style="color:#f92672">.</span><span style="color:#a6e22e">pipeline</span><span style="color:#f92672">().</span><span style="color:#a6e22e">addLast</span><span style="color:#f92672">(</span><span style="color:#66d9ef">new</span> TimeClientHandler<span style="color:#f92672">());</span>
+                        <span style="color:#f92672">}</span>
+                    <span style="color:#f92672">});</span>
+            ChannelFuture f<span style="color:#f92672">=</span>b<span style="color:#f92672">.</span><span style="color:#a6e22e">connect</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127.0.0.1&#34;</span><span style="color:#f92672">,</span>8081<span style="color:#f92672">).</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">();</span>
+            f<span style="color:#f92672">.</span><span style="color:#a6e22e">channel</span><span style="color:#f92672">().</span><span style="color:#a6e22e">closeFuture</span><span style="color:#f92672">().</span><span style="color:#a6e22e">sync</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span><span style="color:#66d9ef">finally</span> <span style="color:#f92672">{</span>
+            group<span style="color:#f92672">.</span><span style="color:#a6e22e">shutdownGracefully</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+
+<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TimeClientHandler</span> <span style="color:#66d9ef">extends</span> ChannelInboundHandlerAdapter <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">channelActive</span><span style="color:#f92672">(</span>ChannelHandlerContext ctx<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">byte</span><span style="color:#f92672">[]</span> req<span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;send msg to server\r\n&#34;</span><span style="color:#f92672">).</span><span style="color:#a6e22e">getBytes</span><span style="color:#f92672">(</span>StandardCharsets<span style="color:#f92672">.</span><span style="color:#a6e22e">UTF_8</span><span style="color:#f92672">);</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> 3<span style="color:#f92672">;</span> i<span style="color:#f92672">++)</span> <span style="color:#f92672">{</span>
+            ByteBuf msg<span style="color:#f92672">=</span> Unpooled<span style="color:#f92672">.</span><span style="color:#a6e22e">buffer</span><span style="color:#f92672">(</span>req<span style="color:#f92672">.</span><span style="color:#a6e22e">length</span><span style="color:#f92672">);</span>
+            msg<span style="color:#f92672">.</span><span style="color:#a6e22e">writeBytes</span><span style="color:#f92672">(</span>req<span style="color:#f92672">);</span>
+            ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">writeAndFlush</span><span style="color:#f92672">(</span>msg<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>上面的代码中，客户端会连续发三条信息给服务端，服务端接收信息并进行计数。</p>
+<p>或许你会认为服务端会收到三条信息，但事实上服务端可能只会收到一条，结果为：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">send msg to server<span style="color:#960050;background-color:#1e0010">\</span>send msg to server<span style="color:#960050;background-color:#1e0010">\</span>send msg to server<span style="color:#f92672">,</span>counter<span style="color:#f92672">:</span>1
+</code></pre></div><p>这是因为发生了粘包。粘包指的是多个小的数据包可能被封装成一个大的数据包发送。与之相关的是拆包，拆包指的是一个完整的数据包可能会被 TCP 拆分成多个包进行发送。</p>
+    </div>
+    <div class="read-more">
+      <a href="/post/netty%E7%B2%98%E5%8C%85%E4%B8%8E%E6%8B%86%E5%8C%85%E9%97%AE%E9%A2%98/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/aqs%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">AQS源码解析</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2023-07-30 17:18:20 </span>
@@ -221,30 +317,6 @@ String a3<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;1&
     </div>
     <div class="read-more">
       <a href="/post/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">代理模式</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2023-06-04 17:28:46 </span>
-      <div class="post-category">
-          <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"> 设计模式 </a>
-          </div>
-        <span class="more-meta"> 约 871 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>代理模式的定义是：为其他对象提供一种代理以控制对这个对象的访问。</p>
-<p>因为代理类与服务类实现同样的接口，所以代理类能代替服务类提供给客户端。当客户端使用代理类时，代理类能对请求进行处理（例如增加访问控制、缓存请求结果、隐藏对服务类的网络请求、日志记录等），并将请求转发给服务类来处理。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>

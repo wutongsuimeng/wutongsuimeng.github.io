@@ -123,6 +123,73 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/">RestTemplate发起HTTPS请求</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-02-13 14:29:11 </span>
+      <div class="post-category">
+          <a href="/categories/java/"> Java </a>
+          </div>
+        <span class="more-meta"> 约 555 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>因为发起HTTPS请求时需要验证服务端SSL证书，所以在此有两种解决办法，一是导入证书，二是忽略证书的校验。</p>
+<p>在此我采用的是忽略证书的校验。</p>
+<p>首先使用 <code>RestTemplateBuilder</code>来构建一个 <code>RestTemplate</code>，而非使用默认。<code>requestFactory()</code>方法用来设置 <code>ClientHttpRequestFactory</code>。<code>SimpleClientHttpRequestFactory</code>是Spring内置的默认实现，实现了 <code>ClientHttpRequestFactory</code>接口，我们需要重写其 <code>prepareConnection()</code>方法，在此方法里实现对 <code>HttpURLConnection</code>的重新处理，忽略对证书的校验。</p>
+<p>代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HttpsClientHttpRequestFactory</span> <span style="color:#66d9ef">extends</span> SimpleClientHttpRequestFactory <span style="color:#f92672">{</span>
+    <span style="color:#a6e22e">@Override</span>
+    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>HttpURLConnection connection<span style="color:#f92672">,</span> String httpMethod<span style="color:#f92672">)</span> <span style="color:#66d9ef">throws</span> IOException <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">{</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>connection <span style="color:#66d9ef">instanceof</span> HttpsURLConnection<span style="color:#f92672">)</span> <span style="color:#f92672">{</span><span style="color:#75715e">// https协议，修改协议版本
+</span><span style="color:#75715e"></span>                KeyStore trustStore <span style="color:#f92672">=</span> KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getInstance</span><span style="color:#f92672">(</span>KeyStore<span style="color:#f92672">.</span><span style="color:#a6e22e">getDefaultType</span><span style="color:#f92672">());</span>
+                <span style="color:#75715e">// 信任任何链接,忽略对证书的校验
+</span><span style="color:#75715e"></span>                TrustStrategy anyTrustStrategy <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>x509Certificates<span style="color:#f92672">,</span> s<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">;</span>
+                <span style="color:#75715e">//自定义SSLContext
+</span><span style="color:#75715e"></span>                SSLContext ctx <span style="color:#f92672">=</span> SSLContexts<span style="color:#f92672">.</span><span style="color:#a6e22e">custom</span><span style="color:#f92672">().</span><span style="color:#a6e22e">loadTrustMaterial</span><span style="color:#f92672">(</span>trustStore<span style="color:#f92672">,</span> anyTrustStrategy<span style="color:#f92672">).</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+                <span style="color:#75715e">// ssl问题
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setSSLSocketFactory</span><span style="color:#f92672">(</span>ctx<span style="color:#f92672">.</span><span style="color:#a6e22e">getSocketFactory</span><span style="color:#f92672">());</span>
+                <span style="color:#75715e">//解决No subject alternative names matching IP address xxx.xxx.xxx.xxx found问题
+</span><span style="color:#75715e"></span>                <span style="color:#f92672">((</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">).</span><span style="color:#a6e22e">setHostnameVerifier</span><span style="color:#f92672">((</span>s<span style="color:#f92672">,</span> sslSession<span style="color:#f92672">)</span> <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">true</span><span style="color:#f92672">);</span>
+                HttpsURLConnection httpsConnection <span style="color:#f92672">=</span> <span style="color:#f92672">(</span>HttpsURLConnection<span style="color:#f92672">)</span> connection<span style="color:#f92672">;</span>
+                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>httpsConnection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span> <span style="color:#75715e">// http协议
+</span><span style="color:#75715e"></span>                <span style="color:#66d9ef">super</span><span style="color:#f92672">.</span><span style="color:#a6e22e">prepareConnection</span><span style="color:#f92672">(</span>connection<span style="color:#f92672">,</span> httpMethod<span style="color:#f92672">);</span>
+            <span style="color:#f92672">}</span>
+        <span style="color:#f92672">}</span> <span style="color:#66d9ef">catch</span> <span style="color:#f92672">(</span>Exception e<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            e<span style="color:#f92672">.</span><span style="color:#a6e22e">printStackTrace</span><span style="color:#f92672">();</span>
+        <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">    
+String url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;https://xxx.xxx.xxx&#34;</span><span style="color:#f92672">;</span>
+RestTemplate restTemplate <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RestTemplateBuilder<span style="color:#f92672">()</span>
+		<span style="color:#f92672">.</span><span style="color:#a6e22e">requestFactory</span><span style="color:#f92672">(</span>HttpsClientHttpRequestFactory<span style="color:#f92672">::</span><span style="color:#66d9ef">new</span><span style="color:#f92672">)</span>
+		<span style="color:#75715e">//basic认证
+</span><span style="color:#75715e"></span>		<span style="color:#f92672">.</span><span style="color:#a6e22e">basicAuthentication</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;username&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;password&#34;</span><span style="color:#f92672">)</span>
+		<span style="color:#f92672">.</span><span style="color:#a6e22e">build</span><span style="color:#f92672">();</span>
+HttpHeaders headers <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpHeaders<span style="color:#f92672">();</span>
+HttpEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> entity <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> HttpEntity<span style="color:#f92672">&lt;&gt;(</span>headers<span style="color:#f92672">);</span>
+ResponseEntity<span style="color:#f92672">&lt;</span>String<span style="color:#f92672">&gt;</span> response <span style="color:#f92672">=</span> restTemplate<span style="color:#f92672">.</span><span style="color:#a6e22e">exchange</span><span style="color:#f92672">(</span>url<span style="color:#f92672">,</span> HttpMethod<span style="color:#f92672">.</span><span style="color:#a6e22e">GET</span><span style="color:#f92672">,</span> entity<span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">);</span>
+String str <span style="color:#f92672">=</span> response<span style="color:#f92672">.</span><span style="color:#a6e22e">getBody</span><span style="color:#f92672">();</span>
+System<span style="color:#f92672">.</span><span style="color:#a6e22e">out</span><span style="color:#f92672">.</span><span style="color:#a6e22e">println</span><span style="color:#f92672">(</span>str<span style="color:#f92672">);</span>
+    
+</code></pre></div><p>注：</p>
+<ol>
+<li><code>RestTemplateBuilder</code> 需要直接构建成 <code>RestTemplate</code>对象，而不能中间生成 <code>RestTemplateBuilder</code>对象。</li>
+</ol>
+    </div>
+    <div class="read-more">
+      <a href="/post/resttemplate%E5%8F%91%E8%B5%B7https%E8%AF%B7%E6%B1%82/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/java%E9%9B%86%E5%90%88-%E6%A0%88/">Java集合-栈</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-01-28 23:16:39 </span>
@@ -407,71 +474,6 @@ queue<span style="color:#f92672">.</span><span style="color:#a6e22e">poll</span>
     </div>
     <div class="read-more">
       <a href="/post/%E5%88%A4%E6%96%ADip%E6%98%AF%E5%90%A6%E5%9C%A8%E6%9F%90ip%E8%8C%83%E5%9B%B4%E5%86%85/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E8%87%AA%E5%AE%9A%E4%B9%89hugo%E7%9A%84even%E4%B8%BB%E9%A2%98%E7%A6%81%E6%AD%A2%E5%A4%8D%E5%88%B6%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/">自定义hugo的even主题，禁止复制代码行数</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-13 23:18:11 </span>
-      <div class="post-category">
-          <a href="/categories/%E5%85%B6%E4%BB%96/"> 其他 </a>
-          </div>
-        <span class="more-meta"> 约 485 字 </span>
-        <span class="more-meta"> 预计阅读 1 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p><a href="https://lite.qwant.com/redirect/MjRlOWYxM2QzOTUyNzYyZGIzODdkMjg2NDBlNjlmZjQ3YzkzYzU2MDQ0MzU5ZGI3OTAxZjYwYjA1NmMyZGY5Yg==/aHR0cHMlM0ElMkYlMkZnb2h1Z28uaW8lMkY=?position=2&amp;serp_position=2&amp;t=web&amp;locale=zh_cn&amp;query=hugo&amp;ad=0&amp;uri=%2F%3Fq%3Dhugo&amp;cacheKey=z8f3764807dbcf0e2149a3d11eab2b164">hugo</a>是一个静态网站生成框架，基于go实现。</p>
-<p><a href="https://github.com/olOwOlo/hugo-theme-even">hugo-theme-even</a>是一个hugo的主题。</p>
-<p>因为even默认生成的代码存在代码行数，但是复制文章时会把代码行数也一并复制，所以特地对even的代码进行修改，让其复制时不复制代码行数。</p>
-<p>因为需要修改assets目录里面的文件，所以需要hugo extended版，可使用命令 <code>hugo</code>查看版本。</p>
-<p>even默认代码高亮为chroma，所以我们先禁用chroma，并启用highlight作为代码高亮。</p>
-<p>修改config.toml配置文件:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-toml" data-lang="toml"><span style="color:#75715e"># 将下面配置设置为false</span>
-<span style="color:#a6e22e">pygmentsCodefences</span> = <span style="color:#66d9ef">false</span>
-<span style="color:#a6e22e">pygmentsUseClasses</span> = <span style="color:#66d9ef">false</span>
-<span style="color:#a6e22e">pygmentsCodefencesGuessSyntax</span> = <span style="color:#66d9ef">false</span>
-
-<span style="color:#75715e">#将下面配置设置为true</span>
-<span style="color:#a6e22e">highlightInClient</span> = <span style="color:#66d9ef">true</span>
-</code></pre></div><p>然后修改assets\js目录下面的even.js文件，使得代码行数禁止复制：</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">Even</span>.<span style="color:#a6e22e">highlight</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">function</span>() {
-  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">blocks</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">querySelectorAll</span>(<span style="color:#e6db74">&#39;pre code&#39;</span>);
-  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">blocks</span>.<span style="color:#a6e22e">length</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">block</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">blocks</span>[<span style="color:#a6e22e">i</span>];
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">rootElement</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">parentElement</span>;
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lineCodes</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">innerHTML</span>.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">/\\n/</span>);
-    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">lineCodes</span>[<span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">length</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">===</span> <span style="color:#e6db74">&#39;&#39;</span>) <span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">pop</span>();
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">lineLength</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">lineCodes</span>.<span style="color:#a6e22e">length</span>;
-
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">codeLineHtml</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lineLength</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
-      <span style="color:#a6e22e">codeLineHtml</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&lt;div class=&#34;line&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">i</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/div&gt;`</span>;
-    }
-
-    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">codeHtml</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
-    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">lineLength</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span>) {
-      <span style="color:#a6e22e">codeHtml</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">`&lt;div class=&#34;line&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">lineCodes</span>[<span style="color:#a6e22e">i</span>]<span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/div&gt;`</span>;
-    }
-
-    <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#39; highlight&#39;</span>;
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">figure</span> <span style="color:#f92672">=</span> document.<span style="color:#a6e22e">createElement</span>(<span style="color:#e6db74">&#39;figure&#39;</span>);
-    <span style="color:#a6e22e">figure</span>.<span style="color:#a6e22e">className</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">block</span>.<span style="color:#a6e22e">className</span>;
-		<span style="color:#75715e">//修改该行代码，添加style=&#34;user-select:none&#34;
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">figure</span>.<span style="color:#a6e22e">innerHTML</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">`&lt;table&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre style=&#34;user-select:none&#34;&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">codeLineHtml</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">codeHtml</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;`</span>;
-
-    <span style="color:#a6e22e">rootElement</span>.<span style="color:#a6e22e">parentElement</span>.<span style="color:#a6e22e">replaceChild</span>(<span style="color:#a6e22e">figure</span>, <span style="color:#a6e22e">rootElement</span>);
-  }
-};
-</code></pre></div><p>重新编译，能看到复制代码时不再复制代码行数。</p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E8%87%AA%E5%AE%9A%E4%B9%89hugo%E7%9A%84even%E4%B8%BB%E9%A2%98%E7%A6%81%E6%AD%A2%E5%A4%8D%E5%88%B6%E4%BB%A3%E7%A0%81%E8%A1%8C%E6%95%B0/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
