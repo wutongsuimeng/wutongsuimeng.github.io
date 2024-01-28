@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>游戏中排行榜的后台实现 - 梧桐碎梦</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="梧桐碎梦" /><meta name="description" content="游戏中经常会有排行榜需求需要实现，例如常见的战力排行榜、积分排行榜等等。
+排行榜一般会用到 Redis 来实现，原因是：
+ Redis 基于内存操作，速度快 Redis 提供了高效的有序集合 zset " /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.85.0 with theme even" />
+
+
+<link rel="canonical" href="https://wutongsuimeng.github.io/post/%E6%B8%B8%E6%88%8F%E4%B8%AD%E6%8E%92%E8%A1%8C%E6%A6%9C%E7%9A%84%E5%90%8E%E5%8F%B0%E5%AE%9E%E7%8E%B0/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.30f777845f02481b138ffe36e1548aa557d8714ec17b88768ba69ee9e31f5615.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="游戏中排行榜的后台实现" />
+<meta property="og:description" content="游戏中经常会有排行榜需求需要实现，例如常见的战力排行榜、积分排行榜等等。
+排行榜一般会用到 Redis 来实现，原因是：
+
+Redis 基于内存操作，速度快
+Redis 提供了高效的有序集合 zset
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://wutongsuimeng.github.io/post/%E6%B8%B8%E6%88%8F%E4%B8%AD%E6%8E%92%E8%A1%8C%E6%A6%9C%E7%9A%84%E5%90%8E%E5%8F%B0%E5%AE%9E%E7%8E%B0/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2024-01-09T23:00:27+08:00" />
+<meta property="article:modified_time" content="2024-01-28T22:52:36+08:00" />
+
+<meta itemprop="name" content="游戏中排行榜的后台实现">
+<meta itemprop="description" content="游戏中经常会有排行榜需求需要实现，例如常见的战力排行榜、积分排行榜等等。
+排行榜一般会用到 Redis 来实现，原因是：
+
+Redis 基于内存操作，速度快
+Redis 提供了高效的有序集合 zset
+"><meta itemprop="datePublished" content="2024-01-09T23:00:27+08:00" />
+<meta itemprop="dateModified" content="2024-01-28T22:52:36+08:00" />
+<meta itemprop="wordCount" content="997">
+<meta itemprop="keywords" content="Redis," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="游戏中排行榜的后台实现"/>
+<meta name="twitter:description" content="游戏中经常会有排行榜需求需要实现，例如常见的战力排行榜、积分排行榜等等。
+排行榜一般会用到 Redis 来实现，原因是：
+
+Redis 基于内存操作，速度快
+Redis 提供了高效的有序集合 zset
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">梧桐碎梦</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">首页</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">归档</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">标签</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">分类</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">梧桐碎梦</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">首页</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">归档</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">标签</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">分类</a>
+      </li>
+  </ul>
+</nav>
+
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">游戏中排行榜的后台实现</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2024-01-09 23:00:27 </span>
+        <div class="post-category">
+            <a href="/categories//">  </a>
+            </div>
+          <span class="more-meta"> 约 997 字 </span>
+          <span class="more-meta"> 预计阅读 2 分钟 </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次阅读 </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>游戏中经常会有排行榜需求需要实现，例如常见的战力排行榜、积分排行榜等等。</p>
+<p>排行榜一般会用到 Redis 来实现，原因是：</p>
+<ol>
+<li>Redis 基于内存操作，速度快</li>
+<li>Redis 提供了高效的有序集合 zset</li>
+</ol>
+<p>例如创建一个名为 rank 的排行榜</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># 为用户user1设置分数为1</span>
+&gt; zadd rank <span style="color:#ae81ff">1</span> user1
+
+<span style="color:#75715e"># 获取排行榜中全部用户的排名和分数（分数顺序排序）</span>
+&gt; zrange rank <span style="color:#ae81ff">0</span> -1 withscores
+1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;user1&#34;</span>
+2<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;1&#34;</span>
+3<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;user2&#34;</span>
+4<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;2&#34;</span>
+5<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;user3&#34;</span>
+6<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;3&#34;</span>
+
+<span style="color:#75715e"># 获取排行榜中全部用户的排名和分数（分数倒序排序）</span>
+&gt; zrevrange rank <span style="color:#ae81ff">0</span> -1 withscores
+1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;user3&#34;</span>
+2<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;3&#34;</span>
+3<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;user2&#34;</span>
+4<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;2&#34;</span>
+5<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;user1&#34;</span>
+6<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;1&#34;</span>
+
+<span style="color:#75715e"># 获取排行榜中排名前2的用户的排名和分数（分数倒序排序）</span>
+&gt; zrevrange rank <span style="color:#ae81ff">0</span> <span style="color:#ae81ff">1</span> withscores
+1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;user3&#34;</span>
+2<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;3&#34;</span>
+3<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;user2&#34;</span>
+4<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;2&#34;</span>
+
+<span style="color:#75715e"># 获取排行榜中用户user2的排名</span>
+&gt; zrank rank user2
+<span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">1</span>
+</code></pre></div><p>纵然 redis 的速度很快，但是再加上网络请求的开销和单线程问题，也比不上应用内直接内存的速度，所以为了速度，一般会在游戏内缓存排行榜。获取排行榜时，优先从内存中获取，并定时从 redis 同步数据到内存。</p>
+<p>下面是一个简单的例子，实现了获取排行榜信息和用户排名数据。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RankTest</span> <span style="color:#f92672">{</span>  
+  
+    <span style="color:#a6e22e">@Data</span>  
+    <span style="color:#a6e22e">@AllArgsConstructor</span>    
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserRankInfo</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">long</span> userID<span style="color:#f92672">;</span>  
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">int</span> rank<span style="color:#f92672">;</span>  
+        <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">double</span> score<span style="color:#f92672">;</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">/**  
+</span><span style="color:#75715e">     * 缓存的用户信息  
+</span><span style="color:#75715e">     */</span>  
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> Map<span style="color:#f92672">&lt;</span>Long<span style="color:#f92672">,</span> UserRankInfo<span style="color:#f92672">&gt;</span> USER_RANK_INFO_MAP <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ConcurrentHashMap<span style="color:#f92672">&lt;&gt;();</span>  
+    <span style="color:#75715e">/**  
+</span><span style="color:#75715e">     * 上次同步时间  
+</span><span style="color:#75715e">     */</span>  
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> LAST_SYNC_TIME <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>  
+    <span style="color:#75715e">/**  
+</span><span style="color:#75715e">     * 每隔多长时间从redis同步一次  
+</span><span style="color:#75715e">     */</span>  
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">int</span> SYNC_EVERY_SECOND <span style="color:#f92672">=</span> 60 <span style="color:#f92672">*</span> 10<span style="color:#f92672">;</span>  
+  
+    <span style="color:#75715e">/**  
+</span><span style="color:#75715e">     * 获取排行榜  
+</span><span style="color:#75715e">     */</span>  
+	<span style="color:#66d9ef">public</span> Collection<span style="color:#f92672">&lt;</span>UserRankInfo<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getRankList</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+	    <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">/</span> 1000<span style="color:#f92672">)</span> <span style="color:#f92672">&gt;</span> LAST_SYNC_TIME <span style="color:#f92672">+</span> SYNC_EVERY_SECOND<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+	        syncUserRankInfoMap<span style="color:#f92672">();</span>  
+	    <span style="color:#f92672">}</span>  
+	    <span style="color:#66d9ef">return</span> USER_RANK_INFO_MAP<span style="color:#f92672">.</span><span style="color:#a6e22e">values</span><span style="color:#f92672">();</span>  
+	<span style="color:#f92672">}</span>
+  
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">syncUserRankInfoMap</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>Jedis jedis <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Jedis<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127.0.0.1&#34;</span><span style="color:#f92672">,</span> 6379<span style="color:#f92672">);)</span> <span style="color:#f92672">{</span>  
+            <span style="color:#75715e">// 获取前50名的用户  
+</span><span style="color:#75715e"></span>            Set<span style="color:#f92672">&lt;</span>Tuple<span style="color:#f92672">&gt;</span> tuples <span style="color:#f92672">=</span> jedis<span style="color:#f92672">.</span><span style="color:#a6e22e">zrevrangeWithScores</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rank&#34;</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> 49<span style="color:#f92672">);</span>  
+            putUserRankInfoMap<span style="color:#f92672">(</span>tuples<span style="color:#f92672">);</span>  
+            LAST_SYNC_TIME <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">/</span> 1000<span style="color:#f92672">);</span>  
+        <span style="color:#f92672">}</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">putUserRankInfoMap</span><span style="color:#f92672">(</span>Set<span style="color:#f92672">&lt;</span>Tuple<span style="color:#f92672">&gt;</span> tuples<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        USER_RANK_INFO_MAP<span style="color:#f92672">.</span><span style="color:#a6e22e">clear</span><span style="color:#f92672">();</span>  
+        <span style="color:#66d9ef">int</span> rank <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>  
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span>Tuple tuple <span style="color:#f92672">:</span> tuples<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+            <span style="color:#66d9ef">long</span> userID <span style="color:#f92672">=</span> Long<span style="color:#f92672">.</span><span style="color:#a6e22e">parseLong</span><span style="color:#f92672">(</span>tuple<span style="color:#f92672">.</span><span style="color:#a6e22e">getElement</span><span style="color:#f92672">());</span>  
+            UserRankInfo info <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> UserRankInfo<span style="color:#f92672">(</span>userID<span style="color:#f92672">,</span> rank<span style="color:#f92672">++,</span> tuple<span style="color:#f92672">.</span><span style="color:#a6e22e">getScore</span><span style="color:#f92672">());</span>  
+            USER_RANK_INFO_MAP<span style="color:#f92672">.</span><span style="color:#a6e22e">put</span><span style="color:#f92672">(</span>userID<span style="color:#f92672">,</span> info<span style="color:#f92672">);</span>  
+        <span style="color:#f92672">}</span>  
+    <span style="color:#f92672">}</span>  
+  
+    <span style="color:#75715e">/**  
+</span><span style="color:#75715e">     * 获取用户排名信息  
+</span><span style="color:#75715e">     */</span>  
+    <span style="color:#66d9ef">public</span> UserRankInfo <span style="color:#a6e22e">getUserRankInfo</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> userID<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">((</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">/</span> 1000<span style="color:#f92672">)</span> <span style="color:#f92672">&gt;</span> LAST_SYNC_TIME <span style="color:#f92672">+</span> SYNC_EVERY_SECOND<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>  
+            syncUserRankInfoMap<span style="color:#f92672">();</span>  
+        <span style="color:#f92672">}</span>  
+        <span style="color:#66d9ef">return</span> USER_RANK_INFO_MAP<span style="color:#f92672">.</span><span style="color:#a6e22e">get</span><span style="color:#f92672">(</span>userID<span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+
+	<span style="color:#75715e">/**  
+</span><span style="color:#75715e">	 * 设置用户分数  
+</span><span style="color:#75715e">	 */</span>  
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setUserRankScore</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> userID<span style="color:#f92672">,</span><span style="color:#66d9ef">double</span> score<span style="color:#f92672">){</span>  
+	    <span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>Jedis jedis <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Jedis<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127.0.0.1&#34;</span><span style="color:#f92672">,</span> 6379<span style="color:#f92672">);)</span> <span style="color:#f92672">{</span>  
+	 
+	        jedis<span style="color:#f92672">.</span><span style="color:#a6e22e">zadd</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rank&#34;</span><span style="color:#f92672">,</span> score<span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>userID<span style="color:#f92672">));</span>  
+	        <span style="color:#75715e">// 获取前50名的用户  
+</span><span style="color:#75715e"></span>	        Set<span style="color:#f92672">&lt;</span>Tuple<span style="color:#f92672">&gt;</span> tuples <span style="color:#f92672">=</span> jedis<span style="color:#f92672">.</span><span style="color:#a6e22e">zrevrangeWithScores</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rank&#34;</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> 49<span style="color:#f92672">);</span>  
+	        putUserRankInfoMap<span style="color:#f92672">(</span>tuples<span style="color:#f92672">);</span>  
+	        LAST_SYNC_TIME <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">/</span> 1000<span style="color:#f92672">);</span>  
+	    <span style="color:#f92672">}</span>  
+	<span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+</code></pre></div><p>开发中，上面的例子还存在不少问题：</p>
+<ol>
+<li>因为 redis 操作比较耗时，所以一般都会放在异步线程中进行操作</li>
+<li>缓存数据的更新不是原子的，一旦多个用户同时请求，可能会导致数据重复更新多次</li>
+<li>相同的分数的用户的排名会按照用户名来排序</li>
+</ol>
+<p>针对于问题 3，因为用户在相同分数的情况下， redis 只支持根据用户名的字典排序，并不支持自定义排序。但是这对玩家来说是不可接受的。一个解决办法让相同分数的玩家按照达成时间的判断，最先抵达的玩家排名最高。</p>
+<p>我们可以使用（真实分数 + 时间戳倒数）作为排名分数，真实分数作为整数部分，时间戳倒数作为小数部分。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setUserRankScore</span><span style="color:#f92672">(</span><span style="color:#66d9ef">long</span> userID<span style="color:#f92672">,</span><span style="color:#66d9ef">int</span> score<span style="color:#f92672">){</span>  
+    <span style="color:#66d9ef">try</span> <span style="color:#f92672">(</span>Jedis jedis <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Jedis<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;127.0.0.1&#34;</span><span style="color:#f92672">,</span> 6379<span style="color:#f92672">);)</span> <span style="color:#f92672">{</span>  
+        <span style="color:#75715e">//因为毫秒时间戳最多有13位  
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">double</span> newScore<span style="color:#f92672">=</span>score<span style="color:#f92672">+</span>1000_000_000_000<span style="color:#f92672">.</span><span style="color:#a6e22e">0D</span><span style="color:#f92672">/</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">();</span>  
+        jedis<span style="color:#f92672">.</span><span style="color:#a6e22e">zadd</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rank&#34;</span><span style="color:#f92672">,</span> newScore<span style="color:#f92672">,</span> String<span style="color:#f92672">.</span><span style="color:#a6e22e">valueOf</span><span style="color:#f92672">(</span>userID<span style="color:#f92672">));</span>  
+        <span style="color:#75715e">// 获取前50名的用户  
+</span><span style="color:#75715e"></span>        Set<span style="color:#f92672">&lt;</span>Tuple<span style="color:#f92672">&gt;</span> tuples <span style="color:#f92672">=</span> jedis<span style="color:#f92672">.</span><span style="color:#a6e22e">zrevrangeWithScores</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;rank&#34;</span><span style="color:#f92672">,</span> 0<span style="color:#f92672">,</span> 49<span style="color:#f92672">);</span>  
+        putUserRankInfoMap<span style="color:#f92672">(</span>tuples<span style="color:#f92672">);</span>  
+        LAST_SYNC_TIME <span style="color:#f92672">=</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span><span style="color:#f92672">)</span> <span style="color:#f92672">(</span>System<span style="color:#f92672">.</span><span style="color:#a6e22e">currentTimeMillis</span><span style="color:#f92672">()</span> <span style="color:#f92672">/</span> 1000<span style="color:#f92672">);</span>  
+    <span style="color:#f92672">}</span>  
+<span style="color:#f92672">}</span>
+</code></pre></div><p>参考：</p>
+<ol>
+<li><a href="https://redis.io/docs/data-types/sorted-sets/">Redis sorted sets | Redis</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/592924303">Redis实现排行榜及相同积分按时间排序 - 知乎</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/2324908">Redis 浮点数累计实现-腾讯云开发者社区-腾讯云</a></li>
+</ol>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">梧桐碎梦</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2024-01-28 22:52:36
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/redis/">Redis</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/integer%E4%B8%ADbitcount%E6%96%B9%E6%B3%95%E7%9A%84%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">
+            <span class="next-text nav-default">Integer中bitCount方法的源码解析</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="wutongsuimeng/wutongsuimeng.github.io"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+  <a href="https://wutongsuimeng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    <span id="busuanzi_container_site_pv"> 本站总访问量 <span id="busuanzi_value_site_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 次 </span>
+      <span class="division">|</span>
+    <span id="busuanzi_container_site_uv"> 本站总访客数 <span id="busuanzi_value_site_uv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> 人 </span>
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2024<span class="heart"><i class="iconfont icon-heart"></i></span><span>梧桐碎梦</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  <script src="/lib/highlight/highlight.pack.js?v=20171001"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
