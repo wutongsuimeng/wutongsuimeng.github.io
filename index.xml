@@ -6,7 +6,23 @@
     <description>Recent content on 梧桐碎梦</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 09 Jan 2024 23:00:27 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 10 Feb 2024 15:16:09 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用sunshine和moonlight实现远程游戏串流</title>
+      <link>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8sunshine%E5%92%8Cmoonlight%E5%AE%9E%E7%8E%B0%E8%BF%9C%E7%A8%8B%E6%B8%B8%E6%88%8F%E4%B8%B2%E6%B5%81/</link>
+      <pubDate>Sat, 10 Feb 2024 15:16:09 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E4%BD%BF%E7%94%A8sunshine%E5%92%8Cmoonlight%E5%AE%9E%E7%8E%B0%E8%BF%9C%E7%A8%8B%E6%B8%B8%E6%88%8F%E4%B8%B2%E6%B5%81/</guid>
+      <description>&lt;p&gt;过年回家想要打游戏，但是苦于家里没有电脑，又没办法把电脑搬回去，于是想到了使用串流的方式。&lt;/p&gt;
+&lt;p&gt;实现串流的软件有多种：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;moonlight。因为仅实现了 NVIDIA 的游戏串流协议，所以只支持 N 卡。&lt;/li&gt;
+&lt;li&gt;Steam Link。支持 steam 的游戏。&lt;/li&gt;
+&lt;li&gt;Sunshine。支持 AMD, Intel, 和 Nvidia 三家的显卡。而且支持使用 Moonlight 作为客户端。开源。&lt;/li&gt;
+&lt;li&gt;Parsec。其实是一个远程桌面的商业解决方案，不仅仅能用来打游戏。需要注册账号且闭源。&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
     <item>
       <title>游戏中排行榜的后台实现</title>
       <link>https://wutongsuimeng.github.io/post/%E6%B8%B8%E6%88%8F%E4%B8%AD%E6%8E%92%E8%A1%8C%E6%A6%9C%E7%9A%84%E5%90%8E%E5%8F%B0%E5%AE%9E%E7%8E%B0/</link>
