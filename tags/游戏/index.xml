@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>游戏 on 梧桐碎梦</title>
+    <link>https://wutongsuimeng.github.io/tags/%E6%B8%B8%E6%88%8F/</link>
+    <description>Recent content in 游戏 on 梧桐碎梦</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 Mar 2024 19:25:41 +0800</lastBuildDate><atom:link href="https://wutongsuimeng.github.io/tags/%E6%B8%B8%E6%88%8F/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>游戏中线上已有功能迭代的兼容问题</title>
+      <link>https://wutongsuimeng.github.io/post/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%BA%BF%E4%B8%8A%E5%B7%B2%E6%9C%89%E5%8A%9F%E8%83%BD%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Sun, 17 Mar 2024 19:25:41 +0800</pubDate>
+      
+      <guid>https://wutongsuimeng.github.io/post/%E6%B8%B8%E6%88%8F%E4%B8%AD%E7%BA%BF%E4%B8%8A%E5%B7%B2%E6%9C%89%E5%8A%9F%E8%83%BD%E8%BF%AD%E4%BB%A3%E7%9A%84%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;在游戏开发过程中，难免会有对线上已有功能进行迭代优化的需求。站在后端的角度来看，难点在于，如何在保证不会影响到用户的前提下，顺利进行对功能的升级和优化。关键在于兼容。&lt;/p&gt;
+&lt;p&gt;兼容分为功能配置、代码、用户数据和接口的兼容性。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

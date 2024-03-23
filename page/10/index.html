@@ -123,6 +123,78 @@
           <section id="posts" class="posts">
     <article class="post">
   <header class="post-header">
+    <h1 class="post-title"><a class="post-link" href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/">系统集成Nacos和Feign</a></h1>
+    <div class="post-meta">
+      <span class="post-time"> 2022-02-27 16:12:44 </span>
+      <div class="post-category">
+          <a href="/categories/spring/"> Spring </a>
+          </div>
+        <span class="more-meta"> 约 925 字 </span>
+        <span class="more-meta"> 预计阅读 2 分钟 </span>
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class="post-summary">
+      <p>nacos 是用于构建、交付和管理微服务的平台，支持服务发现与配置管理。</p>
+<p>Feign 是 Java 语言的 HTTP 客户端，通过接口与注解的方式来创建一个 Feign。</p>
+<h1 id="引入依赖">引入依赖</h1>
+<p>因为nacos默认使用的均衡负载组件为ribbon，而OpenFeign最新版本默认使用的是spring cloud loadbalancer，所以我们需要排除ribbon依赖，并引入spring cloud loadbalancer依赖。</p>
+<p>因为nacos支持配置管理，所以需要引入spring cloud starter bootstrap依赖。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;!-- pom.xml --&gt;</span>
+<span style="color:#f92672">&lt;properties&gt;</span>
+	<span style="color:#f92672">&lt;java.version&gt;</span>1.8<span style="color:#f92672">&lt;/java.version&gt;</span>
+	<span style="color:#f92672">&lt;spring.boot.version&gt;</span>2.4.2<span style="color:#f92672">&lt;/spring.boot.version&gt;</span>
+	<span style="color:#f92672">&lt;spring.cloud.version&gt;</span>3.0.1<span style="color:#f92672">&lt;/spring.cloud.version&gt;</span>
+<span style="color:#f92672">&lt;/properties&gt;</span>
+<span style="color:#f92672">&lt;dependencies&gt;</span>
+	<span style="color:#f92672">&lt;dependency&gt;</span>
+		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
+		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-web<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;version&gt;</span>${spring.boot.version}<span style="color:#f92672">&lt;/version&gt;</span>
+	<span style="color:#f92672">&lt;/dependency&gt;</span>
+	<span style="color:#f92672">&lt;dependency&gt;</span>
+		<span style="color:#f92672">&lt;groupId&gt;</span>com.alibaba.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-alibaba-nacos-discovery<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;version&gt;</span>2021.1<span style="color:#f92672">&lt;/version&gt;</span>
+		<span style="color:#f92672">&lt;exclusions&gt;</span>
+			<span style="color:#75715e">&lt;!--//丢弃ribbon--&gt;</span>
+			<span style="color:#f92672">&lt;exclusion&gt;</span>
+				<span style="color:#f92672">&lt;groupId&gt;</span>com.netflix.ribbon<span style="color:#f92672">&lt;/groupId&gt;</span>
+				<span style="color:#f92672">&lt;artifactId&gt;</span>ribbon<span style="color:#f92672">&lt;/artifactId&gt;</span>
+			<span style="color:#f92672">&lt;/exclusion&gt;</span>
+		<span style="color:#f92672">&lt;/exclusions&gt;</span>
+	<span style="color:#f92672">&lt;/dependency&gt;</span>
+	<span style="color:#f92672">&lt;dependency&gt;</span>
+		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-openfeign<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
+	<span style="color:#f92672">&lt;/dependency&gt;</span>
+	<span style="color:#f92672">&lt;dependency&gt;</span>
+		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-starter-bootstrap<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
+	<span style="color:#f92672">&lt;/dependency&gt;</span>
+	<span style="color:#f92672">&lt;dependency&gt;</span>
+		<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.cloud<span style="color:#f92672">&lt;/groupId&gt;</span>
+		<span style="color:#f92672">&lt;artifactId&gt;</span>spring-cloud-loadbalancer<span style="color:#f92672">&lt;/artifactId&gt;</span>
+		<span style="color:#f92672">&lt;version&gt;</span>${spring.cloud.version}<span style="color:#f92672">&lt;/version&gt;</span>
+	<span style="color:#f92672">&lt;/dependency&gt;</span>
+<span style="color:#f92672">&lt;/dependencies&gt;</span>
+</code></pre></div><p>在使用nacos时需要注意nacos及其依赖的版本。</p>
+<ol>
+<li>通过依赖分析，发现nacos的2021.1版本引入的spring cloud版本为3.0.1，所以openfeign、bootstrap、loadbalancer等spring cloud组件的版本也需要为3.0.1。版本不符合的话会因冲突而报错。</li>
+<li>因为nacos的2021.1版本支持的spring boot版本为2.4.2，所以引入的spring boot组件的版本也需要为2.4.2。具体版本可查看<a href="https://github.com/alibaba/spring-cloud-alibaba/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E">版本说明</a></li>
+</ol>
+    </div>
+    <div class="read-more">
+      <a href="/post/%E7%B3%BB%E7%BB%9F%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign/" class="read-more-link">阅读更多</a>
+    </div>
+  </div>
+</article>
+
+    <article class="post">
+  <header class="post-header">
     <h1 class="post-title"><a class="post-link" href="/post/%E9%9B%86%E6%88%90nacos%E5%92%8Cfeign%E6%97%B6%E6%8A%A5%E9%94%99java.lang.classnotfoundexception-org.springframework.cloud.client.loadbalancer.loadbalancerclientsproperties/">集成nacos和feign时报错java.lang.ClassNotFoundException: org.springframework.cloud.client.loadbalancer.LoadBalancerClientsProperties</a></h1>
     <div class="post-meta">
       <span class="post-time"> 2022-02-16 11:35:36 </span>
@@ -368,63 +440,6 @@ deque<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><
     </div>
     <div class="read-more">
       <a href="/post/java%E9%9B%86%E5%90%88-%E6%A0%88/" class="read-more-link">阅读更多</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/%E4%BD%8D%E8%BF%90%E7%AE%97/">位运算</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2022-01-24 14:23:34 </span>
-      <div class="post-category">
-          <a href="/categories/java/"> Java </a>
-          <a href="/categories/%E7%AE%97%E6%B3%95/"> 算法 </a>
-          </div>
-        <span class="more-meta"> 约 862 字 </span>
-        <span class="more-meta"> 预计阅读 2 分钟 </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      <p>Java的位运算主要有：按位与(<code>&amp;</code>)、按位或(<code>|</code>)、按位取反(<code>~</code>)、按位异或(<code>^</code>)、左移(<code>&lt;&lt;</code>)、带符号右移(<code>&gt;&gt;</code>)、无符号右移(<code>&gt;&gt;&gt;</code>)</p>
-<h2 id="按位与">按位与(&amp;)</h2>
-<p>当相同位上的两个数字都为1时，结果为1；否则为0</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">1<span style="color:#f92672">&amp;</span>1<span style="color:#f92672">=</span>1 
-1<span style="color:#f92672">&amp;</span>0<span style="color:#f92672">=</span>0
-0<span style="color:#f92672">&amp;</span>1<span style="color:#f92672">=</span>0 
-0<span style="color:#f92672">&amp;</span>0<span style="color:#f92672">=</span>0 
-</code></pre></div><h2 id="按位或">按位或(|)</h2>
-<p>当相同位上的数字至少有一个为1时，结果为1；否则为0</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> 1<span style="color:#f92672">|</span>1<span style="color:#f92672">=</span>1 
- 1<span style="color:#f92672">|</span>0<span style="color:#f92672">=</span>1 
- 0<span style="color:#f92672">|</span>1<span style="color:#f92672">=</span>1 
- 0<span style="color:#f92672">|</span>0<span style="color:#f92672">=</span>0
-</code></pre></div><h2 id="按位取反">按位取反(~)</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#f92672">^</span>1<span style="color:#f92672">=</span>0
-<span style="color:#f92672">^</span>0<span style="color:#f92672">=</span>1
-</code></pre></div><h2 id="按位异或">按位异或(^)</h2>
-<p>当相同位上的两个数字不同时，结果为1；相同时为0</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">1<span style="color:#f92672">^</span>1<span style="color:#f92672">=</span>0 
-1<span style="color:#f92672">^</span>0<span style="color:#f92672">=</span>1 
-0<span style="color:#f92672">^</span>1<span style="color:#f92672">=</span>1 
-0<span style="color:#f92672">^</span>0<span style="color:#f92672">=</span>0
-</code></pre></div><h2 id="左移">左移(&laquo;)</h2>
-<p>将二进制数字向左移动，移动几位就在最右侧补多少个0。
-例如 <code>3&lt;&lt;1</code>，因为3的二进制表示形式为11，向左移动一位后变为110，所以 <code>3&lt;&lt;1=6</code>。
-左移n位相当于乘上2的n次方。</p>
-<h2 id="带符号右移">带符号右移(&raquo;)</h2>
-<p>将二进制数字向右移动，移动几位就在最右侧消去多少个比特位，并最左侧填充符号位。
-例如 <code>3&gt;&gt;1</code>，因为3的二进制表示形式为011，所以向右移动一位后变为001，所以 <code>3&gt;&gt;1=1</code>。
-例如 <code>-3&gt;&gt;1</code>，因为-3的二进制补码表示为11111111111111111111111111111101<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>，所以带符号向右移动一位后变为11111111111111111111111111111110，对应的数字为-2，所以 <code>-3&gt;&gt;1=-2</code>。
-1左移一位会变成0，0左移依旧为0。</p>
-<h2 id="无符号右移">无符号右移(&raquo;&gt;)</h2>
-<p>将二进制数字向右移动，移动几位就在最右侧消去多少个比特位，并最左侧填充0。
-例如 <code>-3&gt;&gt;&gt;1</code>，因为-3的二进制补码表示为11111111111111111111111111111101，所以无符号向右移动一位后变为01111111111111111111111111111110，对应的数字为2147483646，所以 <code>-3&gt;&gt;&gt;1=2147483646</code></p>
-    </div>
-    <div class="read-more">
-      <a href="/post/%E4%BD%8D%E8%BF%90%E7%AE%97/" class="read-more-link">阅读更多</a>
     </div>
   </div>
 </article>
